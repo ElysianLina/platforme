@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishLearn - Exercise Selection</title>
-    <link rel="stylesheet" href="exercise-menu.css">
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'exercise-menu.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -46,7 +47,7 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="page-header">
-                <a href="home.html" class="back-btn">
+                <a href="/" class="back-btn">
                     <i class="fas fa-arrow-left"></i>
                     Back
                 </a>
@@ -148,6 +149,6 @@
         </main>
     </div>
 
-    <script src="exercise-menu.js"></script>
+    <script src="{% static 'exercise-menu.js' %}"></script>
 </body>
 </html>

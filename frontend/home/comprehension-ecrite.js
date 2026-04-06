@@ -1,38 +1,56 @@
 // ============================================
-// comprehension-ecrite.js - Dynamic loading from database
-// → One text per sub-unit (the first is_valid=True)
+// comprehension-ecrite.js
+//
+// ✅ FIX 1 : le backend retourne { text, questions }
+//            pas { exercise: {...} } — on construit exercise nous-mêmes
+// ✅ FIX 2 : submit envoie 'text_id' (ce que le backend attend)
+//            pas 'exercise_id'
+// ✅FIX 3 : subunit_id lu depuis l'URL en priorité
 // ============================================
 
 let currentExercise = null;
-
-// Get subunit info from URL or localStorage
+ 
+let lastSubmitResult = null; 
+// Lire les paramètres URL
 function getSubunitInfo() {
     const params = new URLSearchParams(window.location.search);
     return {
-        subunit: params.get('subunit') || localStorage.getItem('currentSubunit') || '1.1',
-        subunitId: params.get('subunit_id') || localStorage.getItem('currentSubunitId'),
-        title: params.get('title') || localStorage.getItem('currentSubunitTitle') || 'Introducing Yourself'
+        subunit:   params.get('subunit')    || localStorage.getItem('currentSubunit')      || '1.1',
+        subunitId: params.get('subunit_id') || localStorage.getItem('currentSubunitId')    || null,
+        title:     params.get('title')      || localStorage.getItem('currentSubunitTitle') || 'Exercise'
     };
 }
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+
+    console.log('📖 Page loaded, URL:', window.location.href);
+    console.log('📖 Search params:', window.location.search);
+
     const { subunit, subunitId, title } = getSubunitInfo();
-    
-    // Update page title
+
+    console.log('📖 Init:', { subunit, subunitId, title });
+
+    // Titre de la page
     const pageTitleEl = document.getElementById('page-title');
     if (pageTitleEl) pageTitleEl.textContent = title;
-    
-    // Update back link
-    const backLink = document.getElementById('back-link');
+
+    // Lien retour
+     const backLink = document.getElementById('back-link');
     if (backLink) {
-        backLink.href = `exercise-menu.html?subunit=${subunit}&title=${encodeURIComponent(title)}`;
+        // Construction de l'URL avec tous les paramètres nécessaires
+        let backUrl = `/exercise-menu/?subunit=${encodeURIComponent(subunit)}&title=${encodeURIComponent(title)}`;
+        if (subunitId && subunitId !== 'null' && subunitId !== 'undefined') {
+            backUrl += `&subunit_id=${subunitId}`;
+        }
+        backLink.href = backUrl;
+        console.log('🔙 Back link URL:', backUrl);
     }
-    
-    // Load exercise from database (one validated text only)
+
+    // Charger l'exercice
     loadExercise(subunitId, subunit);
-    
-    // Form submission
+
+    // Soumission
     const form = document.getElementById('exercise-form');
     if (form) {
         form.addEventListener('submit', handleSubmit);
@@ -40,45 +58,66 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// EXERCISE LOADING (one validated text per sub-unit)
+// CHARGEMENT DE L'EXERCICE
+// ✅ FIX 1 : data.text et data.questions (pas data.exercise)
 // ============================================
 
 async function loadExercise(subunitId, subunitCode) {
-    const readingContainer = document.getElementById('reading-text');
+    const readingContainer   = document.getElementById('reading-text');
     const questionsContainer = document.querySelector('.questions-form');
-    const totalEl = document.getElementById('total-q');
-    
-    // Show loading
-    readingContainer.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading text...</div>';
+    const totalEl            = document.getElementById('total-q');
+
+    readingContainer.innerHTML   = '<div class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading text...</div>';
     questionsContainer.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading questions...</div>';
-    
+
     try {
-        // Build URL with subunit_id or subunit_code
-        let url = 'http://localhost:8000/api/reading-exercise/?';
-        if (subunitId) {
-            url += `subunit_id=${subunitId}`;
+        // Construire l'URL — subunit_id est obligatoire côté backend
+        let url;
+        if (subunitId && subunitId !== 'null' && subunitId !== 'undefined') {
+            url = `http://localhost:8000/api/reading-exercise/?subunit_id=${subunitId}`;
         } else {
-            url += `subunit_code=${subunitCode}`;
+            throw new Error('subunit_id manquant. Retournez en arrière et sélectionnez un exercice.');
         }
-        
+
+        console.log('🔗 Fetching:', url);
         const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.success && data.exercise) {
-            currentExercise = data.exercise;
-            if (totalEl) totalEl.textContent = data.exercise.total_questions;
-            renderExercise(data.exercise);
-        } else {
-            throw new Error(data.error || 'Loading error');
+        const rawText  = await response.text();
+        console.log('📦 API response:', rawText);
+
+        let data;
+        try {
+            data = JSON.parse(rawText);
+        } catch {
+            throw new Error('Réponse serveur invalide (non-JSON)');
         }
+
+        if (!data.success) {
+            throw new Error(data.error || 'Le serveur a retourné une erreur');
+        }
+
+        // ✅ FIX 1 : le backend retourne data.text et data.questions
+        //            on construit l'objet exercise pour le reste du code
+        if (!data.text || !data.questions) {
+            throw new Error('Réponse incomplète (text ou questions manquant)');
+        }
+
+        currentExercise = {
+            text:            data.text,
+            questions:       data.questions,
+            total_questions: data.questions.length
+        };
+
+        if (totalEl) totalEl.textContent = currentExercise.total_questions;
+        renderExercise(currentExercise);
+
     } catch (error) {
-        console.error('Error loading exercise:', error);
+        console.error('❌ Error loading exercise:', error);
         readingContainer.innerHTML = `
             <div class="error-message">
                 <i class="fas fa-exclamation-triangle"></i>
                 Unable to load exercise.<br>
                 <small>${error.message}</small><br>
-                <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 16px; cursor: pointer;">
+                <button onclick="location.reload()" style="margin-top:10px;padding:8px 16px;cursor:pointer;">
                     Retry
                 </button>
             </div>
@@ -87,71 +126,55 @@ async function loadExercise(subunitId, subunitCode) {
     }
 }
 
+// ============================================
+// RENDU
+// ============================================
+
 function renderExercise(exercise) {
-    // Render text
     const readingContainer = document.getElementById('reading-text');
     readingContainer.innerHTML = `
         <h3>${exercise.text.topic}</h3>
         ${exercise.text.content.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}
     `;
-    
-    // Render questions
-    const questionsContainer = document.querySelector('.questions-form');
-    
-    // Group questions by type
-    const trueFalseQuestions = exercise.questions.filter(q => q.type === 'true_false');
-    const mcQuestions = exercise.questions.filter(q => q.type === 'multiple_choice');
-    const fillBlankQuestions = exercise.questions.filter(q => q.type === 'fill_blank');
-    
+
+    const questionsContainer  = document.querySelector('.questions-form');
+    const trueFalseQuestions  = exercise.questions.filter(q => q.type === 'true_false');
+    const mcQuestions         = exercise.questions.filter(q => q.type === 'multiple_choice');
+    const fillBlankQuestions  = exercise.questions.filter(q => q.type === 'fill_blank');
+
     let html = '';
     let questionCounter = 1;
-    
-    // True/False Section
+
     if (trueFalseQuestions.length > 0) {
         html += `
             <div class="question-group">
                 <h3 class="group-title">A. True or False</h3>
                 <p class="group-instruction">Read the statements and check True or False</p>
         `;
-        
-        trueFalseQuestions.forEach(q => {
-            html += createTrueFalseQuestion(q, questionCounter++);
-        });
-        
+        trueFalseQuestions.forEach(q => { html += createTrueFalseQuestion(q, questionCounter++); });
         html += '</div>';
     }
-    
-    // Multiple Choice Section
+
     if (mcQuestions.length > 0) {
         html += `
             <div class="question-group">
                 <h3 class="group-title">B. Multiple Choice</h3>
                 <p class="group-instruction">Choose the correct answer</p>
         `;
-        
-        mcQuestions.forEach(q => {
-            html += createMultipleChoiceQuestion(q, questionCounter++);
-        });
-        
+        mcQuestions.forEach(q => { html += createMultipleChoiceQuestion(q, questionCounter++); });
         html += '</div>';
     }
-    
-    // Fill in the Blank Section
+
     if (fillBlankQuestions.length > 0) {
         html += `
             <div class="question-group">
                 <h3 class="group-title">C. Fill in the Blanks</h3>
                 <p class="group-instruction">Write the correct answer in the empty space</p>
         `;
-        
-        fillBlankQuestions.forEach(q => {
-            html += createFillBlankQuestion(q, questionCounter++);
-        });
-        
+        fillBlankQuestions.forEach(q => { html += createFillBlankQuestion(q, questionCounter++); });
         html += '</div>';
     }
-    
-        // Submit buttons
+
     html += `
         <div class="submit-section">
             <button type="submit" class="submit-btn">
@@ -164,10 +187,8 @@ function renderExercise(exercise) {
             </button>
         </div>
     `;
-    
+
     questionsContainer.innerHTML = html;
-    
-    // Re-attach progress tracking events
     trackProgress();
 }
 
@@ -202,27 +223,24 @@ function createMultipleChoiceQuestion(question, number) {
             </label>
         `;
     }).join('');
-    
+
     return `
         <div class="question-card" data-question="${number}" data-question-id="${question.id}">
             <div class="question-number">${number}</div>
             <div class="question-content">
                 <p class="question-text">${question.question}</p>
-                <div class="mc-options">
-                    ${choicesHtml}
-                </div>
+                <div class="mc-options">${choicesHtml}</div>
             </div>
         </div>
     `;
 }
 
 function createFillBlankQuestion(question, number) {
-    // Replace _____ with input
     const questionText = question.question.replace(
-        /_{3,}/g, 
+        /_{3,}/g,
         `<input type="text" class="blank-input" name="q${question.id}" data-question-id="${question.id}" placeholder="Your answer...">`
     );
-    
+
     return `
         <div class="question-card" data-question="${number}" data-question-id="${question.id}">
             <div class="question-number">${number}</div>
@@ -234,163 +252,136 @@ function createFillBlankQuestion(question, number) {
 }
 
 // ============================================
-// PROGRESS TRACKING
+// SUIVI DE PROGRESSION
 // ============================================
 
 function trackProgress() {
-    const inputs = document.querySelectorAll('input[type="radio"], input[type="text"]');
-    const progressText = document.getElementById('current-q');
-    const progressFill = document.getElementById('progress-fill');
-    
+    const inputs         = document.querySelectorAll('input[type="radio"], input[type="text"]');
+    const progressText   = document.getElementById('current-q');
+    const progressFill   = document.getElementById('progress-fill');
+
     if (!currentExercise) return;
-    
     const totalQuestions = currentExercise.questions.length;
-    
+
     inputs.forEach(input => {
         input.addEventListener('change', updateProgress);
-        input.addEventListener('input', updateProgress);
+        input.addEventListener('input',  updateProgress);
     });
-    
+
     function updateProgress() {
-        let answered = 0;
         const checkedInputs = new Set();
-        
         inputs.forEach(input => {
-            if (input.type === 'radio' && input.checked) {
-                checkedInputs.add(input.name);
-            } else if (input.type === 'text' && input.value.trim() !== '') {
-                checkedInputs.add(input.name);
-            }
+            if (input.type === 'radio' && input.checked)         checkedInputs.add(input.name);
+            else if (input.type === 'text' && input.value.trim()) checkedInputs.add(input.name);
         });
-        
-        answered = checkedInputs.size;
-        
+        const answered = checkedInputs.size;
         if (progressText) progressText.textContent = Math.min(answered + 1, totalQuestions);
-        if (progressFill) progressFill.style.width = `${(answered / totalQuestions) * 100}%`;
+        if (progressFill)  progressFill.style.width = `${(answered / totalQuestions) * 100}%`;
     }
 }
 
 // ============================================
-// SUBMITTING ANSWERS
+// SOUMISSION DES RÉPONSES
+// ✅ FIX 2 : envoie 'text_id' (ce que le backend attend)
+//            pas 'exercise_id'
 // ============================================
 
 async function handleSubmit(e) {
     e.preventDefault();
-    
+
     if (!currentExercise) {
         showNotification('Exercise not loaded');
         return;
     }
-    
-    // Collect answers
+
     const answers = {};
     let answeredCount = 0;
-    
+
     currentExercise.questions.forEach(q => {
         let answer = null;
-        
         if (q.type === 'true_false' || q.type === 'multiple_choice') {
             const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
-            if (selected) {
-                answer = selected.value;
-                answeredCount++;
-            }
+            if (selected) { answer = selected.value; answeredCount++; }
         } else if (q.type === 'fill_blank') {
             const input = document.querySelector(`input[name="q${q.id}"]`);
-            if (input && input.value.trim()) {
-                answer = input.value.trim();
-                answeredCount++;
-            }
+            if (input && input.value.trim()) { answer = input.value.trim(); answeredCount++; }
         }
-        
-        if (answer !== null) {
-            answers[q.id] = answer;
-        }
+        if (answer !== null) answers[q.id] = answer;
     });
-    
-    // Check that all questions are answered
+
     if (answeredCount < currentExercise.questions.length) {
         showNotification(`Please answer all questions (${answeredCount}/${currentExercise.questions.length})`);
         return;
     }
-    
-    // Send to backend for correction
+
     try {
         const learnerId = localStorage.getItem('learner_id');
-        
+
         const response = await fetch('http://localhost:8000/api/submit-exercise/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                exercise_id: currentExercise.text.id,
-                answers: answers,
+                text_id:    currentExercise.text.id,
+                answers:    answers,
                 learner_id: learnerId
             })
         });
-        
+
         const result = await response.json();
-        
+        console.log('📊 Submit result:', result);
+
         if (result.success) {
-            showResults(result);
+            lastSubmitResult = result;
+
+            if (result.already_done) {
+                // ✅ Déjà soumis en DB (résiste au Ctrl+R)
+                showAlreadySubmittedModal();
+            } else {
+                // ✅ Première soumission
+                showResults(result);
+            }
         } else {
             throw new Error(result.error);
         }
     } catch (error) {
-        console.error('Submission error:', error);
+        console.error('❌ Submission error:', error);
         showNotification('Error during correction: ' + error.message);
     }
 }
+
+// ============================================
+// AFFICHAGE DES RÉSULTATS
+// ============================================
 
 function showResults(result) {
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.id = 'results-modal';
-    
+
     let resultsArray = Array.isArray(result.results) ? result.results : Object.values(result.results);
-    
-    // Group by type
+
     const byType = { true_false: [], multiple_choice: [], fill_blank: [] };
-    
     currentExercise.questions.forEach((q, idx) => {
         const r = resultsArray.find(res => String(res.question_id) === String(q.id));
-        if (r) {
-            byType[q.type].push({ ...r, originalOrder: idx + 1 });
-        }
+        if (r) byType[q.type].push({ ...r, originalOrder: idx + 1 });
     });
-    
-    // Display order: true_false, multiple_choice, fill_blank
-    const orderedResults = [
-        ...byType.true_false,
-        ...byType.multiple_choice, 
-        ...byType.fill_blank
-    ];
-    
-    // Reassign numbers 1-10 in new order
-    const finalResults = orderedResults.map((r, idx) => ({
-        ...r,
-        displayNum: idx + 1
-    }));
-    
-    const resultsHtml = finalResults.map((r) => {
-        if (r.correct) {
-            return `
-                <div class="result-item correct">
-                    <span class="result-num">${r.displayNum}</span>
-                    <span class="result-text">Correct - ${r.correct_answer}</span>
-                </div>
-            `;
-        } else {
-            return `
-                <div class="result-item incorrect">
-                    <span class="result-num">${r.displayNum}</span>
-                    <span class="result-text">Incorrect - Correct answer: <strong>${r.correct_answer}</strong></span>
-                </div>
-            `;
-        }
-    }).join('');
-    
+
+    const orderedResults = [...byType.true_false, ...byType.multiple_choice, ...byType.fill_blank];
+    const finalResults   = orderedResults.map((r, idx) => ({ ...r, displayNum: idx + 1 }));
+
+    const resultsHtml = finalResults.map(r => r.correct
+        ? `<div class="result-item correct">
+               <span class="result-num">${r.displayNum}</span>
+               <span class="result-text">✓ Correct — ${r.correct_answer}</span>
+           </div>`
+        : `<div class="result-item incorrect">
+               <span class="result-num">${r.displayNum}</span>
+               <span class="result-text">✗ Incorrect — Correct answer: <strong>${r.correct_answer}</strong></span>
+           </div>`
+    ).join('');
+
+    const learnerId = localStorage.getItem('learner_id');
+
     modal.innerHTML = `
         <div class="modal-content">
             <div class="modal-header">
@@ -403,35 +394,60 @@ function showResults(result) {
                 </div>
                 <p>${result.correct_count}/${result.total} correct</p>
                 <div class="results-list">${resultsHtml}</div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" onclick="closeResults()">Try Again</button>
-                    <a href="home.html" class="btn-primary">Home</a>
-                </div>
+               
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     resultsArray.forEach(r => {
         const card = document.querySelector(`[data-question-id="${r.question_id}"]`)?.closest('.question-card');
         if (card) card.classList.add(r.correct ? 'correct' : 'incorrect');
     });
 }
+
 function closeResults() {
     const modal = document.getElementById('results-modal');
     if (modal) modal.remove();
 }
+function showAlreadySubmittedModal() {
+    document.getElementById('already-submitted-modal')?.remove();
 
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'already-submitted-modal';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Exercise Completed</h2>
+                <button class="close-modal" onclick="closeAlreadySubmittedModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:16px; color:#4b5563; margin-bottom:28px; line-height:1.6;">
+                    Exercise completed. Your progress will be based on your initial submission.
+                </p>
+                <div class="modal-actions" style="justify-content:center;">
+                    <button class="btn-primary" onclick="closeAlreadySubmittedModal(); showResults(lastSubmitResult);">
+                        <i class="fas fa-chart-bar"></i> Show results
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+function closeAlreadySubmittedModal() {
+    document.getElementById('already-submitted-modal')?.remove();
+}
 // ============================================
-// ADDITIONAL EXERCISE GENERATION
-// → TO BE IMPLEMENTED LATER, DO NOT TOUCH
+// ADDITIONAL EXERCISE — À IMPLÉMENTER
 // ============================================
 
 function generateAdditionalExercise() {
-    // TODO: Implement later
-    // For now, display a message or do nothing
-    console.log('Additional exercise generation - To be implemented later');
     showNotification('Feature coming soon...');
 }
 
@@ -440,20 +456,13 @@ function generateAdditionalExercise() {
 // ============================================
 
 function showNotification(message) {
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
+    document.querySelector('.notification')?.remove();
+
     const notification = document.createElement('div');
     notification.className = 'notification';
-    notification.innerHTML = `
-        <i class="fas fa-info-circle"></i>
-        <span>${message}</span>
-    `;
-    
+    notification.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+
     document.body.appendChild(notification);
-    
     setTimeout(() => notification.classList.add('show'), 10);
     setTimeout(() => {
         notification.classList.remove('show');

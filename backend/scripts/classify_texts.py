@@ -22,7 +22,7 @@ import os
 from groq import Groq
 
 # ── CONFIG ────────────────────────────────────────────────────────
-GROQ_API_KEY = "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"        # ← remplace ici
+GROQ_API_KEY = "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"        
 DATASET_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'final_english_dataset.jsonl')
 OUTPUT_PATH  = os.path.join(os.path.dirname(__file__), '..', 'data', 'classification_a1.json')
 TARGET_LEVEL = "A1"

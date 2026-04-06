@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Level Assessment</title>
-    <link rel="stylesheet" href="startlevel.css">
+    {% load static %}
+<link rel="stylesheet" href="{% static 'startlevel.css' %}">
 </head>
 <body>
+     <button class="btn-back" id="btn-back" title="Back">←</button>
     <div class="container">
         <div class="illustration">
             <div class="blob"></div>
@@ -32,6 +34,19 @@
         <button class="cta-button" id="startBtn">Find my level</button>
     </div>
 
-    <script src="startlevel.js"></script>
+     <!--- Modal "Quit the test? -->
+    <div class="modal hidden" id="modal-quit">
+        <div class="modal-content">
+            <button class="btn-close-modal" id="btn-close-modal-start">✕</button>
+            <h3>Quit the test?</h3>
+            <p>Your progress will be lost. You will have to start over from the beginning.</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="btn-restart-start">Restart test</button>
+                <button class="btn-danger" id="btn-quit-start">Quit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'startlevel.js' %}"></script>
 </body>
 </html>

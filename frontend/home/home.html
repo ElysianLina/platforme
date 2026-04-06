@@ -1,12 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishLearn - Dashboard</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+<base target="_blank">
 </head>
 <body>
     <div class="container">
@@ -18,7 +20,7 @@
             </div>
             
             <nav class="sidebar-nav">
-                <a href="home.html" class="nav-item active" data-page="dashboard">
+                <a href="/" class="nav-item active" data-page="dashboard">
                     <i class="fas fa-book-open"></i>
                     <span>Home</span>
                 </a>
@@ -173,6 +175,6 @@
 
    
 
-    <script src="home.js"></script>
+   <script src="{% static 'home.js' %}"></script>
 </body>
 </html>

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Préférences - Apprends l'Anglais</title>
-    <link rel="stylesheet" href="preferences.css">
+    <title>Preferences Quiz - Learn English</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'preferences.css' %}">
 </head>
 <body>
     <div class="container">
-        <!-- Header avec retour et progression -->
+        <!-- Header with back button and progress -->
         <div class="header">
             <button class="back-btn" id="backBtn" onclick="handleBack()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -21,12 +22,12 @@
             
         </div>
 
-        <!-- Étape 1: Pourquoi apprendre l'anglais -->
+        <!-- Step 1: Why learn English -->
         <div class="step active" id="step1">
 
             <div class="question-header">
-                <h1>Salut <span class="highlight" id="userName">Utilisateur</span>, pourquoi veux-tu apprendre l'anglais ?</h1>
-                <p class="subtitle">Aide-nous à personnaliser ton apprentissage.</p>
+                <h1>Hi <span class="highlight" id="userName">User</span>, why do you want to learn English?</h1>
+                <p class="subtitle">Help us personalize your learning experience.</p>
             </div>
             
             <div class="options-grid">
@@ -37,7 +38,7 @@
                             <path d="M12 2v20"/>
                         </svg>
                     </div>
-                    <span class="label">Voyage</span>
+                    <span class="label">Travel</span>
                 </button>
 
                 <button class="option-card" onclick="selectReason('travail')">
@@ -47,7 +48,7 @@
                             <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                         </svg>
                     </div>
-                    <span class="label">Travail</span>
+                    <span class="label">Work</span>
                 </button>
 
                 <button class="option-card" onclick="selectReason('etudes')">
@@ -57,7 +58,7 @@
                             <path d="M6 12v5c3 3 9 3 12 0v-5"/>
                         </svg>
                     </div>
-                    <span class="label">Études</span>
+                    <span class="label">Studies</span>
                 </button>
 
                 <button class="option-card" onclick="selectReason('culture')">
@@ -80,14 +81,23 @@
                     </div>
                     <span class="label">Communication</span>
                 </button>
+                <button class="option-card" onclick="selectReason('Défi personnel')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                    </div>
+                    <span class="label">Personal challenge</span>
+                </button>
+               
             </div>
         </div>
 
-        <!-- Étape 2: Centres d'intérêt -->
+        <!-- Step 2: Areas of interest -->
         <div class="step" id="step2">
             <div class="question-header">
-                <h1>Quels sujets t'intéressent ?</h1>
-                <p class="subtitle">Sélectionne tous les sujets qui t'intéressent.</p>
+                <h1>Which topics interest you?</h1>
+                <p class="subtitle">Select all the topics that interest you.</p>
             </div>
 
             <div class="options-list" id="step2Container">
@@ -98,7 +108,7 @@
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
                     </div>
-                    <span class="label">Voyage et tourisme</span>
+                    <span class="label">Travel and tourism</span>
                     <div class="check-indicator"></div>
                 </button>
 
@@ -109,7 +119,7 @@
                             <polyline points="17 6 23 6 23 12"/>
                         </svg>
                     </div>
-                    <span class="label">Business et économie</span>
+                    <span class="label">Business and economics</span>
                     <div class="check-indicator"></div>
                 </button>
 
@@ -126,7 +136,7 @@
                             <line x1="17" y1="7" x2="22" y2="7"/>
                         </svg>
                     </div>
-                    <span class="label">Cinéma et séries</span>
+                    <span class="label">Movies and TV shows</span>
                     <div class="check-indicator"></div>
                 </button>
 
@@ -138,7 +148,7 @@
                             <circle cx="18" cy="16" r="3"/>
                         </svg>
                     </div>
-                    <span class="label">Musique</span>
+                    <span class="label">Music</span>
                     <div class="check-indicator"></div>
                 </button>
 
@@ -150,18 +160,18 @@
                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                         </svg>
                     </div>
-                    <span class="label">Sport</span>
+                    <span class="label">Sports</span>
                     <div class="check-indicator"></div>
                 </button>
 
-                <!-- Option Autre avec gestion spéciale -->
+                <!-- Other option with special handling -->
                 <div class="other-option-container" id="otherInterestContainer">
                     <button class="option-row other-btn" id="otherInterestBtn" onclick="toggleOtherInterest(event)">
-                        <span class="label">Autre</span>
+                        <span class="label">Other</span>
                     </button>
                     <div class="other-input-wrapper hidden" id="otherInterestInput" onclick="event.stopPropagation()">
                         <input type="text" 
-                               placeholder="Saisir votre intérêt" 
+                               placeholder="Enter your interest" 
                                id="otherInterestText" 
                                oninput="updateOtherInterest(this.value)"
                                onclick="event.stopPropagation()">
@@ -170,11 +180,11 @@
             </div>
         </div>
 
-        <!-- Étape 3: Style d'apprentissage -->
+        <!-- Step 3: Learning style -->
         <div class="step" id="step3">
             <div class="question-header">
-                <h1>Comment préfères-tu apprendre ?</h1>
-                <p class="subtitle">Choisis ton style d'apprentissage préféré.</p>
+                <h1>How do you prefer to learn?</h1>
+                <p class="subtitle">Choose your preferred learning style.</p>
             </div>
 
             <div class="options-list" id="step3Container">
@@ -191,7 +201,7 @@
                             <line x1="17" y1="7" x2="22" y2="7"/>
                         </svg>
                     </div>
-                    <span class="label">Vidéo</span>
+                    <span class="label">Video</span>
                     <div class="radio-indicator"></div>
                 </button>
 
@@ -205,7 +215,7 @@
                             <polyline points="10 9 9 9 8 9"/>
                         </svg>
                     </div>
-                    <span class="label">Texte</span>
+                    <span class="label">Text</span>
                     <div class="radio-indicator"></div>
                 </button>
 
@@ -220,14 +230,14 @@
                     <div class="radio-indicator"></div>
                 </button>
 
-                <!-- Option Autre pour le style -->
+                <!-- Other option for style -->
                 <div class="other-option-container" id="otherStyleContainer">
                     <button class="option-row other-btn" id="otherStyleBtn" onclick="toggleOtherStyle(event)">
-                        <span class="label">Autre</span>
+                        <span class="label">Other</span>
                     </button>
                     <div class="other-input-wrapper hidden" id="otherStyleInput" onclick="event.stopPropagation()">
                         <input type="text" 
-                               placeholder="Saisir votre préférence" 
+                               placeholder="Enter your preference" 
                                id="otherStyleText" 
                                oninput="updateOtherStyle(this.value)"
                                onclick="event.stopPropagation()">
@@ -236,50 +246,50 @@
             </div>
         </div>
 
-        <!-- Étape 4: Objectif quotidien -->
+        <!-- Step 4: Daily goal -->
         <div class="step" id="step4">
             <div class="question-header">
-                <h1>Fixe-toi un objectif quotidien</h1>
-                <p class="subtitle">Instaure une habitude pour progresser en anglais.</p>
+                <h1>Set a daily goal</h1>
+                <p class="subtitle">Build a habit to make progress in English.</p>
             </div>
 
             <div class="options-list goals">
                 <button class="option-row goal-card" onclick="selectDailyGoal('5min')">
                     <div class="goal-info">
-                        <span class="goal-title">5 minutes par jour</span>
-                        <span class="goal-subtitle">Utilisateur occasionnel</span>
+                        <span class="goal-title">5 minutes per day</span>
+                        <span class="goal-subtitle">Casual user</span>
                     </div>
                 </button>
 
                 <button class="option-row goal-card" onclick="selectDailyGoal('10min')">
                     <div class="goal-info">
-                        <span class="goal-title">10 minutes par jour</span>
-                        <span class="goal-subtitle">Régulier</span>
+                        <span class="goal-title">10 minutes per day</span>
+                        <span class="goal-subtitle">Regular</span>
                     </div>
                 </button>
 
                 <button class="option-row goal-card" onclick="selectDailyGoal('15min')">
                     <div class="goal-info">
-                        <span class="goal-title">15 minutes par jour</span>
-                        <span class="goal-subtitle">Utilisateur assidu</span>
+                        <span class="goal-title">15 minutes per day</span>
+                        <span class="goal-subtitle">Dedicated user</span>
                     </div>
                 </button>
 
                 <button class="option-row goal-card" onclick="selectDailyGoal('25min')">
                     <div class="goal-info">
-                        <span class="goal-title">25 minutes par jour</span>
-                        <span class="goal-subtitle">Intense</span>
+                        <span class="goal-title">25 minutes per day</span>
+                        <span class="goal-subtitle">Intensive</span>
                     </div>
                 </button>
             </div>
         </div>
 
 
-        <!-- Étape 5: Connaissance du niveau -->
+        <!-- Step 5: Level awareness -->
 <div class="step" id="step5">
     <div class="question-header">
-        <h1>Connais-tu ton niveau ?</h1>
-        <p class="subtitle">Si ce n'est pas le cas, nous pouvons t'aider à le trouver</p>
+        <h1>Do you know your level?</h1>
+        <p class="subtitle">If not, we can help you find it</p>
     </div>
 
     <div class="level-options">
@@ -290,8 +300,8 @@
                     <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
             </div>
-            <h3 class="level-title">Je connais mon niveau</h3>
-            <p class="level-description">Je le sélectionne</p>
+            <h3 class="level-title">I know my level</h3>
+            <p class="level-description">I will select it</p>
         </div>
 
         <div class="level-card" onclick="selectLevelOption('unknown')">
@@ -301,59 +311,59 @@
                     <path d="M12 16v-4M12 8h.01"/>
                 </svg>
             </div>
-            <h3 class="level-title">J'ai besoin de votre aide</h3>
-            <p class="level-description">Je réponds à quelques questions pour trouver mon niveau</p>
+            <h3 class="level-title">I need your help</h3>
+            <p class="level-description">I will answer a few questions to find my level</p>
         </div>
     </div>   
 </div>
-        <!-- Étape 6: Sélection du niveau CEFR -->
+        <!-- Step 6: CEFR level selection -->
         <div class="step" id="step6">
             <div class="question-header">
-                <h1>Sélectionne ton niveau</h1>
-                <p class="subtitle">Nous te proposerons ensuite les leçons les plus adaptées</p>
+                <h1>Select your level</h1>
+                <p class="subtitle">We will then suggest the most suitable lessons for you</p>
             </div>
 
             <div class="cefr-grid-full">
                 <div class="cefr-card-full" data-level="A1" onclick="selectCEFRLevel('A1', this)">
                     <div class="cefr-level-full">A1</div>
-                    <div class="cefr-name-full">Débutant</div>
-                    <div class="cefr-desc-full">Je comprends et j'utilise des expressions familières</div>
+                    <div class="cefr-name-full">Beginner</div>
+                    <div class="cefr-desc-full">I understand and use familiar everyday expressions</div>
                 </div>
                 <div class="cefr-card-full" data-level="A2" onclick="selectCEFRLevel('A2', this)">
                     <div class="cefr-level-full">A2</div>
-                    <div class="cefr-name-full">Élémentaire</div>
-                    <div class="cefr-desc-full">Je communique lors de tâches simples et habituelles</div>
+                    <div class="cefr-name-full">Elementary</div>
+                    <div class="cefr-desc-full">I communicate during simple and routine tasks</div>
                 </div>
                 <div class="cefr-card-full" data-level="B1" onclick="selectCEFRLevel('B1', this)">
                     <div class="cefr-level-full">B1</div>
-                    <div class="cefr-name-full">Intermédiaire</div>
-                    <div class="cefr-desc-full">Je comprends les points essentiels d'un langage clair</div>
+                    <div class="cefr-name-full">Intermediate</div>
+                    <div class="cefr-desc-full">I understand the main points of clear language</div>
                 </div>
                 <div class="cefr-card-full" data-level="B2" onclick="selectCEFRLevel('B2', this)">
                     <div class="cefr-level-full">B2</div>
-                    <div class="cefr-name-full">Intermédiaire avancé</div>
-                    <div class="cefr-desc-full">Je comprends le contenu concret et abstrait</div>
+                    <div class="cefr-name-full">Upper Intermediate</div>
+                    <div class="cefr-desc-full">I understand concrete and abstract content</div>
                 </div>
                 <div class="cefr-card-full" data-level="C1" onclick="selectCEFRLevel('C1', this)">
                     <div class="cefr-level-full">C1</div>
-                    <div class="cefr-name-full">Avancé</div>
-                    <div class="cefr-desc-full">Je comprends des textes longs et exigeants</div>
+                    <div class="cefr-name-full">Advanced</div>
+                    <div class="cefr-desc-full">I understand long and demanding texts</div>
                 </div>
             </div>
         </div>
         <!-- Navigation -->
         <div class="navigation">
             <button class="next-btn" id="nextBtn" onclick="handleNext()" disabled>
-                Continuer
+                Continue
             </button>
             <div class="step-indicator">
-                Étape <span id="currentStepDisplay">1</span> sur <span id="totalStepsDisplay">6</span>
+                Step <span id="currentStepDisplay">1</span> of <span id="totalStepsDisplay">6</span>
             </div>
         </div>
     </div>
 
     
 
-    <script src="preferences.js"></script>
+     <script src="{% static 'preferences.js' %}"></script>
 </body>
 </html>

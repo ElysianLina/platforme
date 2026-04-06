@@ -589,11 +589,7 @@ body {
     text-align: center;
 }
 
-.modal-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
+
 
 .btn-secondary, .btn-primary {
     padding: 12px 25px;

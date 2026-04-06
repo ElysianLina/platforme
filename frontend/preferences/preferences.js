@@ -1,4 +1,18 @@
-// État global
+// ============================================================
+// preferences.js
+// ✅ Lit learner_id depuis l'URL en priorité
+//    (cas Google : script.js redirige avec ?learner_id=X&name=...&email=...)
+//    puis depuis localStorage en fallback (cas inscription classique)
+//
+// LOGIQUE DE SAUVEGARDE (2 appels) :
+//   1) savePartialPreferences() → étapes 1-4 sauvegardées AVANT redirection
+//      vers le test CEFR (quand l'user choisit "I need help" à l'étape 5)
+//   2) saveAllPreferences()     → toutes les données + cefr_level à la fin
+//      du quiz (étape 6 : niveau sélectionné manuellement ou retour du test)
+// ============================================================
+
+const API_BASE = 'http://localhost:8000';
+
 const state = {
     currentStep: 1,
     totalSteps: 6,
@@ -8,7 +22,7 @@ const state = {
     learningStyle: '',
     otherLearningStyle: '',
     dailyGoal: '',
-    userName: 'Utilisateur',
+    userName: 'User',
     otherInterestActive: false,
     otherStyleActive: false,
     levelOption: '',
@@ -16,279 +30,267 @@ const state = {
     learnerId: null
 };
 
-// Fonction pour récupérer l'ID depuis localStorage
+// ── Récupérer learner_id ─────────────────────────────────────
 function getLearnerId() {
-    const storedId = localStorage.getItem('learner_id');
-    if (storedId) {
-        state.learnerId = parseInt(storedId);
-        console.log('Learner ID récupéré:', state.learnerId);
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const idFromUrl    = urlParams.get('learner_id');
+    const nameFromUrl  = urlParams.get('name');
+    const emailFromUrl = urlParams.get('email');
+
+    if (idFromUrl && idFromUrl !== 'null' && idFromUrl !== 'undefined' && idFromUrl.trim() !== '') {
+        state.learnerId  = idFromUrl;
+        state.userName   = nameFromUrl ? decodeURIComponent(nameFromUrl) : 'User';
+
+        localStorage.setItem('learner_id',   idFromUrl);
+        localStorage.setItem('learner_name', state.userName);
+        if (emailFromUrl) {
+            localStorage.setItem('learner_email', decodeURIComponent(emailFromUrl));
+        }
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+        console.log('✅ learner_id depuis URL:', state.learnerId);
         return state.learnerId;
     }
-    console.warn('Aucun learner_id trouvé dans localStorage');
+
+    const storedId   = localStorage.getItem('learner_id');
+    const storedName = localStorage.getItem('learner_name');
+
+    if (storedId && storedId !== 'null' && storedId !== 'undefined' && storedId.trim() !== '') {
+        state.learnerId = storedId;
+        state.userName  = storedName || 'User';
+        console.log('✅ learner_id depuis localStorage:', state.learnerId);
+        return state.learnerId;
+    }
+
+    console.warn('⚠️ Aucun learner_id — redirection login');
+    window.location.href = `${API_BASE}/login/`;
     return null;
 }
 
-// Initialisation
-document.addEventListener('DOMContentLoaded', () => {
-    getLearnerId();
-    
-    // Vérifier les paramètres URL (retour du test de niveau)
-    const urlParams = new URLSearchParams(window.location.search);
-    const stepParam = urlParams.get('step');
-    const levelParam = urlParams.get('level');
-    
-    if (stepParam && stepParam === '6') {
-        console.log('Retour du test de niveau, passage à l\'étape 6');
-        state.currentStep = 6;
-        
-        if (levelParam && ['A1', 'A2', 'B1', 'B2', 'C1'].includes(levelParam.toUpperCase())) {
-            state.cefrLevel = levelParam.toUpperCase();
-            console.log('Niveau détecté:', state.cefrLevel);
-            window.history.replaceState({}, document.title, window.location.pathname);
+// ── Charger les préférences existantes ───────────────────────
+// Appelée au DOMContentLoaded pour pré-remplir le state
+// si l'user revient modifier ses préférences depuis home.html
+async function loadExistingPreferences() {
+    if (!state.learnerId) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/api/preferences/?learner_id=${state.learnerId}`);
+        const data     = await response.json();
+
+        if (!data.success || !data.preferences) {
+            console.log('ℹ️ Aucune préférence existante');
+            return;
         }
+
+        const p = data.preferences;
+
+        // Remplir le state avec les valeurs existantes
+        if (p.reason)                              state.reason             = p.reason;
+        if (p.interests && p.interests.length > 0) state.interests          = p.interests;
+        if (p.other_interest)                      state.otherInterest      = p.other_interest;
+        if (p.learning_style)                      state.learningStyle      = p.learning_style;
+        if (p.other_style)                         state.otherLearningStyle = p.other_style;
+        if (p.daily_goal)                          state.dailyGoal          = p.daily_goal;
+
+        // Récupérer le cefr_level depuis learner
+        if (data.learner && data.learner.cefr_level) {
+            state.cefrLevel = data.learner.cefr_level;
+        }
+
+        console.log('✅ Préférences existantes chargées:', p);
+
+    } catch (err) {
+        console.error('❌ Erreur chargement préférences:', err);
     }
-    
+}
+
+// ── Initialisation ───────────────────────────────────────────
+// ⚠️ async obligatoire pour awaiter loadExistingPreferences()
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('=== preferences.js loaded ===');
+
+    getLearnerId();
+
+    // Retour depuis le test de niveau avec niveau détecté
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('step') === '6') {
+        state.currentStep = 6;
+        const lvl = urlParams.get('level');
+        if (lvl && ['A1','A2','B1','B2','C1'].includes(lvl.toUpperCase())) {
+            state.cefrLevel = lvl.toUpperCase();
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // ✅ Charger les préférences existantes AVANT d'afficher l'UI
+    // (pré-remplit le state si l'user revient depuis home.html)
+    await loadExistingPreferences();
+
+    // Afficher le prénom dans l'étape 1
+    const userNameEl = document.getElementById('userName');
+    if (userNameEl) {
+        userNameEl.textContent = state.userName.split(' ')[0] || 'User';
+    }
+
+    // ✅ updateUI() appelé UNE SEULE FOIS après que le state est prêt
     updateUI();
-    document.getElementById('userName').textContent = state.userName;
+
     document.addEventListener('click', handleGlobalClick);
 });
 
-// Gestionnaire de clic global
 function handleGlobalClick(event) {
     if (state.currentStep === 2 && state.otherInterestActive) {
         const container = document.getElementById('otherInterestContainer');
-        const input = document.getElementById('otherInterestText');
-        if (!container.contains(event.target) && input.value.trim() === '') {
-            closeOtherInterest();
-        }
+        const input     = document.getElementById('otherInterestText');
+        if (container && !container.contains(event.target) && input.value.trim() === '') closeOtherInterest();
     }
-    
     if (state.currentStep === 3 && state.otherStyleActive) {
         const container = document.getElementById('otherStyleContainer');
-        const input = document.getElementById('otherStyleText');
-        if (!container.contains(event.target) && input.value.trim() === '') {
-            closeOtherStyle();
-        }
+        const input     = document.getElementById('otherStyleText');
+        if (container && !container.contains(event.target) && input.value.trim() === '') closeOtherStyle();
     }
 }
 
-// Navigation
+// ── Navigation ───────────────────────────────────────────────
+// ⚠️ handleBack() déclaré UNE SEULE FOIS (doublon supprimé)
 function handleBack() {
-    if (state.currentStep > 1) {
-        state.currentStep--;
-        updateUI();
-    }
+    if (state.currentStep > 1) { state.currentStep--; updateUI(); }
 }
 
-function handleNext() {
-    console.log('=== handleNext START ===');
-    console.log('Current step:', state.currentStep);
-    console.log('Level option:', state.levelOption);
-    
-    // If we're on step 5
+async function handleNext() {
+    console.log('handleNext — step:', state.currentStep,
+        '| reason:', state.reason,
+        '| interests:', state.interests,
+        '| learningStyle:', state.learningStyle,
+        '| dailyGoal:', state.dailyGoal);
+
     if (state.currentStep === 5) {
-        console.log('We are on step 5, levelOption =', state.levelOption);
-        
-        // If user chose "unknown" (need help) - REDIRECT TO LEVEL TEST
         if (state.levelOption === 'unknown') {
-            console.log('✅ REDIRECTING TO leveltest/startlevel.html');
-            window.location.href = '../leveltest/startlevel.html';
+            if (!state.learnerId) {
+                alert('You must be logged in to take the test.');
+                window.location.href = `${API_BASE}/login/`;
+                return;
+            }
+            // ✅ Sauvegarde partielle (étapes 1-4) avant de partir vers le test
+            await savePartialPreferences();
+
+            const learnerName  = localStorage.getItem('learner_name')  || '';
+            const learnerEmail = localStorage.getItem('learner_email') || '';
+            window.location.href = `${API_BASE}/start-test/?learner_id=${state.learnerId}&name=${encodeURIComponent(learnerName)}&email=${encodeURIComponent(learnerEmail)}`;
             return;
         }
-        else if (state.levelOption === 'known') {
-            console.log('Navigation to step 6');
-            state.currentStep = 6;
-            updateUI();
-            return;
+        if (state.levelOption === 'known') {
+            state.currentStep = 6; updateUI(); return;
         }
-        else {
-            console.log('No level option selected yet');
-            alert('Veuillez sélectionner une option');
-            return;
-        }
+        alert('Please select an option'); return;
     }
-    
-    // Normal navigation for other steps
-    if (state.currentStep < state.totalSteps) {
-        state.currentStep++;
-        updateUI();
-    } 
-    else if (state.currentStep === state.totalSteps) {
-        finishQuiz();
-    }
+
+    if (state.currentStep < state.totalSteps) { state.currentStep++; updateUI(); }
+    else if (state.currentStep === state.totalSteps) { finishQuiz(); }
 }
 
 function updateUI() {
     const progress = (state.currentStep / state.totalSteps) * 100;
-    const progressBar = document.getElementById('progressBar');
-    if (progressBar) progressBar.style.width = `${progress}%`;
-    
+    const bar = document.getElementById('progressBar');
+    if (bar) bar.style.width = `${progress}%`;
+
     const backBtn = document.getElementById('backBtn');
-    if (backBtn) {
-        if (state.currentStep > 1) {
-            backBtn.classList.add('visible');
-        } else {
-            backBtn.classList.remove('visible');
-        }
-    }
-    
-    document.querySelectorAll('.step').forEach((step, index) => {
-        if (index + 1 === state.currentStep) {
-            step.classList.add('active');
-        } else {
-            step.classList.remove('active');
-        }
+    if (backBtn) backBtn.classList.toggle('visible', state.currentStep > 1);
+
+    document.querySelectorAll('.step').forEach((step, i) => {
+        step.classList.toggle('active', i + 1 === state.currentStep);
     });
-    
+
     const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-        if (state.currentStep === state.totalSteps) {
-            nextBtn.textContent = 'Terminer';
-        } else {
-            nextBtn.textContent = 'Continuer';
-        }
-    }
-    
-    const currentStepDisplay = document.getElementById('currentStepDisplay');
-    if (currentStepDisplay) currentStepDisplay.textContent = state.currentStep;
-    
+    if (nextBtn) nextBtn.textContent = state.currentStep === state.totalSteps ? 'Finish' : 'Continue';
+
+    const display = document.getElementById('currentStepDisplay');
+    if (display) display.textContent = state.currentStep;
+
     checkCanProceed();
     restoreSelections();
 }
 
 function checkCanProceed() {
     const nextBtn = document.getElementById('nextBtn');
-    let canProceed = false;
-    
+    let can = false;
     switch (state.currentStep) {
-        case 1:
-            canProceed = state.reason !== '';
-            break;
-        case 2:
-            canProceed = state.interests.length > 0 || state.otherInterest.trim() !== '';
-            break;
-        case 3:
-            if (state.learningStyle === 'autre') {
-                canProceed = state.otherLearningStyle.trim() !== '';
-            } else {
-                canProceed = state.learningStyle !== '';
-            }
-            break;
-        case 4:
-            canProceed = state.dailyGoal !== '';
-            break;
-        case 5:
-            canProceed = state.levelOption !== '';
-            break;
-        case 6:
-            canProceed = state.cefrLevel !== '';
-            break;
+        case 1: can = state.reason !== ''; break;
+        case 2: can = state.interests.length > 0 || state.otherInterest.trim() !== ''; break;
+        case 3: can = state.learningStyle === 'autre' ? state.otherLearningStyle.trim() !== '' : state.learningStyle !== ''; break;
+        case 4: can = state.dailyGoal !== ''; break;
+        case 5: can = state.levelOption !== ''; break;
+        case 6: can = state.cefrLevel !== ''; break;
     }
-    
-    console.log('checkCanProceed - étape:', state.currentStep, 'canProceed:', canProceed);
-    if (nextBtn) nextBtn.disabled = !canProceed;
+    if (nextBtn) nextBtn.disabled = !can;
 }
 
-// Étape 1: Raison
+// ── Step 1 ──────────────────────────────────────────────────
 function selectReason(reason) {
     state.reason = reason;
-    document.querySelectorAll('#step1 .option-card').forEach(card => {
-        card.classList.remove('selected');
-    });
+    console.log('✅ reason:', state.reason);
+    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
     event.currentTarget.classList.add('selected');
     checkCanProceed();
-    setTimeout(() => {
-        if (state.currentStep === 1) handleNext();
-    }, 400);
+    setTimeout(() => { if (state.currentStep === 1) handleNext(); }, 400);
 }
 
-// Étape 2: Intérêts
+// ── Step 2 ──────────────────────────────────────────────────
 function toggleInterest(interest, event) {
-    if (state.otherInterestActive) {
-        closeOtherInterest();
-    }
-    const index = state.interests.indexOf(interest);
+    if (state.otherInterestActive) closeOtherInterest();
+    const idx = state.interests.indexOf(interest);
     const btn = event.currentTarget;
-    if (index > -1) {
-        state.interests.splice(index, 1);
-        btn.classList.remove('selected');
-    } else {
-        state.interests.push(interest);
-        btn.classList.add('selected');
-    }
+    if (idx > -1) { state.interests.splice(idx, 1); btn.classList.remove('selected'); }
+    else          { state.interests.push(interest);  btn.classList.add('selected'); }
+    console.log('✅ interests:', state.interests);
     checkCanProceed();
 }
-
 function toggleOtherInterest(event) {
     event.stopPropagation();
-    if (state.otherInterestActive) {
-        closeOtherInterest();
-    } else {
-        openOtherInterest();
-    }
+    state.otherInterestActive ? closeOtherInterest() : openOtherInterest();
 }
-
 function openOtherInterest() {
     state.otherInterestActive = true;
     document.getElementById('otherInterestBtn').classList.add('hidden');
     document.getElementById('otherInterestInput').classList.remove('hidden');
     document.getElementById('otherInterestText').focus();
+    checkCanProceed();
 }
-
 function closeOtherInterest() {
     const input = document.getElementById('otherInterestText');
-    if (input.value.trim() !== '') {
-        return;
-    }
+    if (input.value.trim() !== '') return;
     state.otherInterestActive = false;
-    state.otherInterest = '';
+    state.otherInterest       = '';
     document.getElementById('otherInterestBtn').classList.remove('hidden');
     document.getElementById('otherInterestInput').classList.add('hidden');
     checkCanProceed();
 }
+function updateOtherInterest(value) { state.otherInterest = value; checkCanProceed(); }
 
-function updateOtherInterest(value) {
-    state.otherInterest = value;
-    checkCanProceed();
-}
-
-// Étape 3: Style
+// ── Step 3 ──────────────────────────────────────────────────
 function selectLearningStyle(style) {
-    if (state.otherStyleActive && style !== 'autre') {
-        closeOtherStyle();
-    }
+    if (state.otherStyleActive && style !== 'autre') closeOtherStyle();
     state.learningStyle = style;
-    if (style !== 'autre') {
-        state.otherLearningStyle = '';
-    }
+    if (style !== 'autre') state.otherLearningStyle = '';
     document.querySelectorAll('#step3 .option-row').forEach(row => {
         if (!row.classList.contains('other-btn') && !row.closest('.other-option-container')) {
             row.classList.remove('selected');
         }
     });
-    if (style !== 'autre') {
-        event.currentTarget.classList.add('selected');
-    }
+    if (style !== 'autre') event.currentTarget.classList.add('selected');
     checkCanProceed();
     if (style !== 'autre') {
-        setTimeout(() => {
-            if (state.currentStep === 3) handleNext();
-        }, 400);
+        setTimeout(() => { if (state.currentStep === 3) handleNext(); }, 400);
     }
 }
-
 function toggleOtherStyle(event) {
     event.stopPropagation();
-    if (state.otherStyleActive) {
-        closeOtherStyle();
-    } else {
-        openOtherStyle();
-    }
+    state.otherStyleActive ? closeOtherStyle() : openOtherStyle();
 }
-
 function openOtherStyle() {
     state.otherStyleActive = true;
-    state.learningStyle = 'autre';
+    state.learningStyle    = 'autre';
     document.getElementById('otherStyleBtn').classList.add('hidden');
     document.getElementById('otherStyleInput').classList.remove('hidden');
     document.getElementById('otherStyleText').focus();
@@ -299,224 +301,229 @@ function openOtherStyle() {
     });
     checkCanProceed();
 }
-
 function closeOtherStyle() {
     const input = document.getElementById('otherStyleText');
-    if (input.value.trim() !== '') {
-        return;
-    }
+    if (input.value.trim() !== '') return;
     state.otherStyleActive = false;
-    state.learningStyle = '';
+    state.learningStyle    = '';
     document.getElementById('otherStyleBtn').classList.remove('hidden');
     document.getElementById('otherStyleInput').classList.add('hidden');
     checkCanProceed();
 }
+function updateOtherStyle(value) { state.otherLearningStyle = value; checkCanProceed(); }
 
-function updateOtherStyle(value) {
-    state.otherLearningStyle = value;
-    checkCanProceed();
-}
-
-// Étape 4: Objectif
+// ── Step 4 ──────────────────────────────────────────────────
 function selectDailyGoal(goal) {
     state.dailyGoal = goal;
-    document.querySelectorAll('#step4 .option-row').forEach(row => {
-        row.classList.remove('selected');
-    });
+    console.log('✅ dailyGoal:', state.dailyGoal);
+    document.querySelectorAll('#step4 .option-row').forEach(r => r.classList.remove('selected'));
     event.currentTarget.classList.add('selected');
     checkCanProceed();
-    setTimeout(() => {
-        if (state.currentStep === 4) handleNext();
-    }, 400);
+    setTimeout(() => { if (state.currentStep === 4) handleNext(); }, 400);
 }
 
-// Étape 5: Niveau
+// ── Step 5 ──────────────────────────────────────────────────
 function selectLevelOption(option) {
-    console.log('selectLevelOption appelé avec:', option);
     state.levelOption = option;
-    document.querySelectorAll('#step5 .level-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    const clickedCard = option === 'known' 
+    document.querySelectorAll('#step5 .level-card').forEach(c => c.classList.remove('selected'));
+    const card = option === 'known'
         ? document.querySelector('#step5 .level-card:first-child')
         : document.querySelector('#step5 .level-card:last-child');
-    if (clickedCard) {
-        clickedCard.classList.add('selected');
-    }
+    if (card) card.classList.add('selected');
     checkCanProceed();
 }
 
-// Étape 6: CEFR
+// ── Step 6 ──────────────────────────────────────────────────
 function selectCEFRLevel(level, element) {
-    console.log('selectCEFRLevel appelé avec:', level);
     state.cefrLevel = level;
-    document.querySelectorAll('#step6 .cefr-card-full').forEach(card => {
-        card.classList.remove('selected');
-    });
+    console.log('✅ cefrLevel:', state.cefrLevel);
+    document.querySelectorAll('#step6 .cefr-card-full').forEach(c => c.classList.remove('selected'));
     element.classList.add('selected');
     checkCanProceed();
 }
 
-// Sauvegarde du niveau
-async function saveCefrLevel() {
-    if (!state.learnerId) {
-        console.error('Impossible de sauvegarder: learner_id manquant');
-        return { success: false, error: 'Utilisateur non connecté' };
+// ── SAUVEGARDE PARTIELLE (étapes 1-4 uniquement) ─────────────
+// Appelée AVANT la redirection vers le test CEFR.
+// Pas de cefr_level → Django ne touche pas à Learner.cefr_level.
+async function savePartialPreferences() {
+    if (!state.learnerId) return;
+
+     // ✅ CORRECTION : Si other_interest est rempli, interests = ["autre"]
+    // Sinon, on garde les intérêts sélectionnés normalement
+    let interestsToSave = [...state.interests];
+    if (state.otherInterest.trim()) {
+        interestsToSave = ["autre"];  // ou "other" selon ta préférence
     }
-    
-    if (!state.cefrLevel) {
-        console.error('Impossible de sauvegarder: niveau CEFR manquant');
-        return { success: false, error: 'Niveau CEFR non sélectionné' };
-    }
-    
-    const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1'];
-    if (!validLevels.includes(state.cefrLevel.toUpperCase())) {
-        return { success: false, error: 'Niveau CEFR invalide' };
-    }
-    
+
+    const payload = {
+        learner_id:     state.learnerId,
+        reason:         state.reason,
+        interests:      interestsToSave,  // ✅ ["autre"] si custom, sinon les intérêts normaux
+        other_interest: state.otherInterest.trim(),  // ✅ Le texte personnalisé séparément
+        learning_style: state.learningStyle === 'autre' ? 'autre' : state.learningStyle,
+        other_style:    state.otherLearningStyle.trim(),
+        daily_goal:     state.dailyGoal,
+    };
+    console.log('📤 savePartialPreferences payload:', payload);
+
     try {
-        const response = await fetch('http://localhost:8000/api/save-preferences/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                learner_id: state.learnerId,
-                cefr_level: state.cefrLevel,
-                progress: 10
-            })
+        const response = await fetch(`${API_BASE}/api/save-preferences/`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload)
         });
-        
         const result = await response.json();
-        console.log('Réponse du serveur:', result);
-        return result;
-        
-    } catch (error) {
-        console.error('Erreur lors de la sauvegarde:', error);
-        return { success: false, error: error.message };
+        if (result.success) {
+            console.log('✅ Préférences partielles sauvegardées');
+        } else {
+            console.warn('⚠️ Sauvegarde partielle échouée:', result.error);
+        }
+    } catch (err) {
+        console.error('❌ Erreur savePartialPreferences:', err);
     }
 }
 
-// Clavier
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !document.getElementById('nextBtn').disabled) {
-        if (document.activeElement.tagName === 'INPUT') {
-            return;
+// ── SAUVEGARDE COMPLÈTE (étapes 1-4 + cefr_level) ────────────
+// Appelée à la fin du quiz (étape 6).
+async function saveAllPreferences() {
+    if (!state.learnerId || !state.cefrLevel) {
+        return { success: false, error: 'Missing learner_id or cefr_level' };
+    }
+
+     // MÊME CORRECTION ici
+    let interestsToSave = [...state.interests];
+    if (state.otherInterest.trim()) {
+        interestsToSave = ["autre"];
+    }
+
+    const payload = {
+        learner_id:     state.learnerId,
+        cefr_level:     state.cefrLevel,
+        progress:       10,
+        reason:         state.reason,
+        interests:      interestsToSave,  //  ["autre"] si custom
+        other_interest: state.otherInterest.trim(),  // Texte séparé
+        learning_style: state.learningStyle === 'autre' ? 'autre' : state.learningStyle,
+        other_style:    state.otherLearningStyle.trim(),
+        daily_goal:     state.dailyGoal,
+    };
+    console.log('📤 saveAllPreferences payload:', payload);
+
+    try {
+        const response = await fetch(`${API_BASE}/api/save-preferences/`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload)
+        });
+        return await response.json();
+    } catch (err) {
+        console.error('❌ Erreur saveAllPreferences:', err);
+        return { success: false, error: err.message };
+    }
+}
+
+// ── Fin du quiz ──────────────────────────────────────────────
+async function finishQuiz() {
+    console.log('🏁 finishQuiz — state:', {
+        learnerId:     state.learnerId,
+        cefrLevel:     state.cefrLevel,
+        reason:        state.reason,
+        interests:     state.interests,
+        learningStyle: state.learningStyle,
+        dailyGoal:     state.dailyGoal,
+    });
+
+    if (!state.cefrLevel) {
+        alert('Please select your level before finishing.');
+        return;
+    }
+
+    if (state.learnerId && state.cefrLevel) {
+        const result = await saveAllPreferences();
+        if (result.success) {
+            alert('Your level ' + result.cefr_level + ' has been saved!');
+            window.location.href = `${API_BASE}/?learner_id=${state.learnerId}`;
+        } else {
+            alert('Error: ' + (result.error || 'Unknown error'));
         }
+    } else {
+        window.location.href = `${API_BASE}/`;
+    }
+}
+
+// ── Keyboard ─────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+    const nextBtn = document.getElementById('nextBtn');
+    if (e.key === 'Enter' && nextBtn && !nextBtn.disabled) {
+        if (document.activeElement.tagName === 'INPUT') return;
         handleNext();
     }
     if (e.key === 'Escape') {
         if (state.otherInterestActive) closeOtherInterest();
-        if (state.otherStyleActive) closeOtherStyle();
+        if (state.otherStyleActive)    closeOtherStyle();
     }
 });
 
+// ── Restore selections ───────────────────────────────────────
 function restoreSelections() {
     if (state.reason) {
+        const map   = ['voyage','travail','etudes','culture','communication','Défi personnel'];
+        const i     = map.indexOf(state.reason);
         const cards = document.querySelectorAll('#step1 .option-card');
-        const reasonMap = ['voyage', 'travail', 'etudes', 'culture', 'communication'];
-        const index = reasonMap.indexOf(state.reason);
-        if (index > -1 && cards[index]) cards[index].classList.add('selected');
+        if (i > -1 && cards[i]) cards[i].classList.add('selected');
     }
-    
     state.interests.forEach(interest => {
-        const buttons = document.querySelectorAll('#step2 .option-row');
-        const interestMap = ['voyage-tourisme', 'business', 'cinema', 'musique', 'sport'];
-        const index = interestMap.indexOf(interest);
-        if (index > -1 && buttons[index]) buttons[index].classList.add('selected');
+        const map  = ['voyage-tourisme','business','cinema','musique','sport'];
+        const i    = map.indexOf(interest);
+        const btns = document.querySelectorAll('#step2 .option-row');
+        if (i > -1 && btns[i]) btns[i].classList.add('selected');
     });
-    
+    const oiBtn  = document.getElementById('otherInterestBtn');
+    const oiInp  = document.getElementById('otherInterestInput');
+    const oiText = document.getElementById('otherInterestText');
     if (state.otherInterestActive || state.otherInterest.trim() !== '') {
-        const otherBtn = document.getElementById('otherInterestBtn');
-        const otherInput = document.getElementById('otherInterestInput');
-        const otherText = document.getElementById('otherInterestText');
-        if (otherBtn) otherBtn.classList.add('hidden');
-        if (otherInput) otherInput.classList.remove('hidden');
-        if (otherText) otherText.value = state.otherInterest;
+        if (oiBtn)  oiBtn.classList.add('hidden');
+        if (oiInp)  oiInp.classList.remove('hidden');
+        if (oiText) oiText.value = state.otherInterest;
         state.otherInterestActive = true;
     } else {
-        const otherBtn = document.getElementById('otherInterestBtn');
-        const otherInput = document.getElementById('otherInterestInput');
-        if (otherBtn) otherBtn.classList.remove('hidden');
-        if (otherInput) otherInput.classList.add('hidden');
+        if (oiBtn) oiBtn.classList.remove('hidden');
+        if (oiInp) oiInp.classList.add('hidden');
         state.otherInterestActive = false;
     }
-    
     if (state.learningStyle && state.learningStyle !== 'autre') {
-        const buttons = document.querySelectorAll('#step3 .option-row');
-        const styleMap = ['video', 'texte', 'audio'];
-        const index = styleMap.indexOf(state.learningStyle);
-        if (index > -1 && buttons[index]) buttons[index].classList.add('selected');
+        const map  = ['video','texte','audio'];
+        const i    = map.indexOf(state.learningStyle);
+        const btns = document.querySelectorAll('#step3 .option-row');
+        if (i > -1 && btns[i]) btns[i].classList.add('selected');
     }
-    
+    const osBtn  = document.getElementById('otherStyleBtn');
+    const osInp  = document.getElementById('otherStyleInput');
+    const osText = document.getElementById('otherStyleText');
     if (state.otherStyleActive || (state.learningStyle === 'autre' && state.otherLearningStyle.trim() !== '')) {
-        const otherBtn = document.getElementById('otherStyleBtn');
-        const otherInput = document.getElementById('otherStyleInput');
-        const otherText = document.getElementById('otherStyleText');
-        if (otherBtn) otherBtn.classList.add('hidden');
-        if (otherInput) otherInput.classList.remove('hidden');
-        if (otherText) otherText.value = state.otherLearningStyle;
+        if (osBtn)  osBtn.classList.add('hidden');
+        if (osInp)  osInp.classList.remove('hidden');
+        if (osText) osText.value = state.otherLearningStyle;
         state.otherStyleActive = true;
     } else {
-        const otherBtn = document.getElementById('otherStyleBtn');
-        const otherInput = document.getElementById('otherStyleInput');
-        if (otherBtn) otherBtn.classList.remove('hidden');
-        if (otherInput) otherInput.classList.add('hidden');
+        if (osBtn) osBtn.classList.remove('hidden');
+        if (osInp) osInp.classList.add('hidden');
         state.otherStyleActive = false;
     }
-    
     if (state.dailyGoal) {
-        const buttons = document.querySelectorAll('#step4 .option-row');
-        const goalMap = ['5min', '10min', '15min', '25min'];
-        const index = goalMap.indexOf(state.dailyGoal);
-        if (index > -1 && buttons[index]) buttons[index].classList.add('selected');
+        const map  = ['5min','10min','15min','25min'];
+        const i    = map.indexOf(state.dailyGoal);
+        const btns = document.querySelectorAll('#step4 .option-row');
+        if (i > -1 && btns[i]) btns[i].classList.add('selected');
     }
-    
     if (state.levelOption) {
-        const levelCards = document.querySelectorAll('#step5 .level-card');
-        if (state.levelOption === 'known' && levelCards[0]) {
-            levelCards[0].classList.add('selected');
-        } else if (state.levelOption === 'unknown' && levelCards[1]) {
-            levelCards[1].classList.add('selected');
-        }
+        const cards = document.querySelectorAll('#step5 .level-card');
+        if (state.levelOption === 'known'   && cards[0]) cards[0].classList.add('selected');
+        if (state.levelOption === 'unknown' && cards[1]) cards[1].classList.add('selected');
     }
-    
     if (state.cefrLevel) {
-        const cefrCards = document.querySelectorAll('#step6 .cefr-card-full');
-        cefrCards.forEach(card => {
-            if (card.getAttribute('data-level') === state.cefrLevel) {
-                card.classList.add('selected');
-            }
+        document.querySelectorAll('#step6 .cefr-card-full').forEach(c => {
+            if (c.getAttribute('data-level') === state.cefrLevel) c.classList.add('selected');
         });
-    }
-}
-
-async function finishQuiz() {
-    const finalData = {
-        reason: state.reason,
-        interests: [...state.interests],
-        learningStyle: state.learningStyle === 'autre' ? state.otherLearningStyle : state.learningStyle,
-        dailyGoal: state.dailyGoal,
-        levelOption: state.levelOption,
-        cefrLevel: state.cefrLevel
-    };
-    
-    if (state.otherInterest.trim()) {
-        finalData.interests.push(state.otherInterest);
-    }
-    
-    console.log('Préférences finales:', finalData);
-    
-    if (state.learnerId && state.cefrLevel) {
-        const result = await saveCefrLevel();
-        
-        if (result.success) {
-            alert('Votre niveau ' + result.cefr_level + ' a été enregistré avec succès !');
-            window.location.href = '../home/home.html';
-        } else {
-            alert('Erreur lors de l\'enregistrement: ' + (result.error || 'Erreur inconnue'));
-        }
-    } else {
-        window.location.href = '../home/home.html';
     }
 }

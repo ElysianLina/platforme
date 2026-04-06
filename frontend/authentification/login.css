@@ -414,3 +414,28 @@ body {
 .toast.success {
     background-color: #10b981;
 }
+
+
+
+
+
+/* Conteneur du bouton Google */
+.g_id_signin {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/* Ajuster taille globale */
+.g_id_signin > div {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .g_id_signin > div {
+        transform: scale(0.95);
+    }
+}

@@ -22,14 +22,96 @@ class Learner(models.Model):
         db_column='cefrlevel'
     )
     progress = models.IntegerField(default=0)
-
+    google_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    picture = models.URLField(max_length=500, null=True, blank=True)
     class Meta:
         db_table = 'learner'
 
     def __str__(self):
         return f"{self.name} ({self.email})"
     
-
+#  PRÉFÉRENCES LEARNER
+# ─────────────────────────────────────────────
+ 
+class LearnerPreferences(models.Model):
+    """
+    Préférences collectées lors du quiz d'onboarding (preferences.html).
+    Liées au Learner via OneToOneField.
+    Créées ou mises à jour via update_or_create dans save_preferences_api.
+    """
+ 
+    REASON_CHOICES = [
+        ('voyage',         'Travel'),
+        ('travail',        'Work'),
+        ('etudes',         'Studies'),
+        ('culture',        'Culture'),
+        ('communication',  'Communication'),
+        ('Défi personnel', 'Personal challenge'),
+    ]
+ 
+    STYLE_CHOICES = [
+        ('video', 'Video'),
+        ('texte', 'Text'),
+        ('audio', 'Audio'),
+        ('autre', 'Other'),
+    ]
+ 
+    GOAL_CHOICES = [
+        ('5min',  '5 min/day'),
+        ('10min', '10 min/day'),
+        ('15min', '15 min/day'),
+        ('25min', '25 min/day'),
+    ]
+ 
+    learner = models.OneToOneField(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='preferences',
+        primary_key=True
+    )
+    # Étape 1 : Raison d'apprentissage
+    reason = models.CharField(
+        max_length=50,
+        choices=REASON_CHOICES,
+        blank=True,
+        help_text="Pourquoi l'apprenant veut apprendre l'anglais"
+    )
+    # Étape 2 : Centres d'intérêt (liste JSON)
+    interests = models.JSONField(
+        default=list,
+        help_text="Ex: ['voyage-tourisme', 'sport', 'business']"
+    )
+    other_interest = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Intérêt personnalisé saisi dans le champ 'Other'"
+    )
+    # Étape 3 : Style d'apprentissage
+    learning_style = models.CharField(
+        max_length=20,
+        choices=STYLE_CHOICES,
+        blank=True,
+        help_text="Style préféré : video, texte, audio ou autre"
+    )
+    other_style = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Style personnalisé saisi dans le champ 'Other'"
+    )
+    # Étape 4 : Objectif journalier
+    daily_goal = models.CharField(
+        max_length=10,
+        choices=GOAL_CHOICES,
+        blank=True,
+        help_text="Temps quotidien choisi : 5min, 10min, 15min ou 25min"
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+ 
+    class Meta:
+        db_table = 'learner_preferences'
+ 
+    def __str__(self):
+        return f"Prefs of {self.learner.name} | {self.reason} | {self.daily_goal}"
 #  STRUCTURE : UNIT → SUBUNIT
 # ─────────────────────────────────────────────
  
@@ -318,6 +400,10 @@ class Test(models.Model):
         default=dict,
         help_text='Ex: {"A1": 100, "A2": 80, "B1": 60, "B2": 40, "C1": 20, "C2": 0}'
     )
+    questions_ordre   = models.JSONField(
+        default=list,
+        help_text='Liste ordonnée des UUIDs de questions pour ce test'
+    )
     statut            = models.CharField(
         max_length=20, choices=STATUT_CHOICES,
         default='en_cours'
@@ -378,3 +464,85 @@ class Reponse(models.Model):
         self.est_correcte   = self.question.corriger(self.reponse_donnee)
         self.points_obtenus = self.question.points if self.est_correcte else 0
         super().save(*args, **kwargs)
+
+class ReadingExerciseResult(models.Model):
+    """
+    Stocke le résultat de la PREMIÈRE soumission d'un exercice de lecture.
+    Un learner ne peut avoir qu'un seul résultat par ReadingText (unique_together).
+    Si le learner refait l'exercice après Ctrl+R, on retourne ce résultat initial.
+    """
+
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='reading_exercise_results',
+        # Ex : learner_id = 3  (Ahmad)
+    )
+
+    reading_text = models.ForeignKey(
+        ReadingText,
+        on_delete=models.CASCADE,
+        related_name='results',
+        # Ex : reading_text_id = 12  (le texte "Ana's Daily Life")
+    )
+
+    score = models.IntegerField(
+        # Score en pourcentage calculé à la soumission.
+        # Ex : 7 bonnes réponses sur 10 → score = 70
+    )
+
+    correct_count = models.IntegerField(
+        # Nombre de questions correctes.
+        # Ex : le learner a eu juste 7 questions sur 10 → correct_count = 7
+    )
+
+    total = models.IntegerField(
+        # Nombre total de questions au moment de la soumission.
+        # Stocké ici car si on ajoute/supprime des questions plus tard,
+        # on garde la trace de combien il y en avait quand le learner a soumis.
+        # Ex : 10 questions → total = 10
+    )
+
+    results_json = models.JSONField(
+        # Détail complet de chaque réponse, stocké comme tableau JSON.
+        # Utilisé par le frontend pour afficher le modal avec les ✓ et ✗.
+        # Ex :
+        # [
+        #   {
+        #     "question_id": "42",        ← l'id de la question en DB
+        #     "correct": true,            ← bonne ou mauvaise réponse
+        #     "user_answer": "true",      ← ce que le learner a répondu
+        #     "correct_answer": "true"    ← la bonne réponse
+        #   },
+        #   {
+        #     "question_id": "43",
+        #     "correct": false,
+        #     "user_answer": "A. apple",
+        #     "correct_answer": "B. car"
+        #   },
+        #   {
+        #     "question_id": "44",
+        #     "correct": false,
+        #     "user_answer": "happy",
+        #     "correct_answer": "excited"
+        #   }
+        # ]
+    )
+
+    submitted_at = models.DateTimeField(
+        auto_now_add=True,
+        # Date et heure exacte de la première soumission.
+        # Rempli automatiquement par Django, jamais modifié.
+        # Ex : 2025-04-05 14:32:10 UTC
+    )
+
+    class Meta:
+        db_table        = 'reading_exercise_result'
+        unique_together = ['learner', 'reading_text']
+        # unique_together garantit qu'un même learner ne peut avoir
+        # qu'une seule ligne par exercice dans la table.
+        # Si on tente d'en créer une 2ème → erreur DB → on retourne l'existante.
+
+    def __str__(self):
+        return f"{self.learner.name} | {self.reading_text.topic} | {self.score}%"
+        # Ex : "Ahmad | Ana's Daily Life | 70%"

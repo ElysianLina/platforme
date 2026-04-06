@@ -1,93 +1,130 @@
-// Attendre que le DOM soit chargé
+// ============================================
+// EnglishLearn - Authentification (popup OAuth2)
+// ============================================
+
+const API_BASE = 'http://localhost:8000';
+const GOOGLE_CLIENT_ID = '785314051038-7di17e812h2qju4cdd1c7gmv7j20enrs.apps.googleusercontent.com';
+const GOOGLE_REDIRECT = 'http://localhost:8000/api/auth/google/callback/';
+
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Récupération des éléments
-    const loginBtn = document.getElementById('loginBtn');
+    const loginBtn    = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
-    const googleBtn = document.getElementById('googleBtn');
+    const googleBtn   = document.getElementById('googleBtn');
 
-    // Fonction de navigation simulée
-    function navigateTo(path) {
-        console.log(`Navigation vers: ${path}`);
-        // Simulation de navigation - dans une vraie app, utiliser:
-        // window.location.href = path;
-        // ou
-        // history.pushState(null, null, path);
-        
-        // Pour la démo, on affiche une alerte
-        const pageName = path === '/login' ? 'la page de connexion' : 'la page d\'inscription';
-        
-        // Créer une notification toast au lieu d'alert
-        showToast(`Redirection vers ${pageName}...`);
-    }
-
-    // Fonction pour afficher une notification toast
-    function showToast(message) {
-        // Créer l'élément toast
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: #1f2937;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        `;
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        // Animation d'entrée
-        setTimeout(() => {
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateX(-50%) translateY(0)';
-        }, 10);
-
-        // Animation de sortie
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateX(-50%) translateY(100px)';
-            setTimeout(() => {
-                document.body.removeChild(toast);
-            }, 300);
-        }, 2000);
-    }
-
-    // Événement: Se connecter
+    // Navigation vers login
     loginBtn.addEventListener('click', function() {
-        // Ajouter un effet visuel au clic
         this.style.transform = 'scale(0.98)';
         setTimeout(() => {
             this.style.transform = '';
-            navigateTo('/login');
+            window.location.href = 'http://localhost:8000/login/';
         }, 150);
     });
 
-    // Événement: Créer un compte
+    // Navigation vers register
     registerBtn.addEventListener('click', function() {
         this.style.transform = 'scale(0.98)';
         setTimeout(() => {
             this.style.transform = '';
-            navigateTo('/register');
+            window.location.href = 'http://localhost:8000/register/';
         }, 150);
     });
 
-    // Événement: Connexion Google
+    // Google Sign-In avec popup (identique à login.js)
     googleBtn.addEventListener('click', function() {
         this.style.transform = 'scale(0.98)';
         setTimeout(() => {
             this.style.transform = '';
-            showToast('Connexion avec Google (Fonctionnalité de démonstration)');
+            startGoogleOAuthPopup();
         }, 150);
     });
 
-    // Effet de hover sur les cartes de fonctionnalités
+    function startGoogleOAuthPopup() {
+        const params = new URLSearchParams({
+            client_id: GOOGLE_CLIENT_ID,
+            redirect_uri: GOOGLE_REDIRECT,
+            response_type: 'code',
+            scope: 'openid email profile',
+            access_type: 'online',
+            prompt: 'select_account',
+        });
+
+        const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+        const w = 500, h = 620;
+        const left = Math.round((window.screen.width - w) / 2);
+        const top = Math.round((window.screen.height - h) / 2);
+        const opts = `width=${w},height=${h},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes`;
+
+        console.log('🚀 Ouverture popup Google OAuth2...');
+        const popup = window.open(authUrl, 'GoogleLogin', opts);
+
+        if (!popup) {
+            showToast('❌ Popup bloquée — autorisez les popups pour ce site');
+            return;
+        }
+
+        
+
+        const timer = setInterval(() => {
+            try {
+                const popupUrl = popup.location.href;
+                if (popupUrl && popupUrl.startsWith(API_BASE)) {
+                    clearInterval(timer);
+                    popup.close();
+
+                    const urlParams = new URLSearchParams(popup.location.search);
+                    const learnerId = urlParams.get('learner_id');
+                    const error = urlParams.get('error');
+
+                    if (error) {
+                        console.error('❌ Erreur Google:', error);
+                        showToast('❌ ' + decodeURIComponent(error));
+                        return;
+                    }
+
+                    if (learnerId) {
+                        fetchAndRedirect(learnerId);
+                    } else {
+                        showToast('❌ Échec de la connexion: learner_id manquant');
+                    }
+                }
+            } catch (e) {
+                // Cross-origin → popup encore sur accounts.google.com
+            }
+
+            if (popup.closed) {
+                clearInterval(timer);
+                console.log('ℹ️ Popup fermée par l\'utilisateur');
+            }
+        }, 300);
+    }
+
+    async function fetchAndRedirect(learnerId) {
+        try {
+            const res = await fetch(`${API_BASE}/api/learner/?learner_id=${learnerId}`);
+            const data = await res.json();
+
+            if (data.success) {
+                const learner = data.learner;
+                localStorage.setItem('learner_id', learner.learner_id);
+                localStorage.setItem('learner_name', learner.name);
+                localStorage.setItem('learner_email', learner.email);
+                localStorage.setItem('learner_cefr_level', learner.cefr_level || '');
+                localStorage.setItem('learner_progress', learner.progress || '0');
+
+                showToast('✅ Connexion réussie ! Redirection...');
+                setTimeout(() => {
+                    window.location.href = `${API_BASE}/?learner_id=${learnerId}`;
+                }, 800);
+            } else {
+                showToast('❌ Erreur lors de la récupération du profil');
+            }
+        } catch (e) {
+            console.error('❌ fetchAndRedirect:', e);
+            showToast('❌ Erreur réseau');
+        }
+    }
+
+    // Effet hover sur les cartes de fonctionnalités
     const featureCards = document.querySelectorAll('.feature-card');
     featureCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -95,50 +132,54 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
             this.style.transition = 'all 0.2s ease';
         });
-
         card.addEventListener('mouseleave', function() {
             this.style.transform = '';
             this.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
         });
     });
 
-    // Animation au scroll (si la page est plus longue)
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observer les éléments pour animation
-    document.querySelectorAll('.feature-card').forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
-        observer.observe(el);
-    });
-
-    // Effet parallax subtil sur le fond
-    document.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        
-        document.body.style.background = `
-            linear-gradient(
-                ${135 + (x * 10)}deg, 
-                #eff6ff 0%, 
-                #e0e7ff ${50 + (y * 10)}%, 
-                #f3e8ff 100%
-            )
-        `;
-    });
-
-    console.log('EnglishLearn Auth Page chargée avec succès!');
+    console.log('EnglishLearn Auth Page loaded successfully! ✅');
 });
+
+// ============================================
+// Toast utilitaire (identique à login.js)
+// ============================================
+function showToast(message) {
+    const existing = document.querySelector('.toast-notification');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background-color: #1f2937;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 1000;
+        opacity: 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 90vw;
+        text-align: center;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+    }, 10);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(100px)';
+        setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+    }, 3500);
+}
