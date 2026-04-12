@@ -13,8 +13,10 @@ urlpatterns = [
     # ── Pages HTML servies par Django (:8000) ──────────────────
     # home.html : servi via views.home_view (FileResponse)
     path('', views.home_view, name='home'),
-     path('exercise-menu/', TemplateView.as_view(template_name='exercise-menu.html'), name='exercise_menu'),
+    path('exercise-menu/', TemplateView.as_view(template_name='exercise-menu.html'), name='exercise_menu'),
     path('comprehension-ecrite/', TemplateView.as_view(template_name='comprehension-ecrite.html'), name='reading_exercise'),
+    path('generated_reading_ex/', TemplateView.as_view(template_name='generated_reading_ex.html'), name='generated_reading_ex'),
+    path('listening/', TemplateView.as_view(template_name='listening.html'), name='listening'),
     # login.html : utilise {% load static %} → doit être servi par Django
    
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
@@ -40,7 +42,20 @@ urlpatterns = [
     path('api/units/', views.get_units_api, name='get_units_api'),
     path('api/reading-exercise/', views.get_reading_exercise_api, name='get_reading_exercise_api'),
     path('api/submit-exercise/', views.submit_exercise_api, name='submit_exercise_api'),
+    path('api/generate-reading-ex/', views.generate_reading_ex_api),
+    path('api/generated-texts/', views.get_generated_texts_api, name='get_generated_texts'),
+    path('api/submit-generated-exercise/', views.submit_generated_exercise_api, name='submit_generated_exercise'),
+    path('api/check-generated-status/', views.check_generated_status_api, name='check_generated_status'),
+    path('api/gen-results/', views.get_gen_results_api, name='gen_results'),
+    path('api/check-reading-result/', views.check_reading_result_api, name='check_reading_result'),
 
+    # ── APIs Listening ─────────────────────────────────────────
+   
+    path('api/listening-exercise/', views.get_listening_exercise_api, name='listening_exercise'),
+    path('api/listening-audio/<str:audio_id>/stream/', views.serve_listening_audio, name='listening_audio_stream'),
+    path('api/submit-listening/', views.submit_listening_exercise_api, name='submit_listening'),
+    path('api/check-listening-result/', views.check_listening_result_api, name='check_listening_result'),
+    
     # ── APIs test CEFR ─────────────────────────────────────────
     path('api/test/demarrer/', views.demarrer_test, name='demarrer_test'),
     path('api/test/<uuid:test_id>/question/<int:question_index>/', views.get_question, name='get_question'),

@@ -5,6 +5,7 @@ import json
 import os
 from .forms import RegisterForm
 from .models import Learner , Unit,LearnerPreferences, SubUnit, ReadingText, ReadingQuestion,ReadingExerciseResult
+from .models import  GeneratedReadingText, GeneratedReadingQuestion,GeneratedExerciseResult
 from django.contrib.auth.hashers import check_password
 from django.db.models import Exists, OuterRef 
 
@@ -16,8 +17,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from .models import Niveau, Question, Test, Reponse, TestAudio
 from django.shortcuts import render
-
-
+from scripts.generate_practice_text import generate_and_save_reading_ex
+from .models import ListeningAudio, ListeningQuestion, ListeningExerciseResult
 # ============================================================
 # Vue pour servir la page d'accueil (home.html)
 # ============================================================
@@ -359,7 +360,8 @@ def get_reading_exercise_api(request):
                     'id':      reading_text.id,
                     'topic':   reading_text.topic,
                     'content': reading_text.content,
-                    'level':   reading_text.level
+                    'level':   reading_text.level,
+                    'coverage_score': reading_text.coverage_score,  
                 },
                 'questions': questions_data
             })
@@ -378,7 +380,7 @@ def submit_exercise_api(request):
             answers    = data.get('answers', {})
             text_id    = data.get('text_id')
             learner_id = data.get('learner_id')
-
+            print(f'🔴 SUBMIT: text_id={text_id}, learner_id={learner_id}')
             if not text_id:
                 return JsonResponse({'success': False, 'error': 'text_id manquant'}, status=400)
 
@@ -407,7 +409,8 @@ def submit_exercise_api(request):
                         'score':         existing.score,
                         'correct_count': existing.correct_count,
                         'total':         existing.total,
-                        'results':       existing.results_json
+                        'results':       existing.results_json,
+                        'feedback':      existing.feedback  # ✅ AJOUT
                     })
 
             # ── Correction des réponses ─────────────────────────────
@@ -463,15 +466,21 @@ def submit_exercise_api(request):
             score = round((correct_count / total) * 100) if total > 0 else 0
 
             # ── Sauvegarder le résultat en DB (première soumission) ─
+            feedback_message = ""  # ✅ AJOUT
             if learner:
-                ReadingExerciseResult.objects.create(
+                result = ReadingExerciseResult.objects.create(
                     learner=learner,
                     reading_text=reading_text,
                     score=score,
                     correct_count=correct_count,
                     total=total,
                     results_json=results
+                    # feedback est auto-généré dans save()
                 )
+                feedback_message = result.feedback  # ✅ Récupérer le feedback généré
+            else:
+                # Générer le feedback même sans learner (pour les visiteurs)
+                feedback_message = get_feedback_message(score)  # ✅
 
             return JsonResponse({
                 'success':       True,
@@ -479,7 +488,8 @@ def submit_exercise_api(request):
                 'score':         score,
                 'correct_count': correct_count,
                 'total':         total,
-                'results':       results
+                'results':       results,
+                'feedback':      feedback_message  # ✅ AJOUT
             })
 
         except json.JSONDecodeError:
@@ -488,6 +498,25 @@ def submit_exercise_api(request):
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+
+# ✅ NOUVELLE FONCTION : Génère le feedback pour les visiteurs (sans learner)
+def get_feedback_message(score):
+    """Génère un feedback court en anglais selon le score."""
+    if score >= 90:
+        return "Excellent work!"
+    elif score >= 80:
+        return "Very good!"
+    elif score >= 70:
+        return "Good job!"
+    elif score >= 60:
+        return "Well done!"
+    elif score >= 50:
+        return "Keep trying!"
+    elif score >= 40:
+        return "Need practice!"
+    else:
+        return "Try more!"
 
 
 # ============================================================
@@ -1011,3 +1040,936 @@ def google_auth_api(request):
         return JsonResponse({'success': False, 'errors': [str(e)]}, status=500)
     
 
+
+
+#---------generated text------------------
+
+
+MAX_GENERATED_PER_TEXT = 3
+
+@csrf_exempt
+def generate_reading_ex_api(request):
+    """
+    POST /api/generate-reading-ex/
+    
+    Génère un text non identique aux texts déja générés .
+    Limite: MAX_GENERATED_PER_TEXT (3) textes non identiques maximum par texte original.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    try:
+        data            = json.loads(request.body)
+        exercise_id     = data.get('exercise_id')
+        learner_id      = data.get('learner_id')
+ 
+        if not exercise_id:
+            return JsonResponse({
+                'success': False,
+                'error'  : 'exercise_id manquant'
+            }, status=400)
+ 
+        # ── 1. Charger le ReadingText original ────────────────────
+        try:
+            original_text = ReadingText.objects.get(id=exercise_id)
+        except ReadingText.DoesNotExist:
+            try:
+                generated = GeneratedReadingText.objects.get(id=exercise_id)
+                original_text = generated.original_text
+                print(f"⚠️  ID {exercise_id} était un GeneratedReadingText, utilisation de l'original {original_text.id}")
+            except GeneratedReadingText.DoesNotExist:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Texte original non trouvé'
+                }, status=404)
+ 
+        # ── 2. Récupérer le learner ────────────────────────────────
+        learner = None
+        learner_level = original_text.sub_unit.unit.level
+        if learner_id:
+            try:
+                learner       = Learner.objects.get(learner_id=learner_id)
+                learner_level = learner.cefr_level
+            except Learner.DoesNotExist:
+                pass
+ 
+        # ── 3. Récupérer les textes générés existants POUR CE LEARNER ─
+        # ✅ Chaque apprenant a sa propre limite de 3 textes
+        existing_filter = {'original_text': original_text}
+        if learner:
+            existing_filter['learner'] = learner
+        else:
+            existing_filter['learner__isnull'] = True
+ 
+        existing_generated = list(GeneratedReadingText.objects.filter(
+            **existing_filter
+        ).order_by('created_at', 'id'))
+ 
+        total_existing = len(existing_generated)
+ 
+        # ✅ VÉRIFICATION STRICTE DE LA LIMITE - Bloquer si déjà 3 ou plus
+        if total_existing >= MAX_GENERATED_PER_TEXT:
+            return JsonResponse({
+                'success': False,
+                'error': f'Maximum {MAX_GENERATED_PER_TEXT} generated exercises reached for this text.',
+                'limit_reached': True,
+                'max_allowed': MAX_GENERATED_PER_TEXT,
+                'existing_count': total_existing
+            }, status=403)
+ 
+        # ── 4. Déterminer le prochain index ───────────────────────
+        # Le frontend envoie l'index qu'il veut obtenir (0, 1, ou 2)
+        requested_index = data.get('generated_index', 0)
+        
+        # ✅ Vérifier que l'index demandé est valide
+        if requested_index < 0 or requested_index >= MAX_GENERATED_PER_TEXT:
+            return JsonResponse({
+                'success': False,
+                'error': f'Invalid index. Must be between 0 and {MAX_GENERATED_PER_TEXT - 1}',
+                'limit_reached': True,
+                'max_allowed': MAX_GENERATED_PER_TEXT,
+                'existing_count': total_existing
+            }, status=400)
+ 
+        # ── 5. Réutiliser ou générer ──────────────────────────────
+        if requested_index < total_existing:
+            # ♻️ Réutiliser le texte déjà généré à cet index
+            new_text = existing_generated[requested_index]
+            next_index = requested_index
+            is_reused = True
+            print(f"♻️  Réutilisation GeneratedReadingText id={new_text.id} (index {next_index})")
+        else:
+            # 🤖 Générer un nouveau texte
+            # Vérification supplémentaire: ne pas dépasser la limite totale
+            if total_existing >= MAX_GENERATED_PER_TEXT:
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Cannot generate more than {MAX_GENERATED_PER_TEXT} exercises per text.',
+                    'limit_reached': True,
+                    'max_allowed': MAX_GENERATED_PER_TEXT,
+                    'existing_count': total_existing
+                }, status=403)
+ 
+            print(f"🤖  Génération nouveau texte ({total_existing + 1}/{MAX_GENERATED_PER_TEXT})")
+            new_generated_id = generate_and_save_reading_ex(
+                original_text=original_text,
+                learner_level=learner_level,
+            )
+            new_text = GeneratedReadingText.objects.get(id=new_generated_id)
+            # ✅ Lier le texte généré au learner qui l'a demandé
+            if learner:
+                new_text.learner = learner
+                new_text.save(update_fields=['learner'])
+            next_index = total_existing  # L'index du nouveau texte
+            is_reused = False
+ 
+        # ── 6. Charger les questions ─────────────────────────────
+        questions      = new_text.questions.all().order_by('id')
+        questions_data = [
+            {
+                'id'      : q.id,
+                'number'  : idx,
+                'question': q.question,
+                'type'    : q.type,
+                'choices' : q.choices or [],
+                'answer'  : q.answer,
+            }
+            for idx, q in enumerate(questions, 1)
+        ]
+ 
+        subunit = new_text.sub_unit
+ 
+        return JsonResponse({
+            'success'         : True,
+            'generated'       : True,
+            'generated_id'    : new_text.id,
+            'generated_index' : next_index,
+            'is_reused'       : is_reused,
+            'limit_info'      : {
+                'current': next_index + 1,
+                'maximum': MAX_GENERATED_PER_TEXT,
+                'remaining': max(0, MAX_GENERATED_PER_TEXT - (next_index + 1))
+            },
+            'exercise'        : {
+                'subunit': {
+                    'id'        : subunit.id,
+                    'title'     : subunit.title,
+                    'unit_title': subunit.unit.title,
+                },
+                'text': {
+                    'id'     : new_text.id,
+                    'topic'  : new_text.topic,
+                    'content': new_text.content,
+                },
+                'questions'      : questions_data,
+                'total_questions': len(questions_data),
+            }
+        })
+ 
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+    except Exception as e:
+        print(f"❌  generate_reading_ex_api error: {e}")
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+@csrf_exempt
+def get_generated_texts_api(request):
+    """
+    GET /api/generated-texts/?original_id=X&learner_id=Y
+    
+    Retourne les textes générés PAR CE LEARNER pour ce texte original.
+    Chaque apprenant a sa propre liste de textes générés.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    original_id = request.GET.get('original_id')
+    learner_id  = request.GET.get('learner_id')
+ 
+    if not original_id:
+        return JsonResponse({'success': False, 'error': 'original_id manquant'}, status=400)
+    
+    try:
+        original_text = ReadingText.objects.get(id=original_id)
+ 
+        # ✅ Filtrer par learner : chaque apprenant voit uniquement ses textes
+        qs = GeneratedReadingText.objects.filter(original_text=original_text)
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+                qs = qs.filter(learner=learner)
+            except Learner.DoesNotExist:
+                # Learner inconnu → on ne retourne rien (0 textes, peut générer)
+                qs = qs.none()
+        else:
+            # Visiteur anonyme → ne voir que les textes sans learner
+            qs = qs.filter(learner__isnull=True)
+ 
+        generated_texts = qs.order_by('created_at', 'id')
+        
+        texts_data = []
+        for idx, gen_text in enumerate(generated_texts):
+            questions = gen_text.questions.all().order_by('id')
+            questions_data = [{
+                'id': q.id,
+                'question': q.question,
+                'type': q.type,
+                'choices': q.choices or [],
+                'answer': q.answer,
+            } for q in questions]
+            
+            texts_data.append({
+                'id': gen_text.id,
+                'index': idx,
+                'topic': gen_text.topic,
+                'content': gen_text.content,
+                'created_at': gen_text.created_at.isoformat(),
+                'questions': questions_data,
+            })
+        
+        limit_info = {
+            'current': len(texts_data),
+            'maximum': MAX_GENERATED_PER_TEXT,
+            'remaining': max(0, MAX_GENERATED_PER_TEXT - len(texts_data)),
+            'can_generate': len(texts_data) < MAX_GENERATED_PER_TEXT
+        }
+        
+        return JsonResponse({
+            'success': True,
+            'original_id': original_id,
+            'generated_texts': texts_data,
+            'limit_info': limit_info
+        })
+        
+    except ReadingText.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Texte original non trouvé'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+       
+@csrf_exempt
+def submit_generated_exercise_api(request):
+    """
+    POST /api/submit-generated-exercise/
+    
+    Soumission des réponses pour un texte généré avec VÉRIFICATION ANTI-DOUBLE SOUMISSION.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    try:
+        data = json.loads(request.body)
+        generated_text_id = data.get('generated_text_id')
+        answers = data.get('answers', {})
+        learner_id = data.get('learner_id')
+        
+        if not generated_text_id:
+            return JsonResponse({
+                'success': False, 
+                'error': 'generated_text_id is required'
+            }, status=400)
+
+        try:
+            generated_text = GeneratedReadingText.objects.select_related(
+                'original_text', 'sub_unit', 'sub_unit__unit'
+            ).get(id=generated_text_id)
+        except GeneratedReadingText.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Generated text not found'
+            }, status=404)
+        
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+
+        # Vérifier si déjà complété
+        existing_result = None
+        if learner:
+            existing_result = GeneratedExerciseResult.objects.filter(
+                learner=learner,
+                generated_text=generated_text
+            ).select_related('generated_text').first()
+        
+        if existing_result:
+            # IMPORTANT: Retourner les detailed_results_json stockés
+            return JsonResponse({
+                'success': True,
+                'already_completed': True,
+                'completed_at': existing_result.submitted_at.strftime('%Y-%m-%d %H:%M'),
+                'score_on_10': float(existing_result.score_on_10),
+                'score_percentage': existing_result.score_percentage,
+                'correct_count': existing_result.correct_count,
+                'total_questions': existing_result.total_questions,
+                'feedback': existing_result.feedback,
+                'detailed_results': existing_result.detailed_results_json,  # ← ICI
+                'message': 'Exercise already completed',
+                'can_retry': False
+            }, status=200)
+
+        # Première soumission - corriger et sauvegarder
+        questions = GeneratedReadingQuestion.objects.filter(generated_text=generated_text)
+        
+        detailed_results = []  # ← LISTE À SAUVEGARDER
+        correct_count = 0
+        total_questions = questions.count()
+        
+        for question in questions:
+            qid = str(question.id)
+            user_answer = answers.get(qid, '').strip()
+            
+            # Logique de correction selon le type
+            is_correct = False
+            
+            if question.type == 'true_false':
+                user_normalized = user_answer.lower()
+                correct_normalized = question.answer.lower()
+                is_correct = user_normalized == correct_normalized
+                correct_answer_display = question.answer
+                user_answer_display = user_answer
+                
+            elif question.type == 'multiple_choice':
+                correct_ans = question.answer
+                if question.choices and correct_ans in question.choices:
+                    correct_index = question.choices.index(correct_ans)
+                    letter = chr(65 + correct_index)
+                    correct_answer_display = f"{letter}. {correct_ans}"
+                    
+                    if user_answer and user_answer[0].upper() in 'ABCD':
+                        letter_given = user_answer[0].upper()
+                        idx = ord(letter_given) - 65
+                        if idx < len(question.choices):
+                            actual_answer = question.choices[idx]
+                            user_answer_display = f"{letter_given}. {actual_answer}"
+                            is_correct = actual_answer.lower() == correct_ans.lower()
+                        else:
+                            is_correct = False
+                            user_answer_display = user_answer
+                    else:
+                        is_correct = user_answer.lower() == correct_ans.lower()
+                        user_answer_display = user_answer
+                else:
+                    is_correct = user_answer.lower() == question.answer.lower()
+                    correct_answer_display = question.answer
+                    user_answer_display = user_answer
+                    
+            else:  # fill_blank
+                user_normalized = user_answer.lower()
+                correct_answers = [a.strip().lower() for a in question.answer.split('|')]
+                is_correct = user_normalized in correct_answers
+                correct_answer_display = question.answer
+                user_answer_display = user_answer
+            
+            if is_correct:
+                correct_count += 1
+            
+            # AJOUTER À LA LISTE avec le type de question
+            detailed_results.append({
+                'question_id': qid,
+                'correct': is_correct,
+                'user_answer': user_answer_display,
+                'correct_answer': correct_answer_display,
+                'question_type': question.type  # ← IMPORTANT pour l'ordre
+            })
+
+        # Calcul des scores
+        score_percentage = round((correct_count / total_questions) * 100) if total_questions > 0 else 0
+        score_on_10 = round((correct_count / total_questions) * 10, 1) if total_questions > 0 else 0
+
+        # Feedback
+        feedback = generate_feedback_message(score_on_10)
+
+        # SAUVEGARDE EN BASE avec detailed_results_json
+        saved_result_id = None
+        evaluation_status = 'not_saved_no_learner'
+        
+        if learner:
+            try:
+                result = GeneratedExerciseResult.objects.create(
+                    learner=learner,
+                    original_text=generated_text.original_text,
+                    generated_text=generated_text,
+                    answers_json=answers,
+                    correct_count=correct_count,
+                    total_questions=total_questions,
+                    score_percentage=score_percentage,
+                    score_on_10=score_on_10,
+                    feedback=feedback,
+                    detailed_results_json=detailed_results  # ← SAUVEGARDE ICI
+                )
+                saved_result_id = result.id
+                evaluation_status = 'saved'
+            except Exception as e:
+                evaluation_status = 'save_error'
+                print(f"Error saving result: {e}")
+
+        return JsonResponse({
+            'success': True,
+            'already_completed': False,
+            'results': detailed_results,  # ← Retourner pour affichage immédiat
+            'correct_count': correct_count,
+            'total': total_questions,
+            'score_percentage': score_percentage,
+            'score_on_10': score_on_10,
+            'feedback': feedback,
+            'saved_result_id': saved_result_id,
+            'evaluation_status': evaluation_status
+        }, status=200)
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid JSON'
+        }, status=400)
+        
+    except Exception as e:
+        print(f"❌ Error in submit_generated_exercise_api: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({
+            'success': False,
+            'error': f'Server error: {str(e)}'
+        }, status=500)
+
+
+def generate_feedback_message(score_on_10):
+    """
+    Génère un message de feedback en anglais selon la note sur 10.
+    """
+    if score_on_10 >= 9:
+        return "Excellent work! You have mastered this topic very well. Keep practicing to maintain this level!"
+    elif score_on_10 >= 8:
+        return "Very good work! You understand this well. A bit more practice will help you reach excellence!"
+    elif score_on_10 >= 7:
+        return "Good job! You have a solid understanding. Keep practicing to improve your accuracy!"
+    elif score_on_10 >= 6:
+        return "Fair result. You understand the basics, but more practice will help you improve!"
+    elif score_on_10 >= 5:
+        return "You are making progress, but need more practice with this type of text. Try again!"
+    elif score_on_10 >= 4:
+        return "Keep practicing! Reading more texts like this will help you improve your comprehension."
+    else:
+        return "Don't give up! The more you practice reading, the better you will become. Try another exercise!"
+@csrf_exempt
+def check_generated_status_api(request):
+    """
+    GET /api/check-generated-status/?generated_id=X&learner_id=Y
+    
+    Vérifie si un exercice généré a déjà été complété par le learner.
+    Utile pour désactiver le bouton Submit côté client au chargement de la page.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    generated_id = request.GET.get('generated_id')
+    learner_id = request.GET.get('learner_id')
+    
+    if not generated_id or not learner_id:
+        return JsonResponse({
+            'success': False,
+            'error': 'generated_id and learner_id required'
+        }, status=400)
+    
+    try:
+        # Vérifier que le learner existe
+        try:
+            learner = Learner.objects.get(learner_id=learner_id)
+        except Learner.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Learner not found'
+            }, status=404)
+        
+        # Vérifier si un résultat existe
+        existing = GeneratedExerciseResult.objects.filter(
+            generated_text_id=generated_id,
+            learner=learner
+        ).first()
+        
+        if existing:
+            return JsonResponse({
+                'success': True,
+                'already_completed': True,
+                'completed_at': existing.submitted_at.strftime('%Y-%m-%d %H:%M'),
+                'score_on_10': float(existing.score_on_10),
+                'score_percentage': existing.score_percentage,
+                'correct_count': existing.correct_count,
+                'total_questions': existing.total_questions
+            })
+        else:
+            return JsonResponse({
+                'success': True,
+                'already_completed': False
+            })
+            
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)  
+@csrf_exempt
+def get_gen_results_api(request):
+    """
+    GET /api/gen-results/?learner_id=X&original_id=Y
+    
+    Retourne les résultats d'un learner pour un texte original.
+    Si learner_id seul : tous ses résultats groupés par original.
+    Si original_id seul : tous les learners pour ce original.
+    Si les deux : résultats spécifiques du learner pour ce original.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    learner_id = request.GET.get('learner_id')
+    original_id = request.GET.get('original_id')
+    
+    try:
+        queryset = GeneratedExerciseResult.objects.select_related(
+            'learner', 'original_text', 'generated_text'
+        )
+        
+        # Filtrer si learner_id fourni
+        if learner_id:
+            learner = Learner.objects.get(learner_id=learner_id)
+            queryset = queryset.filter(learner=learner)
+        
+        # Filtrer si original_id fourni
+        if original_id:
+            original = ReadingText.objects.get(id=original_id)
+            queryset = queryset.filter(original_text=original)
+        
+        # Construire la réponse
+        results = []
+        for r in queryset.order_by('-submitted_at'):
+            results.append({
+                'result_id': r.id,
+                'learner': {
+                    'id': r.learner.learner_id,
+                    'name': r.learner.name,
+                },
+                'original_text': {
+                    'id': r.original_text.id,
+                    'topic': r.original_text.topic,
+                },
+                'generated_text': {
+                    'id': r.generated_text.id,
+                    'topic': r.generated_text.topic,
+                },
+                'score_on_10': float(r.score_on_10),
+                'score_percentage': r.score_percentage,
+                'correct_count': f"{r.correct_count}/{r.total_questions}",
+                'feedback': r.feedback,
+                'submitted_at': r.submitted_at.isoformat(),
+                'detailed_results': r.detailed_results_json,
+            })
+        
+        return JsonResponse({
+            'success': True,
+            'count': len(results),
+            'results': results
+        })
+        
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Apprenant non trouvé'}, status=404)
+    except ReadingText.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Texte original non trouvé'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+@csrf_exempt
+def check_reading_result_api(request):
+    """
+    GET /api/check-reading-result/?text_id=X&learner_id=Y
+    
+    Vérifie si un learner a déjà complété un texte de lecture et retourne son score.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    text_id = request.GET.get('text_id')
+    learner_id = request.GET.get('learner_id')
+    
+    if not text_id or not learner_id:
+        return JsonResponse({
+            'success': False,
+            'error': 'text_id and learner_id required'
+        }, status=400)
+    
+    try:
+        learner = Learner.objects.get(learner_id=learner_id)
+        reading_text = ReadingText.objects.get(id=text_id)
+        
+        result = ReadingExerciseResult.objects.filter(
+            learner=learner,
+            reading_text=reading_text
+        ).first()
+        
+        if result:
+            return JsonResponse({
+                'success': True,
+                'has_result': True,
+                'score': result.score,  # Score en pourcentage
+                'correct_count': result.correct_count,
+                'total': result.total,
+                'submitted_at': result.submitted_at.isoformat()
+            })
+        else:
+            return JsonResponse({
+                'success': True,
+                'has_result': False
+            })
+            
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
+    except ReadingText.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Text not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+# ============================================================
+# LISTENING — À AJOUTER dans views.py
+# ============================================================
+@csrf_exempt
+def get_listening_exercise_api(request):
+    """
+    GET /api/listening-exercise/?subunit_id=X
+    Retourne l'audio + les 10 questions pour une sous-unité.
+    Les réponses correctes ne sont PAS envoyées au frontend.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    subunit_id = request.GET.get('subunit_id')
+    if not subunit_id:
+        return JsonResponse({'success': False, 'error': 'subunit_id manquant'}, status=400)
+ 
+    try:
+        subunit = get_object_or_404(SubUnit, id=subunit_id)
+ 
+        # Récupérer l'audio lié à ce subunit
+        audio = ListeningAudio.objects.filter(sub_unit=subunit).first()
+        if not audio:
+            return JsonResponse({'success': False, 'error': 'Aucun audio trouvé pour cette sous-unité'}, status=404)
+ 
+        # Récupérer les 10 questions (sans les réponses)
+        questions = ListeningQuestion.objects.filter(audio=audio).order_by('question_order')
+        questions_data = []
+        for q in questions:
+            questions_data.append({
+                'id':            q.id,
+                'order':         q.question_order,
+                'type':          q.question_type,
+                'question':      q.question_text,
+                'choices':       q.choices,
+                'target_word':   q.target_word,
+                'correct_order': q.correct_order,
+                
+            })
+ 
+        return JsonResponse({
+            'success': True,
+            'audio': {
+                'audio_id':      audio.audio_id,
+                'audio_url':     f'/api/listening-audio/{audio.audio_id}/stream/',
+                'transcript':    audio.transcript,
+                'cefr_level':    audio.cefr_level,
+                'unit_title':    audio.unit_title,
+                'subunit_title': audio.subunit_title,
+                'duration':      audio.duration_seconds,
+                'vocab_score':   float(audio.vocab_score) if audio.vocab_score else None,
+            },
+            'questions': questions_data
+        })
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+@csrf_exempt 
+def serve_listening_audio(request, audio_id):
+    """
+    GET /api/listening-audio/<audio_id>/stream/
+    Stream le fichier .wav vers le frontend.
+    """
+    import mimetypes
+    from django.conf import settings
+ 
+    try:
+        audio = get_object_or_404(ListeningAudio, audio_id=audio_id)
+ 
+        # Normaliser le chemin (Windows backslashes → forward slashes)
+        audio_path = audio.audio_path.replace('\\', '/')
+ 
+        # Essayer le chemin absolu d'abord, puis relatif à MEDIA_ROOT
+        if os.path.isabs(audio_path) and os.path.exists(audio_path):
+            file_path = audio_path
+        else:
+            file_path = os.path.join(settings.MEDIA_ROOT, audio_path)
+ 
+        if not os.path.exists(file_path):
+            return JsonResponse(
+                {'success': False, 'error': f'Fichier audio introuvable : {audio_path}'},
+                status=404
+            )
+ 
+        content_type, _ = mimetypes.guess_type(file_path)
+        content_type = content_type or 'audio/wav'
+ 
+        response = FileResponse(
+            open(file_path, 'rb'),
+            content_type=content_type,
+            as_attachment=False
+        )
+        response['Accept-Ranges']  = 'bytes'
+        response['Content-Length'] = os.path.getsize(file_path)
+        return response
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+@csrf_exempt
+def submit_listening_exercise_api(request):
+    """
+    POST /api/submit-listening/
+    Reçoit les réponses du learner, corrige, calcule le score, sauvegarde.
+ 
+    Body JSON :
+    {
+        "audio_id":   "LJ020-0093",
+        "learner_id": 42,
+        "answers": {
+            "1": "True",          ← question_id : réponse donnée
+            "2": "B",
+            "3": "A",
+            ...
+        }
+    }
+ 
+    Correction par type :
+      - true_false  : comparaison insensible à la casse
+      - mcq         : lettre donnée (A/B/C/D) vs lettre de la réponse
+      - fill_blank  : comparaison insensible à la casse
+      - word_order  : comparaison de la phrase reconstituée
+      - synonym     : comparaison insensible à la casse
+      - grammar     : lettre donnée vs lettre de la réponse
+      - vocabulary  : lettre donnée vs lettre de la réponse
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    try:
+        data       = json.loads(request.body)
+        audio_id   = data.get('audio_id')
+        learner_id = data.get('learner_id')
+        answers    = data.get('answers', {})
+ 
+        if not audio_id:
+            return JsonResponse({'success': False, 'error': 'audio_id manquant'}, status=400)
+ 
+        audio = get_object_or_404(ListeningAudio, audio_id=audio_id)
+ 
+        # Récupérer le learner (optionnel)
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+ 
+        # ── Si déjà soumis → retourner le résultat initial ─────
+        if learner:
+            existing = ListeningExerciseResult.objects.filter(
+                learner=learner,
+                audio=audio
+            ).first()
+            if existing:
+                return JsonResponse({
+                    'success':       True,
+                    'already_done':  True,
+                    'score':         existing.score,
+                    'correct_count': existing.correct_count,
+                    'total':         existing.total,
+                    'results':       existing.results_json,
+                    'feedback':      existing.feedback,
+                })
+ 
+        # ── Correction des réponses ─────────────────────────────
+        questions     = ListeningQuestion.objects.filter(audio=audio).order_by('question_order')
+        correct_count = 0
+        total         = 0
+        results       = []
+ 
+        for q in questions:
+            question_id  = str(q.id)
+            user_answer  = str(answers.get(question_id, '')).strip()
+            correct_ans  = q.correct_answer.strip()
+            total       += 1
+ 
+            # ── Logique de correction selon le type ────────────
+            q_type = q.question_type
+ 
+            if q_type == 'true_false':
+                is_correct = user_answer.lower() == correct_ans.lower()
+ 
+            elif q_type in ('mcq', 'grammar', 'vocabulary'):
+                # Comparer la lettre (A/B/C/D) uniquement
+                user_letter    = user_answer[0].upper() if user_answer else ''
+                correct_letter = correct_ans[0].upper() if correct_ans else ''
+                is_correct     = user_letter == correct_letter
+ 
+            elif q_type == 'fill_blank':
+                is_correct = user_answer.lower() == correct_ans.lower()
+ 
+            elif q_type == 'word_order':
+                # Comparer les phrases normalisées (sans ponctuation, minuscules)
+                import re
+                normalize     = lambda s: re.sub(r'[^\w\s]', '', s.lower()).strip()
+                is_correct    = normalize(user_answer) == normalize(correct_ans)
+ 
+            elif q_type == 'synonym':
+                is_correct = user_answer.lower() == correct_ans.lower()
+ 
+            else:
+                is_correct = user_answer.lower() == correct_ans.lower()
+ 
+            if is_correct:
+                correct_count += 1
+ 
+            results.append({
+                'question_id':    q.id,
+                'question':       q.question_text,
+                'type':           q_type,
+                'user_answer':    user_answer,
+                'correct_answer': correct_ans,
+                'is_correct':     is_correct,
+            })
+ 
+        # ── Calcul du score ─────────────────────────────────────
+        score = round((correct_count / total) * 100) if total > 0 else 0
+ 
+        # ── Sauvegarde du résultat ──────────────────────────────
+        result = None
+        if learner:
+            result = ListeningExerciseResult.objects.create(
+                learner       = learner,
+                audio         = audio,
+                score         = score,
+                correct_count = correct_count,
+                total         = total,
+                results_json  = results,
+                # feedback auto-généré dans save()
+            )
+ 
+        return JsonResponse({
+            'success':       True,
+            'already_done':  False,
+            'score':         score,
+            'correct_count': correct_count,
+            'total':         total,
+            'results':       results,
+            'feedback':      result.feedback if result else '',
+        })
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+@csrf_exempt
+def check_listening_result_api(request):
+    """
+    GET /api/check-listening-result/?audio_id=LJ020-0093&learner_id=42
+    Vérifie si un learner a déjà complété un exercice listening.
+    Utilisé par exercise-menu.js pour afficher le badge de score.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    audio_id   = request.GET.get('audio_id')
+    learner_id = request.GET.get('learner_id')
+    subunit_id = request.GET.get('subunit_id')  # alternative à audio_id
+ 
+    if not learner_id:
+        return JsonResponse({'success': False, 'error': 'learner_id requis'}, status=400)
+ 
+    try:
+        learner = Learner.objects.get(learner_id=learner_id)
+ 
+        # Résoudre l'audio via audio_id ou subunit_id
+        if audio_id:
+            audio = ListeningAudio.objects.filter(audio_id=audio_id).first()
+        elif subunit_id:
+            audio = ListeningAudio.objects.filter(sub_unit_id=subunit_id).first()
+        else:
+            return JsonResponse({'success': False, 'error': 'audio_id ou subunit_id requis'}, status=400)
+ 
+        if not audio:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+        result = ListeningExerciseResult.objects.filter(
+            learner=learner,
+            audio=audio
+        ).first()
+ 
+        if result:
+            return JsonResponse({
+                'success':      True,
+                'has_result':   True,
+                'score':        result.score,
+                'correct_count': result.correct_count,
+                'total':        result.total,
+                'feedback':     result.feedback,
+                'results':      result.results_json,  # ✅ AJOUT: résultats détaillés
+                'already_done': True,                  # ✅ AJOUT: flag already_done
+                'submitted_at': result.submitted_at.isoformat(),
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

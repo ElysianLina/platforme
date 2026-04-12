@@ -43,6 +43,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             BASE_DIR.parent / 'frontend' / 'home', 
+            BASE_DIR.parent / 'frontend' / 'home'/ 'listening', 
             BASE_DIR.parent / 'frontend' / 'leveltest',        # startlevel.html, test-cefr.html
             BASE_DIR.parent / 'frontend' / 'authentification', # login.html
             BASE_DIR.parent / 'frontend' / 'preferences',
@@ -89,6 +90,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR.parent / 'frontend' / 'home',
+    BASE_DIR.parent / 'frontend' / 'home'/ 'listening',
     BASE_DIR.parent / 'frontend' / 'leveltest',        # startlevel.css/js, test-cefr.css/js
     BASE_DIR.parent / 'frontend' / 'authentification', # login.css/js
     BASE_DIR.parent / 'frontend' / 'preferences', 

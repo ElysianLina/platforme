@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Listening Comprehension</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'listening.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar (identique à exercise-menu.html) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">EnglishLearn</h1>
+                <p class="tagline">Learning Platform</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item active">
+                    <i class="fas fa-book-open"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <div class="page-header">
+                <a href="#" class="back-btn" id="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+                <div class="header-info">
+                    <span class="subunit-badge" id="subunit-label">1.1</span>
+                    <h1 class="page-title" id="subunit-title">Listening Comprehension</h1>
+                </div>
+                <span class="level-badge">A1</span>
+            </div>
+
+            <!-- ═══ LOADING STATE ═══ -->
+            <div id="loading-state" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading exercise...</p>
+            </div>
+
+            <!-- ═══ ERROR STATE ═══ -->
+            <div id="error-state" class="error-state" style="display:none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <p id="error-message">No audio available for this sub-unit.</p>
+                <a href="#" id="error-back-btn" class="btn-back-error">Go back</a>
+            </div>
+
+            <!-- ═══ EXERCISE CONTENT ═══ -->
+            <div id="exercise-content" style="display:none;">
+
+                <!-- ── AUDIO PLAYER ── -->
+                <div class="audio-section">
+                    <div class="audio-header">
+                        <div class="audio-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="audio-info">
+                            <div class="audio-title-row">
+                                <h2 id="audio-subunit-title">Audio Clip</h2>
+                                <!-- Le badge vocab_score s'affichera ici -->
+                                <span id="vocab-score-badge" class="vocab-score-tag" style="display: none;">
+                                    <i class="fas fa-chart-bar"></i>
+                                    A1 Vocabulary Score: <span id="vocab-score-value">--</span>%
+                                </span>
+                            </div>
+                             <p id="audio-unit-title" class="audio-unit"></p>
+                        </div>
+                        <span class="audio-badge">Listen carefully</span>
+                    </div>
+
+                    <!-- Player custom -->
+                    <div class="audio-player">
+                        <audio id="audio-element" preload="auto"></audio>
+
+                        <div class="player-controls">
+                            <button class="btn-play" id="btn-play" title="Play / Pause">
+                                <i class="fas fa-play" id="play-icon"></i>
+                            </button>
+
+                            <div class="progress-container" id="progress-container">
+                                <div class="progress-track">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                            </div>
+
+                            <span class="time-display" id="time-display">0:00</span>
+                        </div>
+
+                        <div class="player-options">
+                            <span class="speed-label">Speed:</span>
+                            <button class="btn-speed active" data-speed="0.75">0.75×</button>
+                            <button class="btn-speed active" data-speed="1" id="speed-1x">1×</button>
+                            <button class="btn-speed" data-speed="1.25">1.25×</button>
+
+                            <button class="btn-replay" id="btn-replay">
+                                <i class="fas fa-redo"></i> Replay
+                            </button>
+
+                            <span class="listen-hint" id="listen-hint">
+                                <i class="fas fa-info-circle"></i>
+                                Listen before answering
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── QUESTIONS ── -->
+                <div class="questions-section" id="questions-section">
+
+                    <!-- Progress dots -->
+                    <div class="questions-header">
+                        <h3>Questions</h3>
+                        <div class="question-dots" id="question-dots"></div>
+                        <span class="question-counter" id="question-counter">1 / 10</span>
+                    </div>
+
+                    <!-- Question card -->
+                    <div class="question-card" id="question-card">
+                        <!-- Injecté dynamiquement par listening.js -->
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="question-nav">
+                        <button class="btn-nav btn-prev" id="btn-prev" disabled>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="btn-nav btn-next" id="btn-next" disabled>
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ── SUBMIT BUTTON ── -->
+                <div class="submit-section" id="submit-section" style="display:none;">
+                    <button class="btn-submit" id="btn-submit">
+                        <i class="fas fa-check"></i>
+                        Submit Answers
+                    </button>
+                </div>
+
+                <!-- ── RESULT PANEL ── -->
+                <div class="result-panel" id="result-panel" style="display:none;">
+                    <div class="result-header">
+                        <div class="result-score-circle">
+                            <span id="result-score">—</span>
+                            <small>%</small>
+                        </div>
+                        <div class="result-info">
+                            <h3 id="result-feedback">—</h3>
+                            <p id="result-detail">— / — correct answers</p>
+                        </div>
+                    </div>
+
+                    <div class="result-review" id="result-review">
+                        <!-- Détail question par question -->
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="btn-retry" id="btn-retry">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                      
+                        <!-- Bouton "Show Results" — visible uniquement après un retry -->
+                        <button id="btn-show-result" class="btn-show-result" style="display:none;">
+                            Show Results <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        <button id="btn-generate" class="btn-generate" style="display:none;">
+                            <i class="fas fa-magic"></i> Generate New Exercise
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- /exercise-content -->
+        </main>
+    </div>
+
+    <script src="{% static 'listening.js' %}"></script>
+</body>
+</html>

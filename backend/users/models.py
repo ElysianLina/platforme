@@ -476,73 +476,479 @@ class ReadingExerciseResult(models.Model):
         Learner,
         on_delete=models.CASCADE,
         related_name='reading_exercise_results',
-        # Ex : learner_id = 3  (Ahmad)
     )
 
     reading_text = models.ForeignKey(
         ReadingText,
         on_delete=models.CASCADE,
         related_name='results',
-        # Ex : reading_text_id = 12  (le texte "Ana's Daily Life")
     )
 
-    score = models.IntegerField(
-        # Score en pourcentage calculé à la soumission.
-        # Ex : 7 bonnes réponses sur 10 → score = 70
+    score = models.IntegerField()
+
+    correct_count = models.IntegerField()
+
+    total = models.IntegerField()
+
+    results_json = models.JSONField()
+
+    # ✅ NOUVEAU : Champ feedback
+    feedback = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Short feedback message in English (2-3 words)"
     )
 
-    correct_count = models.IntegerField(
-        # Nombre de questions correctes.
-        # Ex : le learner a eu juste 7 questions sur 10 → correct_count = 7
-    )
-
-    total = models.IntegerField(
-        # Nombre total de questions au moment de la soumission.
-        # Stocké ici car si on ajoute/supprime des questions plus tard,
-        # on garde la trace de combien il y en avait quand le learner a soumis.
-        # Ex : 10 questions → total = 10
-    )
-
-    results_json = models.JSONField(
-        # Détail complet de chaque réponse, stocké comme tableau JSON.
-        # Utilisé par le frontend pour afficher le modal avec les ✓ et ✗.
-        # Ex :
-        # [
-        #   {
-        #     "question_id": "42",        ← l'id de la question en DB
-        #     "correct": true,            ← bonne ou mauvaise réponse
-        #     "user_answer": "true",      ← ce que le learner a répondu
-        #     "correct_answer": "true"    ← la bonne réponse
-        #   },
-        #   {
-        #     "question_id": "43",
-        #     "correct": false,
-        #     "user_answer": "A. apple",
-        #     "correct_answer": "B. car"
-        #   },
-        #   {
-        #     "question_id": "44",
-        #     "correct": false,
-        #     "user_answer": "happy",
-        #     "correct_answer": "excited"
-        #   }
-        # ]
-    )
-
-    submitted_at = models.DateTimeField(
-        auto_now_add=True,
-        # Date et heure exacte de la première soumission.
-        # Rempli automatiquement par Django, jamais modifié.
-        # Ex : 2025-04-05 14:32:10 UTC
-    )
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table        = 'reading_exercise_result'
         unique_together = ['learner', 'reading_text']
-        # unique_together garantit qu'un même learner ne peut avoir
-        # qu'une seule ligne par exercice dans la table.
-        # Si on tente d'en créer une 2ème → erreur DB → on retourne l'existante.
 
     def __str__(self):
         return f"{self.learner.name} | {self.reading_text.topic} | {self.score}%"
-        # Ex : "Ahmad | Ana's Daily Life | 70%"
+
+    def generate_feedback(self):
+        """Génère un feedback court en anglais selon le score."""
+        if self.score >= 90:
+            return "Excellent work!"
+        elif self.score >= 80:
+            return "Very good!"
+        elif self.score >= 70:
+            return "Good job!"
+        elif self.score >= 60:
+            return "Well done!"
+        elif self.score >= 50:
+            return "Keep trying!"
+        elif self.score >= 40:
+            return "Need practice!"
+        else:
+            return "Try more!"
+
+    def save(self, *args, **kwargs):
+        """Auto-génère le feedback avant sauvegarde."""
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)
+
+# ─────────────────────────────────────────────
+#  TEXTES GÉNÉRÉS PAR GAI (Practice)
+# ─────────────────────────────────────────────
+
+class GeneratedReadingText(models.Model):
+    """
+    Texte de pratique généré par l'IA (GAI).
+    Séparé de ReadingText pour ne pas polluer les contenus curatés.
+    Lié au texte ORIGINAL (ReadingText) qui a déclenché la génération.
+    Lié au LEARNER pour que chaque apprenant ait ses propres textes générés.
+    """
+    original_text = models.ForeignKey(
+        ReadingText,
+        on_delete=models.CASCADE,
+        related_name='generated_texts',
+        help_text="Le texte ReadingText original qui a inspiré ce texte généré"
+    )
+    sub_unit = models.ForeignKey(
+        SubUnit,
+        on_delete=models.CASCADE,
+        related_name='generated_reading_texts'
+    )
+    # ✅ NOUVEAU : Lier le texte généré au learner qui l'a demandé
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='generated_reading_texts',
+        help_text="L'apprenant qui a généré ce texte (null = anonyme)"
+    )
+    topic      = models.CharField(max_length=300)
+    content    = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+ 
+    class Meta:
+        db_table = 'generated_reading_text'
+ 
+    def __str__(self):
+        return f"[GAI] {self.topic} ({self.sub_unit})"
+
+
+class GeneratedReadingQuestion(models.Model):
+    """
+    Questions générées par l'IA pour un GeneratedReadingText.
+    """
+    QUESTION_TYPES = [
+        ('true_false',      'True / False'),
+        ('multiple_choice', 'Multiple Choice'),
+        ('fill_blank',      'Fill in the Blank'),
+    ]
+
+    generated_text = models.ForeignKey(
+        GeneratedReadingText,
+        on_delete=models.CASCADE,
+        related_name='questions'
+    )
+    question = models.TextField()
+    type     = models.CharField(max_length=20, choices=QUESTION_TYPES)
+    choices  = models.JSONField(null=True, blank=True)
+    answer   = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'generated_reading_question'
+
+    def __str__(self):
+        return f"[{self.type}] {self.question[:60]}"
+    
+
+# ─────────────────────────────────────────────
+#  RÉSULTATS DES EXERCICES GÉNÉRÉS (GAI)
+# ─────────────────────────────────────────────
+
+class GeneratedExerciseResult(models.Model):
+    """
+    Stocke le résultat d'un exercice généré par IA pour un learner.
+    La note sur 10 est calculée automatiquement en comparant avec les réponses correctes.
+    """
+
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='gen_reading_exercise_results',  # ← MODIFIÉ
+    )
+
+    # Clé étrangère vers le texte original
+    original_text = models.ForeignKey(
+        ReadingText,
+        on_delete=models.CASCADE,
+        related_name='gen_results_by_original',
+        help_text="Le texte ORIGINAL qui a généré cet exercice"
+    )
+
+    # Texte généré spécifique
+    generated_text = models.ForeignKey(
+        GeneratedReadingText,
+        on_delete=models.CASCADE,
+        related_name='gen_results',
+        help_text="Le texte généré (GAI) que l'apprenant a pratiqué"
+    )
+
+    # Réponses détaillées de l'apprenant
+    answers_json = models.JSONField(
+        help_text="Réponses de l'apprenant: {question_id: 'réponse', ...}"
+    )
+
+    # Résultats de la correction automatique
+    correct_count = models.IntegerField(
+        help_text="Nombre de réponses correctes"
+    )
+
+    total_questions = models.IntegerField(
+        help_text="Nombre total de questions"
+    )
+
+    score_percentage = models.IntegerField(
+        help_text="Score en pourcentage (0-100)"
+    )
+
+    # Note sur 10 calculée automatiquement
+    score_on_10 = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        help_text="Note sur 10 calculée automatiquement (ex: 7.5/10)"
+    )
+
+    # Feedback en anglais avec message de pratique
+    feedback = models.TextField(
+        blank=True,
+        help_text="Feedback in English encouraging more practice"
+    )
+
+    # Détails de chaque réponse (pour analyse)
+    detailed_results_json = models.JSONField(
+        default=list,
+        help_text="Détail question par question avec comparaison"
+    )
+
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'generated_exercise_result'
+
+    def __str__(self):
+        score_display = f"{self.score_on_10}/10" if self.score_on_10 else "N/A"
+        return f"{self.learner.name} | {self.generated_text.topic} | {score_display}"
+
+    def calculate_score_on_10(self):
+        """Calcule la note sur 10 à partir du pourcentage."""
+        if self.total_questions > 0:
+            score = (self.correct_count / self.total_questions) * 10
+            return round(score, 1)
+        return 0
+
+    def generate_feedback(self):
+        """Génère un feedback en anglais selon la note sur 10."""
+        if self.score_on_10 is None:
+            return ""
+        
+        score = float(self.score_on_10)
+        
+        if score >= 9:
+            return "Excellent work! You have mastered this topic very well. Keep practicing to maintain this level!"
+        elif score >= 8:
+            return "Very good work! You understand this well. A bit more practice will help you reach excellence!"
+        elif score >= 7:
+            return "Good job! You have a solid understanding. Keep practicing to improve your accuracy!"
+        elif score >= 6:
+            return "Fair result. You understand the basics, but more practice will help you improve!"
+        elif score >= 5:
+            return "You are making progress, but need more practice with this type of text. Try again!"
+        elif score >= 4:
+            return "Keep practicing! Reading more texts like this will help you improve your comprehension."
+        else:
+            return "Don't give up! The more you practice reading, the better you will become. Try another exercise!"
+
+    def save(self, *args, **kwargs):
+        """Override save pour calculer automatiquement la note sur 10 et le feedback."""
+        self.score_on_10 = self.calculate_score_on_10()
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)
+
+# ─────────────────────────────────────────────
+#  LISTENING ACTIVITY (Audio LJSpeech)
+# ─────────────────────────────────────────────
+
+class ListeningAudio(models.Model):
+    """
+    Stockage des fichiers audio LJSpeech avec métadonnées pédagogiques.
+    Chaque audio est lié à un SubUnit et contient 10 questions de compréhension.
+    """
+
+    CONFIDENCE_CHOICES = [
+        ('high', 'High'),
+        ('medium', 'Medium'),
+        ('low', 'Low'),
+    ]
+
+    audio_id = models.CharField(
+        max_length=20, 
+        primary_key=True,
+        help_text="Identifiant LJSpeech unique (ex: LJ020-0093)"
+    )
+    sub_unit = models.ForeignKey(
+        SubUnit,
+        on_delete=models.CASCADE,
+        related_name='listening_audios',
+        help_text="Sous-unité pédagogique associée"
+    )
+    unit_number = models.CharField(
+        max_length=2,
+        help_text="Numéro d'unité pour référence rapide (ex: 01)"
+    )
+    unit_title = models.CharField(
+        max_length=100,
+        help_text="Titre de l'unité pédagogique"
+    )
+    subunit_key = models.CharField(
+        max_length=10,
+        help_text="Clé du sous-unité (ex: A1.1)"
+    )
+    subunit_title = models.CharField(
+        max_length=100,
+        help_text="Titre du sous-unité"
+    )
+    transcript = models.TextField(
+        help_text="Transcription textuelle complète de l'audio"
+    )
+    audio_path = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Chemin vers le fichier audio"
+    )
+    cefr_level = models.CharField(
+        max_length=2,
+        help_text="Niveau CEFR de l'audio (A1, A2, B1, B2, C1)"
+    )
+    match_score = models.DecimalField(
+        max_digits=4, 
+        decimal_places=2,
+        null=True, 
+        blank=True,
+        help_text="Score de correspondance avec le sous-unité"
+    )
+    confidence = models.CharField(
+        max_length=10,
+        choices=CONFIDENCE_CHOICES,
+        blank=True,
+        help_text="Niveau de confiance de l'appariement"
+    )
+    vocab_score = models.DecimalField(
+        max_digits=5, 
+        decimal_places=2,
+        null=True, 
+        blank=True,
+        help_text="Pourcentage de vocabulaire correspondant au niveau CEFR (à remplir ultérieurement)"
+    )
+    duration_seconds = models.PositiveIntegerField(
+        null=True, 
+        blank=True,
+        help_text="Durée de l'audio en secondes"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'listening_audio'
+        ordering = ['unit_number', 'subunit_key']
+        indexes = [
+            models.Index(fields=['unit_number']),
+            models.Index(fields=['cefr_level']),
+            models.Index(fields=['subunit_key']),
+        ]
+
+    def __str__(self):
+        return f"[{self.audio_id}] {self.subunit_title} ({self.cefr_level})"
+
+    @property
+    def level(self):
+        """Retourne le niveau CEFR pour compatibilité avec le reste du système."""
+        return self.cefr_level
+
+
+class ListeningQuestion(models.Model):
+    """
+    Questions de compréhension orale associées à un audio LJSpeech.
+    10 questions par audio : true_false, mcq, word_order, fill_blank, synonym, grammar, vocabulary.
+    """
+
+    QUESTION_TYPE_CHOICES = [
+        ('true_false', 'True / False'),
+        ('mcq', 'Multiple Choice Question'),
+        ('word_order', 'Word Ordering'),
+        ('fill_blank', 'Fill in the Blank'),
+        ('synonym', 'Synonym'),
+        ('grammar', 'Grammar'),
+        ('vocabulary', 'Vocabulary'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    audio = models.ForeignKey(
+        ListeningAudio,
+        on_delete=models.CASCADE,
+        related_name='questions',
+        help_text="Audio LJSpeech associé"
+    )
+    question_order = models.PositiveIntegerField(
+        help_text="Ordre de la question dans l'audio (1-10)"
+    )
+    question_type = models.CharField(
+        max_length=20,
+        choices=QUESTION_TYPE_CHOICES,
+        help_text="Type de question"
+    )
+    question_text = models.TextField(
+        help_text="Texte de la question"
+    )
+    choices = models.JSONField(
+        null=True, 
+        blank=True,
+        help_text="Options pour MCQ/Fill_blank (format JSON)"
+    )
+    correct_answer = models.TextField(
+        help_text="Réponse correcte"
+    )
+    target_word = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Mot cible (pour synonym/vocabulary)"
+    )
+    correct_order = models.JSONField(
+        null=True, 
+        blank=True,
+        help_text="Ordre correct des mots (pour word_order)"
+    )
+    explanation = models.TextField(
+        blank=True,
+        help_text="Explication de la réponse (optionnel)"
+    )
+    points = models.PositiveIntegerField(
+        default=1,
+        help_text="Points attribués pour cette question"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'listening_question'
+        ordering = ['audio', 'question_order']
+        unique_together = ['audio', 'question_order']
+        indexes = [
+            models.Index(fields=['audio']),
+            models.Index(fields=['question_type']),
+        ]
+
+    def __str__(self):
+        return f"[{self.audio.audio_id}] Q{self.question_order}: {self.question_type}"
+
+class ListeningExerciseResult(models.Model):
+    """
+    Stocke le résultat d'un exercice de listening pour un learner.
+    Un learner ne peut avoir qu'un seul résultat par ListeningAudio (unique_together).
+    """
+
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='listening_exercise_results',
+    )
+    audio = models.ForeignKey(
+        ListeningAudio,
+        on_delete=models.CASCADE,
+        related_name='results',
+    )
+    score = models.IntegerField(
+        help_text="Score en pourcentage (0-100)"
+    )
+    correct_count = models.IntegerField(
+        help_text="Nombre de réponses correctes"
+    )
+    total = models.IntegerField(
+        help_text="Nombre total de questions"
+    )
+    results_json = models.JSONField(
+        help_text="Détail des réponses: {question_id: {'user_answer': '...', 'is_correct': True/False}, ...}"
+    )
+    feedback = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Feedback court en anglais (2-3 mots)"
+    )
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'listening_exercise_result'
+        unique_together = ['learner', 'audio']
+
+    def __str__(self):
+        return f"{self.learner.name} | {self.audio.audio_id} | {self.score}%"
+
+    def generate_feedback(self):
+        """Génère un feedback court en anglais selon le score."""
+        if self.score >= 90:
+            return "Excellent work!"
+        elif self.score >= 80:
+            return "Very good!"
+        elif self.score >= 70:
+            return "Good job!"
+        elif self.score >= 60:
+            return "Well done!"
+        elif self.score >= 50:
+            return "Keep trying!"
+        elif self.score >= 40:
+            return "Need practice!"
+        else:
+            return "Try more!"
+
+    def save(self, *args, **kwargs):
+        """Auto-génère le feedback avant sauvegarde."""
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)

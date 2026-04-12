@@ -1,0 +1,2032 @@
+[
+  {
+    "audio_id": "LJ001-0045",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.1",
+    "subunit_title": "Counting Numbers",
+    "transcript": "fourteen sixty-nine, fourteen seventy;",
+    "total_words": 5,
+    "a1_words_count": 5,
+    "a1_coverage_percent": 88.46,
+    "raw_coverage": 100.0,
+    "a1_words_found": [
+      "sixty",
+      "nine",
+      "seventy",
+      "fourteen"
+    ],
+    "non_a1_words": []
+  },
+  {
+    "audio_id": "LJ013-0008",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.5",
+    "subunit_title": "Atmosphere Kinds",
+    "transcript": "came to light in this same year, eighteen forty-one.",
+    "total_words": 10,
+    "a1_words_count": 9,
+    "a1_coverage_percent": 82.39,
+    "raw_coverage": 90.0,
+    "a1_words_found": [
+      "one",
+      "light",
+      "eighteen",
+      "to",
+      "same",
+      "forty",
+      "this",
+      "in",
+      "year"
+    ],
+    "non_a1_words": [
+      "came"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0026",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.7",
+    "subunit_title": "Food Recipe",
+    "transcript": "in the three years between eighteen thirteen and eighteen sixteen,",
+    "total_words": 10,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 68.97,
+    "raw_coverage": 80.0,
+    "a1_words_found": [
+      "eighteen",
+      "sixteen",
+      "between",
+      "thirteen",
+      "three",
+      "in",
+      "year"
+    ],
+    "non_a1_words": [
+      "and",
+      "the"
+    ]
+  },
+  {
+    "audio_id": "LJ024-0067",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.4",
+    "subunit_title": "Numbers and Ages",
+    "transcript": "have now given us a Court in which five justices will be over seventy-five years of age before next June",
+    "total_words": 21,
+    "a1_words_count": 13,
+    "a1_coverage_percent": 59.23,
+    "raw_coverage": 61.9,
+    "a1_words_found": [
+      "five",
+      "seventy",
+      "age",
+      "june",
+      "next",
+      "year",
+      "before",
+      "over",
+      "have",
+      "in",
+      "now",
+      "be"
+    ],
+    "non_a1_words": [
+      "justices",
+      "which",
+      "will",
+      "us",
+      "of",
+      "a",
+      "court",
+      "given"
+    ]
+  },
+  {
+    "audio_id": "LJ034-0181",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.4",
+    "subunit_title": "Getting Dressed",
+    "transcript": "and he had brown hair, a slender face and neck with light complexion, and looked to be twenty-two or twenty-four years old.",
+    "total_words": 24,
+    "a1_words_count": 15,
+    "a1_coverage_percent": 56.86,
+    "raw_coverage": 62.5,
+    "a1_words_found": [
+      "light",
+      "look",
+      "two",
+      "with",
+      "face",
+      "to",
+      "twenty",
+      "hair",
+      "year",
+      "old",
+      "brown",
+      "neck",
+      "be",
+      "four"
+    ],
+    "non_a1_words": [
+      "and",
+      "complexion",
+      "or",
+      "had",
+      "he",
+      "slender",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ031-0194",
+    "unit_number": "17",
+    "unit_title": "Time and Schedules",
+    "subunit_key": "A1.1",
+    "subunit_title": "Telling Time",
+    "transcript": "At five:fifty-eight p.m. Eastern Standard Time,",
+    "total_words": 9,
+    "a1_words_count": 5,
+    "a1_coverage_percent": 56.15,
+    "raw_coverage": 55.56,
+    "a1_words_found": [
+      "eight",
+      "at",
+      "time",
+      "five",
+      "fifty"
+    ],
+    "non_a1_words": [
+      "m",
+      "standard",
+      "eastern",
+      "p"
+    ]
+  },
+  {
+    "audio_id": "LJ045-0167",
+    "unit_number": "14",
+    "unit_title": "Introductions and Greetings",
+    "subunit_key": "A1.1",
+    "subunit_title": "Simple Questions",
+    "transcript": "Question: What did you say to that?",
+    "total_words": 7,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 56.06,
+    "raw_coverage": 57.14,
+    "a1_words_found": [
+      "to",
+      "question",
+      "that",
+      "what"
+    ],
+    "non_a1_words": [
+      "you",
+      "did",
+      "say"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0067",
+    "unit_number": "13",
+    "unit_title": "School Life",
+    "subunit_key": "A1.1",
+    "subunit_title": "School Day",
+    "transcript": "Centuries afterward, even to this day, Jewish mothers teach their children to hate his name.",
+    "total_words": 15,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 55.31,
+    "raw_coverage": 53.33,
+    "a1_words_found": [
+      "to",
+      "hate",
+      "teach",
+      "day",
+      "this",
+      "mother",
+      "name"
+    ],
+    "non_a1_words": [
+      "jewish",
+      "centuries",
+      "his",
+      "their",
+      "even",
+      "afterward",
+      "children"
+    ]
+  },
+  {
+    "audio_id": "LJ034-0031",
+    "unit_number": "12",
+    "unit_title": "Objects and Descriptions",
+    "subunit_key": "A1.1",
+    "subunit_title": "Object Description",
+    "transcript": "The box on the floor, behind the three near the window,",
+    "total_words": 11,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 55.0,
+    "raw_coverage": 63.64,
+    "a1_words_found": [
+      "behind",
+      "floor",
+      "box",
+      "window",
+      "on",
+      "three",
+      "near"
+    ],
+    "non_a1_words": [
+      "the"
+    ]
+  },
+  {
+    "audio_id": "LJ037-0235",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.2",
+    "subunit_title": "My Clothing",
+    "transcript": "five feet, ten inches, wearing light clothing, a light-colored jacket\" walk past her at a fast pace with his hands in his pocket.",
+    "total_words": 24,
+    "a1_words_count": 13,
+    "a1_coverage_percent": 53.98,
+    "raw_coverage": 54.17,
+    "a1_words_found": [
+      "light",
+      "hand",
+      "jacket",
+      "wear",
+      "at",
+      "with",
+      "ten",
+      "walk",
+      "color",
+      "in",
+      "fast",
+      "five"
+    ],
+    "non_a1_words": [
+      "past",
+      "pace",
+      "inches",
+      "his",
+      "pocket",
+      "a",
+      "clothing",
+      "feet",
+      "her"
+    ]
+  },
+  {
+    "audio_id": "LJ040-0091",
+    "unit_number": "11",
+    "unit_title": "Learning and Skills",
+    "subunit_key": "A1.1",
+    "subunit_title": "My Skills",
+    "transcript": "but he returned to high school in January of nineteen forty-nine, where he stayed until three days before he was scheduled to graduate,",
+    "total_words": 24,
+    "a1_words_count": 13,
+    "a1_coverage_percent": 53.51,
+    "raw_coverage": 54.17,
+    "a1_words_found": [
+      "nineteen",
+      "high",
+      "to",
+      "january",
+      "before",
+      "forty",
+      "where",
+      "three",
+      "day",
+      "in",
+      "nine",
+      "school"
+    ],
+    "non_a1_words": [
+      "scheduled",
+      "returned",
+      "of",
+      "he",
+      "graduate",
+      "but",
+      "stayed",
+      "was",
+      "until"
+    ]
+  },
+  {
+    "audio_id": "LJ003-0183",
+    "unit_number": "02",
+    "unit_title": "Family and Relationships",
+    "subunit_key": "A1.3",
+    "subunit_title": "Family Tree",
+    "transcript": "sometimes girls of thirteen, twelve, even ten or nine years of age, were exposed to, quote,",
+    "total_words": 16,
+    "a1_words_count": 9,
+    "a1_coverage_percent": 52.34,
+    "raw_coverage": 56.25,
+    "a1_words_found": [
+      "twelve",
+      "girl",
+      "age",
+      "to",
+      "ten",
+      "thirteen",
+      "nine",
+      "year",
+      "sometimes"
+    ],
+    "non_a1_words": [
+      "exposed",
+      "were",
+      "or",
+      "quote",
+      "of",
+      "even"
+    ]
+  },
+  {
+    "audio_id": "LJ035-0036",
+    "unit_number": "07",
+    "unit_title": "Homes and Rooms",
+    "subunit_key": "A1.3",
+    "subunit_title": "My Bedroom Details",
+    "transcript": "On the second-floor landing there is a small open area with a door at the east end.",
+    "total_words": 18,
+    "a1_words_count": 10,
+    "a1_coverage_percent": 52.21,
+    "raw_coverage": 55.56,
+    "a1_words_found": [
+      "floor",
+      "door",
+      "second",
+      "open",
+      "at",
+      "small",
+      "with",
+      "on",
+      "east",
+      "there"
+    ],
+    "non_a1_words": [
+      "landing",
+      "the",
+      "end",
+      "is",
+      "area",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0043",
+    "unit_number": "07",
+    "unit_title": "Homes and Rooms",
+    "subunit_key": "A1.2",
+    "subunit_title": "My Room",
+    "transcript": "long narrow rooms -- one thirty-six feet, six twenty-three feet, and the eighth eighteen,",
+    "total_words": 15,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 51.42,
+    "raw_coverage": 53.33,
+    "a1_words_found": [
+      "one",
+      "six",
+      "thirty",
+      "room",
+      "eighteen",
+      "twenty",
+      "three"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "long",
+      "narrow",
+      "eighth",
+      "feet"
+    ]
+  },
+  {
+    "audio_id": "LJ001-0034",
+    "unit_number": "04",
+    "unit_title": "Hobbies and Interests",
+    "subunit_key": "A1.4",
+    "subunit_title": "My Hobbies on the Weekend",
+    "transcript": "They printed very few books in this type, three only; but in their very first books in Rome, beginning with the year fourteen sixty-eight,",
+    "total_words": 25,
+    "a1_words_count": 12,
+    "a1_coverage_percent": 50.0,
+    "raw_coverage": 48.0,
+    "a1_words_found": [
+      "sixty",
+      "book",
+      "eight",
+      "with",
+      "fourteen",
+      "this",
+      "three",
+      "in",
+      "year"
+    ],
+    "non_a1_words": [
+      "very",
+      "first",
+      "beginning",
+      "the",
+      "rome",
+      "type",
+      "their",
+      "few",
+      "they",
+      "but"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0504",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.3",
+    "subunit_title": "Colorful Clothing",
+    "transcript": "designed in colors of white and blue and yellow and black.",
+    "total_words": 11,
+    "a1_words_count": 6,
+    "a1_coverage_percent": 48.51,
+    "raw_coverage": 54.55,
+    "a1_words_found": [
+      "black",
+      "yellow",
+      "blue",
+      "color",
+      "in",
+      "white"
+    ],
+    "non_a1_words": [
+      "and",
+      "of",
+      "designed"
+    ]
+  },
+  {
+    "audio_id": "LJ034-0180",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.1",
+    "subunit_title": "Clothing Shop",
+    "transcript": "The man was dressed in a light-colored, open-neck shirt which could have been either a sports shirt or a T-shirt,",
+    "total_words": 23,
+    "a1_words_count": 12,
+    "a1_coverage_percent": 48.38,
+    "raw_coverage": 52.17,
+    "a1_words_found": [
+      "light",
+      "dress",
+      "shirt",
+      "open",
+      "have",
+      "man",
+      "neck",
+      "color",
+      "in",
+      "sport"
+    ],
+    "non_a1_words": [
+      "the",
+      "which",
+      "could",
+      "or",
+      "either",
+      "t",
+      "been",
+      "was",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ005-0148",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.2",
+    "subunit_title": "Breakfast Food",
+    "transcript": "In some prisons the prisoners worked seven hours a day, in others ten and ten and a half.",
+    "total_words": 18,
+    "a1_words_count": 9,
+    "a1_coverage_percent": 48.36,
+    "raw_coverage": 50.0,
+    "a1_words_found": [
+      "work",
+      "seven",
+      "hour",
+      "ten",
+      "half",
+      "day",
+      "in"
+    ],
+    "non_a1_words": [
+      "prisons",
+      "prisoners",
+      "others",
+      "the",
+      "and",
+      "some",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0049",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.4",
+    "subunit_title": "My Town",
+    "transcript": "leading to two wards, one of which was thirty-six feet by fifteen,",
+    "total_words": 13,
+    "a1_words_count": 6,
+    "a1_coverage_percent": 48.14,
+    "raw_coverage": 46.15,
+    "a1_words_found": [
+      "one",
+      "six",
+      "thirty",
+      "two",
+      "to",
+      "fifteen"
+    ],
+    "non_a1_words": [
+      "leading",
+      "feet",
+      "by",
+      "of",
+      "wards",
+      "was",
+      "which"
+    ]
+  },
+  {
+    "audio_id": "LJ041-0008",
+    "unit_number": "04",
+    "unit_title": "Hobbies and Interests",
+    "subunit_key": "A1.1",
+    "subunit_title": "My Free Time",
+    "transcript": "He took walks and visited museums, and sometimes rode a rented bicycle in the park on Saturday mornings.",
+    "total_words": 18,
+    "a1_words_count": 9,
+    "a1_coverage_percent": 48.11,
+    "raw_coverage": 50.0,
+    "a1_words_found": [
+      "saturday",
+      "park",
+      "museum",
+      "walk",
+      "on",
+      "bicycle",
+      "in",
+      "morning",
+      "sometimes"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "rode",
+      "took",
+      "he",
+      "visited",
+      "rented",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ034-0186",
+    "unit_number": "12",
+    "unit_title": "Objects and Descriptions",
+    "subunit_key": "A1.3",
+    "subunit_title": "Book Location",
+    "transcript": "That that could have been the man that I saw in the window in the School Book Depository Building, but that I was not sure, end quote.",
+    "total_words": 27,
+    "a1_words_count": 13,
+    "a1_coverage_percent": 47.32,
+    "raw_coverage": 48.15,
+    "a1_words_found": [
+      "build",
+      "sure",
+      "book",
+      "window",
+      "have",
+      "man",
+      "that",
+      "in",
+      "school"
+    ],
+    "non_a1_words": [
+      "the",
+      "not",
+      "could",
+      "end",
+      "quote",
+      "i",
+      "depository",
+      "saw",
+      "but",
+      "been"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0018",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.1",
+    "subunit_title": "Today's Weather",
+    "transcript": "Like a great ball of fire the sun sinks in the west.",
+    "total_words": 12,
+    "a1_words_count": 6,
+    "a1_coverage_percent": 46.45,
+    "raw_coverage": 50.0,
+    "a1_words_found": [
+      "west",
+      "sun",
+      "like",
+      "fire",
+      "in",
+      "ball"
+    ],
+    "non_a1_words": [
+      "the",
+      "great",
+      "of",
+      "a",
+      "sinks"
+    ]
+  },
+  {
+    "audio_id": "LJ005-0170",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.6",
+    "subunit_title": "Small Talk Sky",
+    "transcript": "that many of them will build new jails, and that when in a year or two we come to examine their situation,",
+    "total_words": 22,
+    "a1_words_count": 10,
+    "a1_coverage_percent": 45.94,
+    "raw_coverage": 45.45,
+    "a1_words_found": [
+      "come",
+      "two",
+      "in",
+      "to",
+      "new",
+      "that",
+      "build",
+      "year",
+      "when"
+    ],
+    "non_a1_words": [
+      "and",
+      "many",
+      "will",
+      "or",
+      "them",
+      "we",
+      "examine",
+      "their",
+      "of",
+      "jails"
+    ]
+  },
+  {
+    "audio_id": "LJ020-0093",
+    "unit_number": "01",
+    "unit_title": "Daily Routines",
+    "subunit_key": "A1.1",
+    "subunit_title": "Morning Customs",
+    "transcript": "Rise, wash face and hands, rinse the mouth out and brush back the hair.",
+    "total_words": 14,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 45.05,
+    "raw_coverage": 50.0,
+    "a1_words_found": [
+      "brush",
+      "hand",
+      "back",
+      "wash",
+      "face",
+      "mouth",
+      "hair"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "rise",
+      "out",
+      "rinse"
+    ]
+  },
+  {
+    "audio_id": "LJ010-0266",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.6",
+    "subunit_title": "Clothing Description",
+    "transcript": "and a long, sickly, pale face, with light hair;",
+    "total_words": 9,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 44.32,
+    "raw_coverage": 44.44,
+    "a1_words_found": [
+      "face",
+      "light",
+      "hair",
+      "with"
+    ],
+    "non_a1_words": [
+      "and",
+      "pale",
+      "long",
+      "sickly",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ043-0086",
+    "unit_number": "13",
+    "unit_title": "School Life",
+    "subunit_key": "A1.2",
+    "subunit_title": "Classroom Objects",
+    "transcript": "through a work-study program at a local college.",
+    "total_words": 9,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 44.32,
+    "raw_coverage": 44.44,
+    "a1_words_found": [
+      "college",
+      "work",
+      "study",
+      "at"
+    ],
+    "non_a1_words": [
+      "through",
+      "local",
+      "a",
+      "program"
+    ]
+  },
+  {
+    "audio_id": "LJ048-0237",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.6",
+    "subunit_title": "Numbers and Colors",
+    "transcript": "Most of the agents were there from about one:thirty or one:forty-five a.m. to about two:forty-five or three a.m.;",
+    "total_words": 25,
+    "a1_words_count": 11,
+    "a1_coverage_percent": 42.95,
+    "raw_coverage": 44.0,
+    "a1_words_found": [
+      "one",
+      "thirty",
+      "two",
+      "to",
+      "forty",
+      "three",
+      "there",
+      "five"
+    ],
+    "non_a1_words": [
+      "agents",
+      "from",
+      "the",
+      "m",
+      "were",
+      "about",
+      "or",
+      "most",
+      "of",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ043-0051",
+    "unit_number": "13",
+    "unit_title": "School Life",
+    "subunit_key": "A1.3",
+    "subunit_title": "School Bag",
+    "transcript": "he strongly put me in my place about buying things for his wife that he himself could not buy, end quote.",
+    "total_words": 21,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 42.39,
+    "raw_coverage": 38.1,
+    "a1_words_found": [
+      "buy",
+      "place",
+      "that",
+      "put",
+      "wife",
+      "in",
+      "thing"
+    ],
+    "non_a1_words": [
+      "strongly",
+      "not",
+      "my",
+      "about",
+      "himself",
+      "could",
+      "me",
+      "for",
+      "end",
+      "quote"
+    ]
+  },
+  {
+    "audio_id": "LJ020-0088",
+    "unit_number": "02",
+    "unit_title": "Family and Relationships",
+    "subunit_key": "A1.1",
+    "subunit_title": "My Family",
+    "transcript": "It is not a wholesome practice for any woman -- least of all a young girl to be out of bed two hours before she eats her breakfast.",
+    "total_words": 27,
+    "a1_words_count": 11,
+    "a1_coverage_percent": 41.86,
+    "raw_coverage": 40.74,
+    "a1_words_found": [
+      "eat",
+      "girl",
+      "bed",
+      "breakfast",
+      "two",
+      "hour",
+      "to",
+      "before",
+      "woman",
+      "be",
+      "young"
+    ],
+    "non_a1_words": [
+      "wholesome",
+      "not",
+      "any",
+      "all",
+      "for",
+      "it",
+      "is",
+      "practice",
+      "of",
+      "her"
+    ]
+  },
+  {
+    "audio_id": "LJ015-0034",
+    "unit_number": "16",
+    "unit_title": "Shopping and Money",
+    "subunit_key": "A1.2",
+    "subunit_title": "Supermarket",
+    "transcript": "The engagements of the bank on these two heads amounting to nearly half a million of money,",
+    "total_words": 17,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 41.67,
+    "raw_coverage": 41.18,
+    "a1_words_found": [
+      "bank",
+      "two",
+      "to",
+      "on",
+      "half",
+      "money",
+      "head"
+    ],
+    "non_a1_words": [
+      "engagements",
+      "the",
+      "million",
+      "nearly",
+      "amounting",
+      "of",
+      "these",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ011-0266",
+    "unit_number": "04",
+    "unit_title": "Hobbies and Interests",
+    "subunit_key": "A1.3",
+    "subunit_title": "Toy Selection",
+    "transcript": "The money went after her to her children.",
+    "total_words": 8,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 41.23,
+    "raw_coverage": 37.5,
+    "a1_words_found": [
+      "to",
+      "money",
+      "after"
+    ],
+    "non_a1_words": [
+      "children",
+      "the",
+      "went",
+      "her"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0042",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.1",
+    "subunit_title": "Town Places",
+    "transcript": "The place where the old city had stood for three thousand years again became a desert.",
+    "total_words": 16,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 41.2,
+    "raw_coverage": 43.75,
+    "a1_words_found": [
+      "again",
+      "city",
+      "place",
+      "old",
+      "where",
+      "three",
+      "year"
+    ],
+    "non_a1_words": [
+      "the",
+      "stood",
+      "desert",
+      "for",
+      "had",
+      "a",
+      "became",
+      "thousand"
+    ]
+  },
+  {
+    "audio_id": "LJ025-0130",
+    "unit_number": "09",
+    "unit_title": "Pets and Animals",
+    "subunit_key": "A1.2",
+    "subunit_title": "Pet Companion",
+    "transcript": "Touch one of them with the end of a fine human hair",
+    "total_words": 12,
+    "a1_words_count": 5,
+    "a1_coverage_percent": 40.98,
+    "raw_coverage": 41.67,
+    "a1_words_found": [
+      "one",
+      "touch",
+      "fine",
+      "with",
+      "hair"
+    ],
+    "non_a1_words": [
+      "the",
+      "end",
+      "them",
+      "of",
+      "human",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ037-0228",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.2",
+    "subunit_title": "Colors",
+    "transcript": "that the man was a, quote, white male, about twenty-five, about five feet eight, brown hair, medium, end quote, and wearing a, quote,",
+    "total_words": 24,
+    "a1_words_count": 10,
+    "a1_coverage_percent": 40.95,
+    "raw_coverage": 41.67,
+    "a1_words_found": [
+      "eight",
+      "wear",
+      "white",
+      "twenty",
+      "hair",
+      "man",
+      "brown",
+      "that",
+      "five"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "medium",
+      "about",
+      "end",
+      "feet",
+      "quote",
+      "was",
+      "a",
+      "male"
+    ]
+  },
+  {
+    "audio_id": "LJ033-0085",
+    "unit_number": "03",
+    "unit_title": "Travel and Transportation",
+    "subunit_key": "A1.4",
+    "subunit_title": "Daily Transportation",
+    "transcript": "She then opened the kitchen door and saw Oswald open the right rear door of her brother's car and place the package in the back of the car.",
+    "total_words": 28,
+    "a1_words_count": 12,
+    "a1_coverage_percent": 40.91,
+    "raw_coverage": 42.86,
+    "a1_words_found": [
+      "car",
+      "back",
+      "kitchen",
+      "door",
+      "open",
+      "right",
+      "place",
+      "brother",
+      "in"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "oswald",
+      "rear",
+      "of",
+      "saw",
+      "then",
+      "package",
+      "her",
+      "she"
+    ]
+  },
+  {
+    "audio_id": "LJ034-0080",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.2",
+    "subunit_title": "City Places",
+    "transcript": "When he reached the first floor, the west elevator -- the one with the gate was not there.",
+    "total_words": 17,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 40.84,
+    "raw_coverage": 41.18,
+    "a1_words_found": [
+      "one",
+      "west",
+      "elevator",
+      "floor",
+      "with",
+      "there",
+      "when"
+    ],
+    "non_a1_words": [
+      "first",
+      "the",
+      "not",
+      "gate",
+      "reached",
+      "he",
+      "was"
+    ]
+  },
+  {
+    "audio_id": "LJ018-0170",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.5",
+    "subunit_title": "Numbers and Prices",
+    "transcript": "On the bed were twenty forged ten-pound notes complete and ready for use, and twenty-five five-pound notes.",
+    "total_words": 20,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 40.75,
+    "raw_coverage": 40.0,
+    "a1_words_found": [
+      "bed",
+      "ten",
+      "on",
+      "ready",
+      "twenty",
+      "five"
+    ],
+    "non_a1_words": [
+      "and",
+      "notes",
+      "the",
+      "forged",
+      "were",
+      "for",
+      "complete",
+      "use",
+      "pound"
+    ]
+  },
+  {
+    "audio_id": "LJ021-0154",
+    "unit_number": "04",
+    "unit_title": "Hobbies and Interests",
+    "subunit_key": "A1.2",
+    "subunit_title": "What I Do on Weekends",
+    "transcript": "is the program of Public Works provided for in the same Act and designed to put more men back to work,",
+    "total_words": 21,
+    "a1_words_count": 8,
+    "a1_coverage_percent": 40.41,
+    "raw_coverage": 38.1,
+    "a1_words_found": [
+      "work",
+      "back",
+      "to",
+      "put",
+      "same",
+      "in"
+    ],
+    "non_a1_words": [
+      "program",
+      "provided",
+      "and",
+      "the",
+      "more",
+      "act",
+      "for",
+      "men",
+      "is",
+      "of"
+    ]
+  },
+  {
+    "audio_id": "LJ020-0063",
+    "unit_number": "05",
+    "unit_title": "Clothing and Fashion",
+    "subunit_key": "A1.5",
+    "subunit_title": "Seasonal Clothing",
+    "transcript": "They are even better when cold than hot.",
+    "total_words": 8,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 40.37,
+    "raw_coverage": 37.5,
+    "a1_words_found": [
+      "hot",
+      "cold",
+      "when"
+    ],
+    "non_a1_words": [
+      "are",
+      "better",
+      "even",
+      "they",
+      "than"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0019",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.2",
+    "subunit_title": "Seasonal Wear",
+    "transcript": "The stars come out one by one and shine brighter than elsewhere as if to light you on your way.",
+    "total_words": 20,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 40.14,
+    "raw_coverage": 35.0,
+    "a1_words_found": [
+      "one",
+      "light",
+      "star",
+      "to",
+      "on",
+      "come"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "brighter",
+      "your",
+      "way",
+      "by",
+      "shine",
+      "you",
+      "as",
+      "if"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0063",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.8",
+    "subunit_title": "Park Location",
+    "transcript": "It was fifty feet by twenty-five, and had five wards each thirty-eight by fifteen. At one end of the yard was an arcade,",
+    "total_words": 25,
+    "a1_words_count": 10,
+    "a1_coverage_percent": 40.03,
+    "raw_coverage": 40.0,
+    "a1_words_found": [
+      "one",
+      "thirty",
+      "eight",
+      "at",
+      "twenty",
+      "fifteen",
+      "five",
+      "yard",
+      "fifty"
+    ],
+    "non_a1_words": [
+      "and",
+      "each",
+      "the",
+      "an",
+      "end",
+      "by",
+      "it",
+      "had",
+      "of",
+      "arcade"
+    ]
+  },
+  {
+    "audio_id": "LJ006-0293",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.5",
+    "subunit_title": "Food and Drink",
+    "transcript": "and the men could also at any time go for tea, coffee, and sugar to Mrs. Brown's shop, which was inside the female gate.",
+    "total_words": 24,
+    "a1_words_count": 9,
+    "a1_coverage_percent": 39.89,
+    "raw_coverage": 37.5,
+    "a1_words_found": [
+      "sugar",
+      "tea",
+      "coffee",
+      "mrs",
+      "at",
+      "to",
+      "go",
+      "brown",
+      "time"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "any",
+      "which",
+      "gate",
+      "could",
+      "for",
+      "men",
+      "female",
+      "inside"
+    ]
+  },
+  {
+    "audio_id": "LJ017-0185",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.6",
+    "subunit_title": "Lunch Food",
+    "transcript": "She was in good health on leaving home, and had with her a large sum of money.",
+    "total_words": 17,
+    "a1_words_count": 6,
+    "a1_coverage_percent": 39.11,
+    "raw_coverage": 35.29,
+    "a1_words_found": [
+      "good",
+      "with",
+      "on",
+      "money",
+      "in",
+      "home"
+    ],
+    "non_a1_words": [
+      "and",
+      "large",
+      "sum",
+      "leaving",
+      "had",
+      "of",
+      "health",
+      "was",
+      "a",
+      "her"
+    ]
+  },
+  {
+    "audio_id": "LJ044-0130",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.5",
+    "subunit_title": "My City",
+    "transcript": "By August of nineteen sixty-three, after a short three months in New Orleans, the city in which he had been born and had lived most of his early life,",
+    "total_words": 30,
+    "a1_words_count": 11,
+    "a1_coverage_percent": 38.3,
+    "raw_coverage": 36.67,
+    "a1_words_found": [
+      "nineteen",
+      "month",
+      "august",
+      "city",
+      "in",
+      "new",
+      "three",
+      "sixty",
+      "after"
+    ],
+    "non_a1_words": [
+      "early",
+      "and",
+      "the",
+      "which",
+      "lived",
+      "born",
+      "life",
+      "by",
+      "orleans",
+      "most"
+    ]
+  },
+  {
+    "audio_id": "LJ020-0106",
+    "unit_number": "01",
+    "unit_title": "Daily Routines",
+    "subunit_key": "A1.2",
+    "subunit_title": "Wake-up Sequence",
+    "transcript": "While your bread is taking a three hours’ rise, you are free in body and mind for other things.",
+    "total_words": 19,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 37.91,
+    "raw_coverage": 36.84,
+    "a1_words_found": [
+      "bread",
+      "hour",
+      "take",
+      "three",
+      "in",
+      "body",
+      "thing"
+    ],
+    "non_a1_words": [
+      "and",
+      "your",
+      "rise",
+      "for",
+      "other",
+      "is",
+      "free",
+      "you",
+      "a",
+      "while"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0083",
+    "unit_number": "13",
+    "unit_title": "School Life",
+    "subunit_key": "A1.4",
+    "subunit_title": "My Classroom",
+    "transcript": "The ground floor cells were nine feet by six;",
+    "total_words": 9,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 35.83,
+    "raw_coverage": 33.33,
+    "a1_words_found": [
+      "six",
+      "nine",
+      "floor"
+    ],
+    "non_a1_words": [
+      "the",
+      "cells",
+      "were",
+      "by",
+      "feet",
+      "ground"
+    ]
+  },
+  {
+    "audio_id": "LJ038-0197",
+    "unit_number": "16",
+    "unit_title": "Shopping and Money",
+    "subunit_key": "A1.3",
+    "subunit_title": "Shopping List",
+    "transcript": "ten. I left you as much money as I could,",
+    "total_words": 10,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 35.61,
+    "raw_coverage": 30.0,
+    "a1_words_found": [
+      "ten",
+      "money",
+      "left"
+    ],
+    "non_a1_words": [
+      "much",
+      "could",
+      "you",
+      "i",
+      "as"
+    ]
+  },
+  {
+    "audio_id": "LJ017-0251",
+    "unit_number": "03",
+    "unit_title": "Travel and Transportation",
+    "subunit_key": "A1.2",
+    "subunit_title": "Travel Plans",
+    "transcript": "that they had been in the boats five days and nights, but that the captain and others had been lost.",
+    "total_words": 20,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 35.2,
+    "raw_coverage": 35.0,
+    "a1_words_found": [
+      "boat",
+      "day",
+      "night",
+      "that",
+      "in",
+      "five"
+    ],
+    "non_a1_words": [
+      "and",
+      "captain",
+      "the",
+      "others",
+      "lost",
+      "had",
+      "they",
+      "but",
+      "been"
+    ]
+  },
+  {
+    "audio_id": "LJ044-0081",
+    "unit_number": "09",
+    "unit_title": "Pets and Animals",
+    "subunit_key": "A1.1",
+    "subunit_title": "Zoo Animals",
+    "transcript": "to make himself and his activities appear far more important than they really were.",
+    "total_words": 14,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 34.52,
+    "raw_coverage": 28.57,
+    "a1_words_found": [
+      "to",
+      "far",
+      "make",
+      "really"
+    ],
+    "non_a1_words": [
+      "and",
+      "more",
+      "himself",
+      "were",
+      "appear",
+      "his",
+      "they",
+      "important",
+      "activities",
+      "than"
+    ]
+  },
+  {
+    "audio_id": "LJ016-0093",
+    "unit_number": "02",
+    "unit_title": "Family and Relationships",
+    "subunit_key": "A1.2",
+    "subunit_title": "Friends and Family",
+    "transcript": "They asked him how he had cut his hand, which was bleeding, and he said he had done it while working up on the roof.",
+    "total_words": 25,
+    "a1_words_count": 7,
+    "a1_coverage_percent": 33.38,
+    "raw_coverage": 28.0,
+    "a1_words_found": [
+      "hand",
+      "work",
+      "cut",
+      "how",
+      "roof",
+      "on",
+      "ask"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "it",
+      "while",
+      "up",
+      "him",
+      "his",
+      "had",
+      "he",
+      "said"
+    ]
+  },
+  {
+    "audio_id": "LJ029-0013",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.6",
+    "subunit_title": "Town Transportation",
+    "transcript": "During nineteen sixty-three, the reasons for making the trip became more persuasive.",
+    "total_words": 13,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 32.34,
+    "raw_coverage": 30.77,
+    "a1_words_found": [
+      "nineteen",
+      "sixty",
+      "make",
+      "three"
+    ],
+    "non_a1_words": [
+      "the",
+      "more",
+      "persuasive",
+      "for",
+      "trip",
+      "during",
+      "became",
+      "reasons"
+    ]
+  },
+  {
+    "audio_id": "LJ011-0289",
+    "unit_number": "07",
+    "unit_title": "Homes and Rooms",
+    "subunit_key": "A1.1",
+    "subunit_title": "My Home",
+    "transcript": "and creeping out into the garden at the back, climbed the wall, and got into the street.",
+    "total_words": 17,
+    "a1_words_count": 5,
+    "a1_coverage_percent": 31.45,
+    "raw_coverage": 29.41,
+    "a1_words_found": [
+      "garden",
+      "street",
+      "back",
+      "wall",
+      "at"
+    ],
+    "non_a1_words": [
+      "and",
+      "into",
+      "the",
+      "got",
+      "creeping",
+      "out",
+      "climbed"
+    ]
+  },
+  {
+    "audio_id": "LJ014-0158",
+    "unit_number": "15",
+    "unit_title": "Numbers and Colors",
+    "subunit_key": "A1.3",
+    "subunit_title": "Colorful Objects",
+    "transcript": "She was discovered just as she was getting black in the face.",
+    "total_words": 12,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 30.81,
+    "raw_coverage": 25.0,
+    "a1_words_found": [
+      "face",
+      "black",
+      "in"
+    ],
+    "non_a1_words": [
+      "the",
+      "getting",
+      "as",
+      "was",
+      "discovered",
+      "she",
+      "just"
+    ]
+  },
+  {
+    "audio_id": "LJ014-0295",
+    "unit_number": "01",
+    "unit_title": "Daily Routines",
+    "subunit_key": "A1.3",
+    "subunit_title": "Home Day",
+    "transcript": "This man got up to look for him, and found him hanging from the bars of a neighboring room.",
+    "total_words": 19,
+    "a1_words_count": 5,
+    "a1_coverage_percent": 30.65,
+    "raw_coverage": 26.32,
+    "a1_words_found": [
+      "room",
+      "look",
+      "to",
+      "man",
+      "this"
+    ],
+    "non_a1_words": [
+      "and",
+      "from",
+      "the",
+      "hanging",
+      "got",
+      "for",
+      "up",
+      "him",
+      "of",
+      "neighboring"
+    ]
+  },
+  {
+    "audio_id": "LJ033-0043",
+    "unit_number": "07",
+    "unit_title": "Homes and Rooms",
+    "subunit_key": "A1.4",
+    "subunit_title": "Kitchen",
+    "transcript": "On the west end of the house is the attached garage, which can be reached from the kitchen or from the outside.",
+    "total_words": 22,
+    "a1_words_count": 6,
+    "a1_coverage_percent": 30.42,
+    "raw_coverage": 27.27,
+    "a1_words_found": [
+      "outside",
+      "west",
+      "kitchen",
+      "on",
+      "house",
+      "be"
+    ],
+    "non_a1_words": [
+      "from",
+      "the",
+      "attached",
+      "end",
+      "or",
+      "is",
+      "garage",
+      "of",
+      "can",
+      "reached"
+    ]
+  },
+  {
+    "audio_id": "LJ019-0269",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.3",
+    "subunit_title": "Food Preferences",
+    "transcript": "More animal food was given than was necessary.",
+    "total_words": 8,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 29.09,
+    "raw_coverage": 25.0,
+    "a1_words_found": [
+      "food",
+      "animal"
+    ],
+    "non_a1_words": [
+      "more",
+      "given",
+      "was",
+      "necessary",
+      "than"
+    ]
+  },
+  {
+    "audio_id": "LJ003-0137",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.4",
+    "subunit_title": "Seasons",
+    "transcript": "and I learned he had been up with the others the whole night.",
+    "total_words": 13,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 27.95,
+    "raw_coverage": 23.08,
+    "a1_words_found": [
+      "learn",
+      "night",
+      "with"
+    ],
+    "non_a1_words": [
+      "and",
+      "others",
+      "the",
+      "up",
+      "i",
+      "had",
+      "he",
+      "been",
+      "whole"
+    ]
+  },
+  {
+    "audio_id": "LJ008-0198",
+    "unit_number": "16",
+    "unit_title": "Shopping and Money",
+    "subunit_key": "A1.1",
+    "subunit_title": "Going Shopping",
+    "transcript": "two pounds was a common price for a window.",
+    "total_words": 9,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 25.91,
+    "raw_coverage": 22.22,
+    "a1_words_found": [
+      "two",
+      "window"
+    ],
+    "non_a1_words": [
+      "pounds",
+      "common",
+      "for",
+      "price",
+      "was",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ009-0057",
+    "unit_number": "09",
+    "unit_title": "Pets and Animals",
+    "subunit_key": "A1.3",
+    "subunit_title": "Animals",
+    "transcript": "Already he is half dead.",
+    "total_words": 5,
+    "a1_words_count": 1,
+    "a1_coverage_percent": 25.74,
+    "raw_coverage": 20.0,
+    "a1_words_found": [
+      "half"
+    ],
+    "non_a1_words": [
+      "dead",
+      "he",
+      "already",
+      "is"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0204",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.4",
+    "subunit_title": "Making Sandwich",
+    "transcript": "When they were sick no more notice was taken of them than of a dog.",
+    "total_words": 15,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 25.68,
+    "raw_coverage": 20.0,
+    "a1_words_found": [
+      "no",
+      "dog",
+      "when"
+    ],
+    "non_a1_words": [
+      "notice",
+      "more",
+      "were",
+      "sick",
+      "them",
+      "of",
+      "they",
+      "was",
+      "a",
+      "taken"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0004",
+    "unit_number": "03",
+    "unit_title": "Travel and Transportation",
+    "subunit_key": "A1.3",
+    "subunit_title": "Simple Directions",
+    "transcript": "and along the narrow winding lane which was once called the \"Street Called Straight.\"",
+    "total_words": 14,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 25.5,
+    "raw_coverage": 21.43,
+    "a1_words_found": [
+      "street",
+      "call"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "which",
+      "narrow",
+      "was",
+      "once",
+      "along",
+      "winding",
+      "lane",
+      "straight"
+    ]
+  },
+  {
+    "audio_id": "LJ028-0005",
+    "unit_number": "03",
+    "unit_title": "Travel and Transportation",
+    "subunit_key": "A1.1",
+    "subunit_title": "Town Directions",
+    "transcript": "Leaving the city by the eastern gate, and passing a small village or two,",
+    "total_words": 14,
+    "a1_words_count": 3,
+    "a1_coverage_percent": 25.36,
+    "raw_coverage": 21.43,
+    "a1_words_found": [
+      "two",
+      "city",
+      "small"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "gate",
+      "eastern",
+      "village",
+      "or",
+      "by",
+      "passing",
+      "leaving",
+      "a"
+    ]
+  },
+  {
+    "audio_id": "LJ004-0149",
+    "unit_number": "08",
+    "unit_title": "Food and Drink",
+    "subunit_key": "A1.1",
+    "subunit_title": "My Favorite Food",
+    "transcript": "The diet was limited to dry bread, which was of the best certainly, and a pound and a half in weight.",
+    "total_words": 21,
+    "a1_words_count": 4,
+    "a1_coverage_percent": 25.15,
+    "raw_coverage": 19.05,
+    "a1_words_found": [
+      "to",
+      "in",
+      "half",
+      "bread"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "certainly",
+      "limited",
+      "diet",
+      "best",
+      "of",
+      "a",
+      "weight",
+      "was"
+    ]
+  },
+  {
+    "audio_id": "LJ018-0019",
+    "unit_number": "12",
+    "unit_title": "Objects and Descriptions",
+    "subunit_key": "A1.2",
+    "subunit_title": "My Things",
+    "transcript": "The stick and bag were his, but not the hat.",
+    "total_words": 10,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 24.84,
+    "raw_coverage": 20.0,
+    "a1_words_found": [
+      "bag",
+      "hat"
+    ],
+    "non_a1_words": [
+      "and",
+      "the",
+      "not",
+      "were",
+      "stick",
+      "his",
+      "but"
+    ]
+  },
+  {
+    "audio_id": "LJ004-0126",
+    "unit_number": "13",
+    "unit_title": "School Life",
+    "subunit_key": "A1.5",
+    "subunit_title": "School Objects",
+    "transcript": "The want of room was still a crying evil.",
+    "total_words": 9,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 24.81,
+    "raw_coverage": 22.22,
+    "a1_words_found": [
+      "want",
+      "room"
+    ],
+    "non_a1_words": [
+      "crying",
+      "evil",
+      "the",
+      "of",
+      "was",
+      "a",
+      "still"
+    ]
+  },
+  {
+    "audio_id": "LJ002-0044",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.3",
+    "subunit_title": "Park Visit",
+    "transcript": "the whole about fifteen feet wide.",
+    "total_words": 6,
+    "a1_words_count": 1,
+    "a1_coverage_percent": 22.89,
+    "raw_coverage": 16.67,
+    "a1_words_found": [
+      "fifteen"
+    ],
+    "non_a1_words": [
+      "the",
+      "whole",
+      "about",
+      "feet",
+      "wide"
+    ]
+  },
+  {
+    "audio_id": "LJ036-0139",
+    "unit_number": "03",
+    "unit_title": "Travel and Transportation",
+    "subunit_key": "A1.5",
+    "subunit_title": "Shopping Trip",
+    "transcript": "He gave me a dollar bill, the trip was ninety-five cents.",
+    "total_words": 12,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 22.49,
+    "raw_coverage": 16.67,
+    "a1_words_found": [
+      "five",
+      "ninety"
+    ],
+    "non_a1_words": [
+      "the",
+      "me",
+      "gave",
+      "trip",
+      "was",
+      "he",
+      "cents",
+      "bill",
+      "a",
+      "dollar"
+    ]
+  },
+  {
+    "audio_id": "LJ008-0111",
+    "unit_number": "06",
+    "unit_title": "Weather and Seasons",
+    "subunit_key": "A1.3",
+    "subunit_title": "Climate Details",
+    "transcript": "They entered a \"stone cold room,\" and were presently joined by the prisoner.",
+    "total_words": 13,
+    "a1_words_count": 2,
+    "a1_coverage_percent": 21.12,
+    "raw_coverage": 15.38,
+    "a1_words_found": [
+      "room",
+      "cold"
+    ],
+    "non_a1_words": [
+      "presently",
+      "and",
+      "prisoner",
+      "joined",
+      "the",
+      "were",
+      "by",
+      "stone",
+      "they",
+      "entered"
+    ]
+  },
+  {
+    "audio_id": "LJ011-0004",
+    "unit_number": "10",
+    "unit_title": "Town and City",
+    "subunit_key": "A1.7",
+    "subunit_title": "Basic Directions",
+    "transcript": "Once he ran a narrow risk of being found out.",
+    "total_words": 10,
+    "a1_words_count": 0,
+    "a1_coverage_percent": 10.71,
+    "raw_coverage": 0.0,
+    "a1_words_found": [],
+    "non_a1_words": [
+      "risk",
+      "once",
+      "narrow",
+      "being",
+      "of",
+      "he",
+      "found",
+      "a",
+      "out",
+      "ran"
+    ]
+  }
+]

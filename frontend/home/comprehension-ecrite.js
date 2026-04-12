@@ -11,6 +11,9 @@
 let currentExercise = null;
  
 let lastSubmitResult = null; 
+
+let currentGeneratedIndex = -1; 
+let originalTextId = null;
 // Lire les paramètres URL
 function getSubunitInfo() {
     const params = new URLSearchParams(window.location.search);
@@ -71,7 +74,6 @@ async function loadExercise(subunitId, subunitCode) {
     questionsContainer.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading questions...</div>';
 
     try {
-        // Construire l'URL — subunit_id est obligatoire côté backend
         let url;
         if (subunitId && subunitId !== 'null' && subunitId !== 'undefined') {
             url = `http://localhost:8000/api/reading-exercise/?subunit_id=${subunitId}`;
@@ -95,8 +97,6 @@ async function loadExercise(subunitId, subunitCode) {
             throw new Error(data.error || 'Le serveur a retourné une erreur');
         }
 
-        // ✅ FIX 1 : le backend retourne data.text et data.questions
-        //            on construit l'objet exercise pour le reste du code
         if (!data.text || !data.questions) {
             throw new Error('Réponse incomplète (text ou questions manquant)');
         }
@@ -104,8 +104,15 @@ async function loadExercise(subunitId, subunitCode) {
         currentExercise = {
             text:            data.text,
             questions:       data.questions,
-            total_questions: data.questions.length
+            total_questions: data.questions.length,
+            coverage_score:  data.text.coverage_score  // ✅ AJOUTÉ ICI
         };
+
+        // ✅ FIX CRITIQUE: Stocker l'ID du texte original et reset l'index
+        originalTextId = data.text.id;
+        currentGeneratedIndex = -1;
+        console.log('📌 Original text ID stored:', originalTextId);
+        console.log('📊 Coverage score:', data.text.coverage_score);  // ✅ LOG pour debug
 
         if (totalEl) totalEl.textContent = currentExercise.total_questions;
         renderExercise(currentExercise);
@@ -132,10 +139,58 @@ async function loadExercise(subunitId, subunitCode) {
 
 function renderExercise(exercise) {
     const readingContainer = document.getElementById('reading-text');
+    
     readingContainer.innerHTML = `
         <h3>${exercise.text.topic}</h3>
         ${exercise.text.content.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}
     `;
+
+    // ✅ AJOUT : Créer et insérer le badge dans le header de section
+    const readingSection = document.querySelector('.reading-section');
+    if (readingSection) {
+        // Supprimer l'ancien badge s'il existe
+        const oldBadge = readingSection.querySelector('.vocabulary-score-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        // Créer le nouveau badge si on a un score
+        if (exercise.coverage_score !== null && exercise.coverage_score !== undefined) {
+            const scorePercent = Math.round(exercise.coverage_score * 100);
+            const badge = document.createElement('div');
+            badge.className = 'vocabulary-score-badge';
+            // ✅ Styles inline - LES DEUX À GAUCHE
+            badge.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+                white-space: nowrap;
+                margin-left: 16px; /* Espace entre le titre et le badge */
+            `;
+            badge.innerHTML = `
+                <i class="fas fa-chart-bar" style="font-size: 14px;"></i>
+                <span>A1 Vocabulary Score: ${scorePercent}%</span>
+            `;
+            
+            // Insérer dans le section-header
+            const sectionHeader = readingSection.querySelector('.section-header');
+            if (sectionHeader) {
+                // ✅ LES DEUX ÉLÉMENTS À GAUCHE (flex-start)
+                sectionHeader.style.display = 'flex';
+                sectionHeader.style.justifyContent = 'flex-start'; /* CHANGÉ: space-between → flex-start */
+                sectionHeader.style.alignItems = 'center';
+                sectionHeader.style.flexWrap = 'wrap';
+                sectionHeader.style.gap = '12px';
+                
+                sectionHeader.appendChild(badge);
+            }
+        }
+    }
 
     const questionsContainer  = document.querySelector('.questions-form');
     const trueFalseQuestions  = exercise.questions.filter(q => q.type === 'true_false');
@@ -334,11 +389,11 @@ async function handleSubmit(e) {
             lastSubmitResult = result;
 
             if (result.already_done) {
-                // ✅ Déjà soumis en DB (résiste au Ctrl+R)
+                //  Déjà soumis en DB (résiste au Ctrl+R)
                 showAlreadySubmittedModal();
             } else {
-                // ✅ Première soumission
-                showResults(result);
+                //  Première soumission - PASSER true pour colorer les cartes
+                showResults(result, true);  
             }
         } else {
             throw new Error(result.error);
@@ -353,7 +408,7 @@ async function handleSubmit(e) {
 // AFFICHAGE DES RÉSULTATS
 // ============================================
 
-function showResults(result) {
+function showResults(result, isFirstSubmit = false) {  // ✅ AJOUT paramètre isFirstSubmit
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.id = 'results-modal';
@@ -381,6 +436,9 @@ function showResults(result) {
     ).join('');
 
     const learnerId = localStorage.getItem('learner_id');
+    
+    // ✅ UTILISER LE FEEDBACK DU BACKEND
+    const feedbackMessage = result.feedback || '';
 
     modal.innerHTML = `
         <div class="modal-content">
@@ -392,7 +450,12 @@ function showResults(result) {
                 <div class="score-circle">
                     <span class="score-number">${result.score}</span>%
                 </div>
-                <p>${result.correct_count}/${result.total} correct</p>
+                <p class="score-feedback" style="font-size: 20px; font-weight: 600; color: #4f46e5; margin: 12px 0; text-align: center;">
+                    ${feedbackMessage}
+                </p>
+                <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">
+                    ${result.correct_count}/${result.total} correct
+                </p>
                 <div class="results-list">${resultsHtml}</div>
                
             </div>
@@ -401,10 +464,13 @@ function showResults(result) {
 
     document.body.appendChild(modal);
 
-    resultsArray.forEach(r => {
-        const card = document.querySelector(`[data-question-id="${r.question_id}"]`)?.closest('.question-card');
-        if (card) card.classList.add(r.correct ? 'correct' : 'incorrect');
-    });
+    //  Ne colorer les cartes que lors du premier submit
+    if (isFirstSubmit) {  
+        resultsArray.forEach(r => {
+            const card = document.querySelector(`[data-question-id="${r.question_id}"]`)?.closest('.question-card');
+            if (card) card.classList.add(r.correct ? 'correct' : 'incorrect');
+        });
+    }
 }
 
 function closeResults() {
@@ -429,7 +495,7 @@ function showAlreadySubmittedModal() {
                     Exercise completed. Your progress will be based on your initial submission.
                 </p>
                 <div class="modal-actions" style="justify-content:center;">
-                    <button class="btn-primary" onclick="closeAlreadySubmittedModal(); showResults(lastSubmitResult);">
+                    <button class="btn-primary" onclick="closeAlreadySubmittedModal(); showResults(lastSubmitResult, false);">
                         <i class="fas fa-chart-bar"></i> Show results
                     </button>
                 </div>
@@ -444,11 +510,25 @@ function closeAlreadySubmittedModal() {
     document.getElementById('already-submitted-modal')?.remove();
 }
 // ============================================
-// ADDITIONAL EXERCISE — À IMPLÉMENTER
+// ADDITIONAL EXERCISE — GAI
 // ============================================
 
-function generateAdditionalExercise() {
-    showNotification('Feature coming soon...');
+async function generateAdditionalExercise() {
+    if (!originalTextId) {
+        showNotification('Original exercise not loaded');
+        return;
+    }
+
+    const { subunitId, title } = getSubunitInfo();
+    
+    // Redirection vers la page Django des exercices générés
+    const targetUrl = `/generated_reading_ex/?` + 
+        `original_id=${originalTextId}` +
+        `&subunit_id=${subunitId || ''}` +
+        `&title=${encodeURIComponent(title || 'Exercise')}`;
+
+    console.log('🔄 Redirecting to generated exercise page:', targetUrl);
+    window.location.href = targetUrl;
 }
 
 // ============================================
