@@ -1,0 +1,3940 @@
+{
+  "metadata": {
+    "generated_at": "2026-04-12T22:01:51.526967",
+    "model": "llama-3.1-8b-instant",
+    "total_exercises": 69,
+    "expected_count": 69,
+    "failed_count": 0,
+    "cefr_level": "A1",
+    "exercise_type": "paragraph_writing",
+    "target_word_count": "60-80 words per answer (3-4 lines)"
+  },
+  "exercises": [
+    {
+      "exercise": {
+        "instruction": "Write about your morning routine. Describe what you do after waking up.",
+        "guiding_points": [
+          "Mention the time you wake up",
+          "Describe what you eat for breakfast",
+          "Tell about one activity you do after breakfast"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at six thirty every morning. I eat cereal with milk and a banana. I like to play with my dog for a little while. Then I get dressed and go downstairs for breakfast. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "morning",
+          "eat",
+          "cereal",
+          "milk",
+          "banana",
+          "play",
+          "dog",
+          "get"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "simple prepositions (in, on)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "wake up",
+          "breakfast",
+          "play",
+          "get dressed"
+        ],
+        "grammar_points": [
+          "present simple tense for routines",
+          "use of simple prepositions"
+        ],
+        "common_mistakes": [
+          "forgetting to use a verb to describe the action",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "1",
+        "sub_unit_id": "1",
+        "unit_title": "Daily Routines",
+        "sub_unit_title": "Morning Customs",
+        "theme": "morning routine, waking up, breakfast habits, early day activities",
+        "generated_at": "2026-04-12T21:47:52.525314",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about what you do after your alarm clock wakes you up.",
+        "guiding_points": [
+          "Describe what you do when you wake up",
+          "Mention what you eat for breakfast",
+          "Tell us about one thing you do after breakfast"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at seven o'clock every morning. My alarm clock is loud. I eat breakfast with my family and drink juice. Then I brush my teeth and get ready for school. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "seven",
+          "clock",
+          "morning",
+          "alarm",
+          "loud",
+          "eat",
+          "breakfast",
+          "family"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "alarm clock",
+          "breakfast",
+          "juice"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "basic sentence structure"
+        ],
+        "common_mistakes": [
+          "forgetting to use the simple present tense",
+          "writing too short a paragraph"
+        ]
+      },
+      "metadata": {
+        "unit_id": "1",
+        "sub_unit_id": "6",
+        "unit_title": "Daily Routines",
+        "sub_unit_title": "Wake-up Sequence",
+        "theme": "alarm clock, getting out of bed, morning activities step by step",
+        "generated_at": "2026-04-12T21:47:55.537277",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about your favorite indoor activity on a Home Day. Describe what you like to do and why you enjoy it.",
+        "guiding_points": [
+          "Mention one thing you like to do indoors, such as reading, watching TV or drawing.",
+          "Describe why you like to do this activity, e.g., it's relaxing or fun.",
+          "Include one thing you like to eat or drink while doing this activity."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to read books on Home Days. I find it relaxing and I can learn new things. I like to eat cookies while I read because they are sweet and tasty. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "read",
+          "books",
+          "home",
+          "relaxing",
+          "learn",
+          "eat",
+          "cookies",
+          "sweet",
+          "tasty",
+          "morning"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "simple adjectives"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "reading",
+          "relaxing",
+          "learn",
+          "cookies"
+        ],
+        "grammar_points": [
+          "present simple tense for habits and routines",
+          "simple adjectives to describe feelings and tastes"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "1",
+        "sub_unit_id": "7",
+        "unit_title": "Daily Routines",
+        "sub_unit_title": "Home Day",
+        "theme": "staying at home, daily activities at home, relaxing, indoor routine",
+        "generated_at": "2026-04-12T21:48:06.677486",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your family. Tell us who lives with you and what they do.",
+        "guiding_points": [
+          "Point 1: Write about who lives with you (family members)",
+          "Point 2: Describe what each family member does",
+          "Point 3: Add a simple detail about your family (e.g. where you live)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I live with my mom and dad. My mom is a teacher and my dad works in a shop. We live in a small house with a garden. We spend a lot of time together as a family. I love my family very much. We help each other every day. My family makes me feel happy and safe. I think this is very good.",
+        "vocabulary_used": [
+          "mom",
+          "dad",
+          "teacher",
+          "shop",
+          "small",
+          "house",
+          "garden",
+          "together",
+          "family",
+          "happy"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "family members (mom, dad, brother, sister)",
+          "jobs (teacher, shop assistant, doctor)"
+        ],
+        "grammar_points": [
+          "using the simple present tense for habits and routines",
+          "using articles (a, the) correctly"
+        ],
+        "common_mistakes": [
+          "forgetting to use the simple present tense",
+          "using the wrong article (e.g. 'a' instead of 'the')"
+        ]
+      },
+      "metadata": {
+        "unit_id": "2",
+        "sub_unit_id": "9",
+        "unit_title": "Family and Relationships",
+        "sub_unit_title": "My Family",
+        "theme": "family members, describing family, simple relationships, who is in my family",
+        "generated_at": "2026-04-12T21:48:38.564841",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about what you do with your family and friends on Sundays.",
+        "guiding_points": [
+          "Point 1: What you do with your family on Sundays (e.g., have breakfast together)",
+          "Point 2: What you do with your friends on Sundays (e.g., play games)",
+          "Point 3: A simple detail about a favorite Sunday activity (e.g., eating your favorite food)",
+          "Point 4: Where you spend time with your family and friends (e.g., at home, in the park)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have breakfast with my family on Sundays. My friends and I play games together in the park. I like eating sandwiches and drinking lemonade with my friends. We have a lot of fun in the park on Sundays. We spend a lot of time together as a family. I love my family very much. We help each other every day.",
+        "vocabulary_used": [
+          "breakfast",
+          "family",
+          "friends",
+          "play",
+          "games",
+          "together",
+          "park",
+          "sandwiches",
+          "lemonade"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "prepositions (in, on)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "family",
+          "friends",
+          "breakfast",
+          "play",
+          "games"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "prepositions (in, on)"
+        ],
+        "common_mistakes": [
+          "forgetting to use simple present tense",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "2",
+        "sub_unit_id": "10",
+        "unit_title": "Family and Relationships",
+        "sub_unit_title": "Friends and Family",
+        "theme": "friends, family together, simple social interactions, spending time together",
+        "generated_at": "2026-04-12T21:48:40.947788",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your family tree. Describe your parents, grandparents, and any other close relatives.",
+        "guiding_points": [
+          "Point 1: Introduce your parents and describe their jobs.",
+          "Point 2: Mention your grandparents and where they live.",
+          "Point 3: Describe any other close relatives, such as siblings or cousins."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My mother works in a school. My father is a doctor. I live with my grandparents in a big house. They are very kind to me. We spend a lot of time together as a family. I love my family very much. We help each other every day. My family makes me feel happy and safe. I think this is very good.",
+        "vocabulary_used": [
+          "mother",
+          "school",
+          "father",
+          "doctor",
+          "grandparents",
+          "big",
+          "house",
+          "kind",
+          "together",
+          "family"
+        ],
+        "grammar_focus": [
+          "articles (a, the)",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "mother",
+          "father",
+          "grandparents",
+          "cousins",
+          "siblings"
+        ],
+        "grammar_points": [
+          "use of articles (a, the)",
+          "simple present tense for describing family relationships"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a, the)",
+          "using incorrect verb tenses"
+        ]
+      },
+      "metadata": {
+        "unit_id": "2",
+        "sub_unit_id": "12",
+        "unit_title": "Family and Relationships",
+        "sub_unit_title": "Family Tree",
+        "theme": "family relationships, parents, siblings, grandparents, extended family",
+        "generated_at": "2026-04-12T21:49:02.195854",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about giving directions to a friend in a town. Tell your friend how to get to the town hall from your house.",
+        "guiding_points": [
+          "Mention the direction you will take from your house",
+          "Describe the main road or street you will walk on",
+          "Include a landmark or a feature that will help your friend recognize the town hall"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I will walk with my friend to the town hall. We will go straight from my house. We will walk down Main Street. The town hall is on the right, near the big clock. This is one of my favorite activities. I do this when I have free time. It makes me feel happy and relaxed. I often do this with my friends.",
+        "vocabulary_used": [
+          "walk",
+          "town",
+          "hall",
+          "straight",
+          "house",
+          "main",
+          "street",
+          "right",
+          "near",
+          "big"
+        ],
+        "grammar_focus": [
+          "use of prepositions (in, on, near)",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "town hall",
+          "straight",
+          "main street",
+          "big clock"
+        ],
+        "grammar_points": [
+          "prepositions (in, on, near)",
+          "simple sentence structure"
+        ],
+        "common_mistakes": [
+          "using complex sentences",
+          "forgetting to include directions"
+        ]
+      },
+      "metadata": {
+        "unit_id": "4",
+        "sub_unit_id": "24",
+        "unit_title": "Travel and Transportation",
+        "sub_unit_title": "Town Directions",
+        "theme": "giving directions in town, left, right, straight, finding places in town",
+        "generated_at": "2026-04-12T21:49:04.288680",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a place you want to visit. Describe where it is, what you want to do, and why you want to go.",
+        "guiding_points": [
+          "Point 1: Describe the place you want to visit (e.g. beach, city, mountain)",
+          "Point 2: Mention what you want to do there (e.g. swim, sightsee, hike)",
+          "Point 3: Explain why you want to visit this place (e.g. relax, learn, have fun)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I want to visit Paris, France. I want to see the Eiffel Tower and the Louvre Museum. I want to eat croissants and drink coffee in a café. I want to visit Paris because I love art and history. Animals are interesting to watch and study. I like taking care of animals. They are cute and friendly creatures. I enjoy spending time with animals.",
+        "vocabulary_used": [
+          "paris",
+          "france",
+          "eiffel",
+          "tower",
+          "louvre",
+          "museum",
+          "eat",
+          "croissants",
+          "coffee",
+          "art"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "Paris",
+          "France",
+          "Eiffel Tower",
+          "Louvre Museum"
+        ],
+        "grammar_points": [
+          "use of articles (a, the)",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a, the)",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "4",
+        "sub_unit_id": "25",
+        "unit_title": "Travel and Transportation",
+        "sub_unit_title": "Travel Plans",
+        "theme": "planning a trip, where to go, simple travel intentions, vacation ideas",
+        "generated_at": "2026-04-12T21:49:26.476784",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Imagine you are walking in a new city and you are lost. Write a paragraph to ask for help.",
+        "guiding_points": [
+          "Point 1: Where are you trying to go?",
+          "Point 2: What do you see around you?",
+          "Point 3: Ask for help to find your destination"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I am looking for the train station. I see a big park on my left. I need to find the main road to get to the station. Can you tell me which way to go?. Animals are interesting to watch and study. I like taking care of animals. They are cute and friendly creatures. I enjoy spending time with animals.",
+        "vocabulary_used": [
+          "train",
+          "station",
+          "big",
+          "park",
+          "left",
+          "main",
+          "road",
+          "get",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "present simple for asking for directions",
+          "use of prepositions (on, to)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "train station",
+          "main road",
+          "left"
+        ],
+        "grammar_points": [
+          "use of present simple for asking for directions",
+          "use of prepositions (on, to)"
+        ],
+        "common_mistakes": [
+          "forgetting to use present simple",
+          "using incorrect prepositions"
+        ]
+      },
+      "metadata": {
+        "unit_id": "4",
+        "sub_unit_id": "26",
+        "unit_title": "Travel and Transportation",
+        "sub_unit_title": "Simple Directions",
+        "theme": "asking and giving directions, locations, where is the..., turn left/right",
+        "generated_at": "2026-04-12T21:49:28.469422",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your daily commute to school. Describe how you get to school and what you do on the way.",
+        "guiding_points": [
+          "Describe how you get to school (bus, car, walking)",
+          "Mention what you do on the way to school (listen to music, read a book, eat a snack)",
+          "Include one thing you like about your daily commute"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I walk to school every day. I like to listen to music on my phone. I also read a book to learn new words. My daily walk helps me feel healthy. I go to school five days a week. I like learning new things at school. My teachers are very kind and helpful. I have many friends at school. I think this is very good.",
+        "vocabulary_used": [
+          "walk",
+          "school",
+          "listen",
+          "music",
+          "phone",
+          "read",
+          "book",
+          "learn",
+          "healthy",
+          "five"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "simple adjectives"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "walk",
+          "listen",
+          "music",
+          "phone",
+          "book",
+          "learn",
+          "healthy"
+        ],
+        "grammar_points": [
+          "present simple tense for habits",
+          "use of simple adjectives to describe daily activities"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense for daily habits",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "4",
+        "sub_unit_id": "27",
+        "unit_title": "Travel and Transportation",
+        "sub_unit_title": "Daily Transportation",
+        "theme": "bus, car, walking, how to get to places, commuting, going to school/work",
+        "generated_at": "2026-04-12T21:49:51.686954",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your favorite shop in town. Describe what you buy there and why you like it.",
+        "guiding_points": [
+          "Point 1: Mention the name of your favorite shop",
+          "Point 2: Describe the things you buy in this shop",
+          "Point 3: Explain why you like this shop"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My favorite shop is the toy shop on Main Street. I buy toys and games there. I like this shop because it has many interesting toys. My sister likes the dolls they sell. This is one of my favorite activities. I do this when I have free time. It makes me feel happy and relaxed. I often do this with my friends.",
+        "vocabulary_used": [
+          "favorite",
+          "shop",
+          "toy",
+          "main",
+          "street",
+          "buy",
+          "games",
+          "interesting",
+          "happy",
+          "friends"
+        ],
+        "grammar_focus": [
+          "present simple",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "favorite",
+          "toy",
+          "shop",
+          "buy"
+        ],
+        "grammar_points": [
+          "present simple tense",
+          "articles (a/an/the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "4",
+        "sub_unit_id": "28",
+        "unit_title": "Travel and Transportation",
+        "sub_unit_title": "Shopping Trip",
+        "theme": "going shopping, buying things, shops in town, market visit",
+        "generated_at": "2026-04-12T21:50:08.836308",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your free time activities after school. What do you like to do? What is your favorite hobby? Describe one of your favorite things to do in your free time.",
+        "guiding_points": [
+          "Point 1: mention one of your favorite hobbies",
+          "Point 2: describe what you like to do in your free time",
+          "Point 3: include a specific activity you enjoy doing after school"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to play football after school. My favorite hobby is playing football with my friends. We play in a park near my house. I like to run fast and kick the ball. I go to school five days a week. I like learning new things at school. My teachers are very kind and helpful. I have many friends at school.",
+        "vocabulary_used": [
+          "play",
+          "football",
+          "school",
+          "favorite",
+          "hobby",
+          "friends",
+          "park",
+          "near",
+          "house",
+          "run"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "subject-verb-object word order"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "hobby",
+          "play",
+          "park",
+          "house"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "subject-verb-object word order"
+        ],
+        "common_mistakes": [
+          "using complex tenses",
+          "forgetting to use articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "5",
+        "sub_unit_id": "29",
+        "unit_title": "Hobbies and Interests",
+        "sub_unit_title": "My Free Time",
+        "theme": "free time activities, what I like to do, leisure time, after school/work",
+        "generated_at": "2026-04-12T21:50:15.916402",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your weekend routine. Describe what you do on Saturday and Sunday.",
+        "guiding_points": [
+          "Mention what you do on Saturday morning",
+          "Describe your favorite activity on Sunday afternoon",
+          "Include what you do on Sunday evening"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at nine o'clock on Saturday. I go to the park with my friends. We play football and run around. On Sunday, I watch a movie in the evening. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "clock",
+          "saturday",
+          "park",
+          "friends",
+          "play",
+          "football",
+          "run",
+          "sunday"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "article use (the, a)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "weekend",
+          "routine",
+          "Saturday",
+          "Sunday",
+          "morning",
+          "afternoon",
+          "evening",
+          "friends",
+          "park"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "article use (the, a)"
+        ],
+        "common_mistakes": [
+          "using the wrong tense (e.g. past tense instead of present tense)",
+          "forgetting to use articles (a, the)"
+        ]
+      },
+      "metadata": {
+        "unit_id": "5",
+        "sub_unit_id": "30",
+        "unit_title": "Hobbies and Interests",
+        "sub_unit_title": "What I Do on Weekends",
+        "theme": "weekend activities, Saturday and Sunday plans, weekend routine",
+        "generated_at": "2026-04-12T21:50:17.997357",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about choosing a toy for a birthday party. What kind of toys do children like? What games do they play with friends?",
+        "guiding_points": [
+          "Point 1: Mention a popular toy for children, e.g. doll, car, ball",
+          "Point 2: Describe a game that children like to play, e.g. tag, hide-and-seek, soccer",
+          "Point 3: Include a simple detail about why children like playing with toys, e.g. because they are fun, easy to play"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "Children like to play with dolls. They also like to play soccer with their friends. I think children like toys because they are fun. They are easy to play with and make children happy. This is one of my favorite activities. I do this when I have free time. It makes me feel happy and relaxed. I often do this with my friends.",
+        "vocabulary_used": [
+          "children",
+          "play",
+          "soccer",
+          "friends",
+          "happy",
+          "favorite"
+        ],
+        "grammar_focus": [
+          "use of the present simple tense",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "children",
+          "dolls",
+          "soccer",
+          "fun"
+        ],
+        "grammar_points": [
+          "use of the present simple tense",
+          "simple sentence structure"
+        ],
+        "common_mistakes": [
+          "using complex sentences",
+          "forgetting articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "5",
+        "sub_unit_id": "31",
+        "unit_title": "Hobbies and Interests",
+        "sub_unit_title": "Toy Selection",
+        "theme": "toys, games, playing, children activities, choosing toys, favorite games",
+        "generated_at": "2026-04-12T21:50:40.279036",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about your favorite activities on Saturday mornings.",
+        "guiding_points": [
+          "Point 1: What do you like to do first on Saturday morning?",
+          "Point 2: Do you like playing a sport or listening to music?",
+          "Point 3: What is your favorite thing to do after breakfast?"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to go for a run on Saturday morning. I listen to music while I run. My favorite song is 'Happy' by Pharrell Williams. I run for 30 minutes and then I eat breakfast. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way.",
+        "vocabulary_used": [
+          "run",
+          "saturday",
+          "morning",
+          "listen",
+          "music",
+          "favorite",
+          "happy",
+          "eat",
+          "breakfast",
+          "school"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "run",
+          "music",
+          "breakfast",
+          "song"
+        ],
+        "grammar_points": [
+          "present simple tense for habits",
+          "use of simple sentence structure for clarity"
+        ],
+        "common_mistakes": [
+          "using the wrong verb tense",
+          "writing too many complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "5",
+        "sub_unit_id": "33",
+        "unit_title": "Hobbies and Interests",
+        "sub_unit_title": "My Hobbies on the Weekend",
+        "theme": "hobbies, weekend interests, favorite activities, sports, reading, music",
+        "generated_at": "2026-04-12T21:51:11.691714",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about going to a clothing shop. Describe what you see and do.",
+        "guiding_points": [
+          "Describe the shop's exterior and interior.",
+          "Mention what you see in the shop, such as clothes and sizes.",
+          "Tell about trying on clothes and asking for help."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I go to a big clothing shop. I see many clothes on the shelves. They have sizes from small to large. I try on a shirt and ask the saleswoman for help. I like wearing comfortable clothes. These clothes are good for this season. I choose my clothes every morning. My clothes make me feel good. I think this is very good.",
+        "vocabulary_used": [
+          "big",
+          "clothing",
+          "shop",
+          "shelves",
+          "sizes",
+          "small",
+          "saleswoman",
+          "comfortable",
+          "morning"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic prepositions (in, on)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "clothing shop",
+          "shelves",
+          "sizes",
+          "saleswoman"
+        ],
+        "grammar_points": [
+          "using simple present tense for actions that are true in general",
+          "using basic prepositions (in, on) to describe location"
+        ],
+        "common_mistakes": [
+          "forgetting to use a verb, e.g. 'I see clothes on the shelves.' instead of 'I see many clothes on the shelves.'"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "35",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "Clothing Shop",
+        "theme": "buying clothes, shop vocabulary, sizes, trying on clothes, shopping experience",
+        "generated_at": "2026-04-12T21:51:13.890523",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your favorite outfit. Describe what you wear, where you wear it, and why you like it.",
+        "guiding_points": [
+          "Point 1: Describe the type of clothes you wear in your favorite outfit (e.g. t-shirt, dress, jeans)",
+          "Point 2: Mention where you wear your favorite outfit (e.g. school, park, home)",
+          "Point 3: Explain why you like wearing your favorite outfit (e.g. it's comfortable, it's fun)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to wear a yellow t-shirt on Fridays. I wear it to school with my friends. We like to wear yellow to show our team spirit. It makes me feel happy and confident. I like wearing comfortable clothes. These clothes are good for this season. I choose my clothes every morning. My clothes make me feel good. I think this is very good.",
+        "vocabulary_used": [
+          "yellow",
+          "school",
+          "friends",
+          "spirit",
+          "happy",
+          "confident",
+          "comfortable",
+          "morning"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic prepositions (in, on, at)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "t-shirt",
+          "school",
+          "friends",
+          "spirit"
+        ],
+        "grammar_points": [
+          "use of simple present tense",
+          "basic prepositions (in, on, at)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a/an/the)",
+          "using complex sentence structures"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "36",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "My Clothing",
+        "theme": "describing my clothes, what I wear, my wardrobe, favorite outfit",
+        "generated_at": "2026-04-12T21:51:18.445957",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a person's favorite colorful outfit.",
+        "guiding_points": [
+          "Point 1: Describe the main color of the outfit.",
+          "Point 2: Mention one bright color used in the outfit.",
+          "Point 3: Say why the person likes this outfit."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My favorite outfit is red and yellow. I like the yellow shirt because it is bright. The red skirt is also very nice. I wear this outfit to school on Fridays. I like wearing comfortable clothes. These clothes are good for this season. I choose my clothes every morning. My clothes make me feel good. I think this is very good.",
+        "vocabulary_used": [
+          "favorite",
+          "outfit",
+          "red",
+          "yellow",
+          "bright",
+          "skirt",
+          "nice",
+          "school",
+          "comfortable",
+          "morning"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of the"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "favorite",
+          "bright",
+          "skirt"
+        ],
+        "grammar_points": [
+          "use of the",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "39",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "Colorful Clothing",
+        "theme": "colors and clothes, describing appearance, bright colors, matching colors",
+        "generated_at": "2026-04-12T21:51:30.746433",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your daily dressing routine.",
+        "guiding_points": [
+          "Mention the time you wake up in the morning.",
+          "Describe what you do first when you wake up.",
+          "Include what you wear to school or work."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at 7:00 am every morning. I take a shower and get dressed. I wear a white shirt and blue jeans to school. I like to wear comfortable shoes. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "morning",
+          "shower",
+          "get",
+          "dressed",
+          "white",
+          "blue",
+          "school",
+          "comfortable"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "article use (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "wake up",
+          "shower",
+          "dressed",
+          "comfortable"
+        ],
+        "grammar_points": [
+          "present simple tense for daily routines",
+          "article use (a, the)"
+        ],
+        "common_mistakes": [
+          "using the wrong tense (e.g., past simple for daily routines), not using articles correctly"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "40",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "Getting Dressed",
+        "theme": "putting on clothes, daily dressing routine, getting ready, wearing clothes",
+        "generated_at": "2026-04-12T21:51:42.829718",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about the clothes you wear in summer and winter.",
+        "guiding_points": [
+          "Point 1: Describe the type of clothes you wear in summer.",
+          "Point 2: Mention the type of clothes you wear in winter.",
+          "Point 3: Explain why you wear these clothes in their respective seasons."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "In summer, I wear short T-shirts and shorts. In winter, I wear long coats and warm sweaters. I wear these clothes because it's hot in summer and cold in winter. This makes me feel comfortable all the time. The weather is different every day. I like this kind of weather very much. People dress differently in this weather. It is nice to go outside when the weather is good.",
+        "vocabulary_used": [
+          "summer",
+          "shorts",
+          "winter",
+          "coats",
+          "warm",
+          "sweaters",
+          "hot",
+          "cold",
+          "comfortable",
+          "kind"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "summer",
+          "winter",
+          "T-shirts",
+          "shorts",
+          "coats",
+          "sweaters"
+        ],
+        "grammar_points": [
+          "use of simple present tense for habits and routines",
+          "correct use of articles (a/an/the)"
+        ],
+        "common_mistakes": [
+          "forgetting to include both summer and winter clothes",
+          "using incorrect articles or verb tenses"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "41",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "Seasonal Clothing",
+        "theme": "clothes for seasons, summer and winter wear, warm and cool clothes",
+        "generated_at": "2026-04-12T21:51:54.059483",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 69
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your favorite shirt. Describe the shirt, its material, and where you wear it.",
+        "guiding_points": [
+          "Point 1: Describe the color and style of your favorite shirt",
+          "Point 2: Mention the material of your favorite shirt",
+          "Point 3: Say where you wear your favorite shirt"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My favorite shirt is blue and short-sleeved. It is made of cotton and feels soft. I wear it to the beach with my friends. We like to swim and play games together. I like wearing comfortable clothes. These clothes are good for this season. I choose my clothes every morning. My clothes make me feel good. I think this is very good.",
+        "vocabulary_used": [
+          "favorite",
+          "blue",
+          "cotton",
+          "beach",
+          "friends",
+          "play",
+          "games",
+          "together",
+          "comfortable",
+          "morning"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "article usage"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "favorite",
+          "cotton",
+          "beach"
+        ],
+        "grammar_points": [
+          "using the simple present tense for habits and preferences",
+          "using articles (a, an, the) correctly"
+        ],
+        "common_mistakes": [
+          "using complex verb tenses",
+          "forgetting to use articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "6",
+        "sub_unit_id": "42",
+        "unit_title": "Clothing and Fashion",
+        "sub_unit_title": "Clothing Description",
+        "theme": "describing clothes, materials, styles, patterns, new and old clothes",
+        "generated_at": "2026-04-12T21:52:06.233621",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about the weather today. What is the weather like now? Is it sunny, rainy, cloudy, hot or cold?",
+        "guiding_points": [
+          "Describe the weather today (sunny, rainy, cloudy, hot, cold)",
+          "Mention the time of day (morning, afternoon, evening)",
+          "Include a simple detail about what you can see or do outside"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "It is sunny today. I wake up at seven o'clock in the morning. I see a big cloud in the sky. I like to walk in the park when it is sunny. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "sunny",
+          "wake",
+          "up",
+          "seven",
+          "clock",
+          "morning",
+          "big",
+          "cloud",
+          "sky",
+          "walk"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "sunny",
+          "cloudy",
+          "hot",
+          "cold",
+          "morning",
+          "afternoon",
+          "evening"
+        ],
+        "grammar_points": [
+          "simple present tense for weather descriptions",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "using present continuous tense for weather descriptions",
+          "forgetting to use articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "43",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Today's Weather",
+        "theme": "describing weather today, sunny, rainy, cloudy, hot, cold, outside now",
+        "generated_at": "2026-04-12T21:52:19.470760",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about what you wear on hot and cold days. Tell us your favorite clothes for each season.",
+        "guiding_points": [
+          "Point 1: Describe what you wear on hot summer days.",
+          "Point 2: Tell us your favorite cold-weather clothes.",
+          "Point 3: Explain what you wear on mild spring and autumn days."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wear a T-shirt on hot summer days. It's very comfortable. I like to wear a coat on cold winter days. It keeps me warm. I choose my clothes every morning. These clothes are good for this season. I like wearing comfortable clothes. My clothes make me feel good. This is important in my daily life. I do this regularly.",
+        "vocabulary_used": [
+          "hot",
+          "summer",
+          "comfortable",
+          "cold",
+          "winter",
+          "warm",
+          "favorite",
+          "eat",
+          "family"
+        ],
+        "grammar_focus": [
+          "use of 'on' for time",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "T-shirt",
+          "coat",
+          "spring",
+          "autumn"
+        ],
+        "grammar_points": [
+          "use of 'on' for time",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "44",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Seasonal Wear",
+        "theme": "clothes for different weather, hot and cold days, what to wear when",
+        "generated_at": "2026-04-12T21:52:31.590327",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about the weather in your city during summer. Describe the temperature and what people do when it's hot.",
+        "guiding_points": [
+          "Mention the average temperature in your city during summer.",
+          "Describe what people do to stay cool when it's hot outside.",
+          "Include a simple detail about the weather, such as sunshine or rain."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "In my city, the temperature is 30 degrees Celsius in summer. People wear short clothes and sunglasses to stay cool. They also drink cold water and eat ice cream to cool down. On hot days, the sun shines brightly in the sky. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious.",
+        "vocabulary_used": [
+          "temperature",
+          "degrees",
+          "summer",
+          "sunglasses",
+          "cool",
+          "cold",
+          "eat",
+          "hot",
+          "sky",
+          "favorite"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic adjectives"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "temperature",
+          "degrees",
+          "sunshine",
+          "sunglasses"
+        ],
+        "grammar_points": [
+          "simple present tense for habitual actions",
+          "basic adjectives for describing weather"
+        ],
+        "common_mistakes": [
+          "using the wrong form of 'to be' verb for temperature",
+          "forgetting to use the word 'in' for temperature"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "45",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Climate Details",
+        "theme": "temperature, weather vocabulary, degrees, seasons description",
+        "generated_at": "2026-04-12T21:52:42.754649",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about the four seasons in my country. Describe the weather and the months when each season happens.",
+        "guiding_points": [
+          "Point 1: Describe the weather in spring",
+          "Point 2: Mention the months when summer happens and describe the weather",
+          "Point 3: Describe the weather in autumn and the months when it happens"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "In my country, spring is a beautiful season. The weather is warm and sunny in March and April. Summer is hot and rainy in June, July and August. Autumn is cool and windy in September and October. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "spring",
+          "warm",
+          "sunny",
+          "summer",
+          "hot",
+          "rainy",
+          "autumn",
+          "cool",
+          "windy",
+          "favorite"
+        ],
+        "grammar_focus": [
+          "use of articles (a, the) with seasons and months",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "spring",
+          "summer",
+          "autumn",
+          "winter",
+          "month"
+        ],
+        "grammar_points": [
+          "use of articles (a, the) with seasons and months",
+          "simple sentence structure"
+        ],
+        "common_mistakes": [
+          "using complex sentence structures",
+          "forgetting to use articles with seasons and months"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "46",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Seasons",
+        "theme": "four seasons, spring, summer, autumn, winter, months and weather",
+        "generated_at": "2026-04-12T21:52:55.105641",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about different weather conditions. Describe the weather on a typical day in your town.",
+        "guiding_points": [
+          "Describe the weather in your town on a typical day.",
+          "Mention two or three different types of weather you experience.",
+          "Explain how people behave in each type of weather."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "It is often windy in my town. When it is windy, people take their umbrellas. On snowy days, children play in the park. They make snowmen and snowballs. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family. I think this is very good.",
+        "vocabulary_used": [
+          "windy",
+          "town",
+          "umbrellas",
+          "snowy",
+          "children",
+          "play",
+          "park",
+          "snowmen",
+          "favorite",
+          "eat"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of articles"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "windy",
+          "umbrellas",
+          "snowy",
+          "foggy",
+          "stormy"
+        ],
+        "grammar_points": [
+          "use of simple present tense",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "using the wrong tense",
+          "forgetting articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "47",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Atmosphere Kinds",
+        "theme": "types of weather, windy, snowy, foggy, stormy, different conditions",
+        "generated_at": "2026-04-12T21:53:09.310983",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Imagine you are talking to a friend on a sunny day. Write a short paragraph about the weather and what you like to do on a sunny day.",
+        "guiding_points": [
+          "Point 1: Describe the weather you are talking about",
+          "Point 2: Mention something you like to do on a sunny day",
+          "Point 3: Add a simple detail about your daily routine"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like sunny days. It's nice to go for a walk in the park. I can see the flowers and the trees. I also like to have a picnic with my family. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "sunny",
+          "nice",
+          "walk",
+          "park",
+          "flowers",
+          "trees",
+          "picnic",
+          "family",
+          "favorite",
+          "eat"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "article 'a'"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "sunny",
+          "walk",
+          "park",
+          "flowers",
+          "trees"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "article 'a'"
+        ],
+        "common_mistakes": [
+          "using complex sentences",
+          "forgetting to use articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "7",
+        "sub_unit_id": "48",
+        "unit_title": "Weather and Seasons",
+        "sub_unit_title": "Small Talk Sky",
+        "theme": "talking about weather, simple conversations, British small talk, daily chat",
+        "generated_at": "2026-04-12T21:53:25.159251",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your home. Tell us about the rooms and furniture.",
+        "guiding_points": [
+          "Point 1: Describe the living room. What is there?",
+          "Point 2: Mention the bedroom. What is special about it?",
+          "Point 3: Say something about the kitchen. What do you like about it?"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I live in a small apartment. The living room has a sofa and a TV. My bedroom is on the second floor. I like the big window in my room. I can see the park from my window. My kitchen has a big fridge and a stove. I like to cook dinner in the evening. My home is a comfortable place to live.",
+        "vocabulary_used": [
+          "small",
+          "apartment",
+          "living",
+          "room",
+          "sofa",
+          "tv",
+          "bedroom",
+          "second",
+          "floor",
+          "big"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "apartment",
+          "sofa",
+          "TV",
+          "fridge",
+          "stove"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "8",
+        "sub_unit_id": "49",
+        "unit_title": "Homes and Rooms",
+        "sub_unit_title": "My Home",
+        "theme": "describing my house or apartment, rooms, home sweet home, living place",
+        "generated_at": "2026-04-12T21:53:32.456451",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your bedroom. Describe the furniture and decorations.",
+        "guiding_points": [
+          "Mention the bed and mattress",
+          "Describe the color of the walls and any pictures on them",
+          "Tell about a favorite item in your room"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My bedroom is a quiet place. I have a big bed with a soft mattress. The walls are painted blue and there are some nice pictures on them. I like my favorite bookshelf with many interesting books. My home is a comfortable place to live. I like spending time in my house. It is a nice place to relax after school.",
+        "vocabulary_used": [
+          "bedroom",
+          "quiet",
+          "big",
+          "bed",
+          "mattress",
+          "walls",
+          "blue",
+          "nice",
+          "pictures",
+          "favorite"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "bedroom",
+          "furniture",
+          "decorations",
+          "bookshelf"
+        ],
+        "grammar_points": [
+          "simple present tense for describing habits or facts",
+          "using articles (a/an/the) to describe objects"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a/an/the)",
+          "using complex verb tenses"
+        ]
+      },
+      "metadata": {
+        "unit_id": "8",
+        "sub_unit_id": "50",
+        "unit_title": "Homes and Rooms",
+        "sub_unit_title": "My Room",
+        "theme": "my bedroom, furniture, personal space, my own room, decorating",
+        "generated_at": "2026-04-12T21:53:43.886717",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your bedroom. Describe the furniture and objects you see. Mention the things that are on your desk and bed.",
+        "guiding_points": [
+          "Point 1: Describe your bed and what's on it",
+          "Point 2: Talk about the furniture in your bedroom",
+          "Point 3: Mention one object on your desk or bed"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have a big bed in my bedroom. It's brown and has a white blanket. My desk is near the bed. I have a lamp on my desk. It helps me see my books at night. My home is a comfortable place to live. I like spending time in my house. It is a nice place to relax after school.",
+        "vocabulary_used": [
+          "big",
+          "bed",
+          "bedroom",
+          "brown",
+          "white",
+          "blanket",
+          "desk",
+          "near",
+          "lamp",
+          "books"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "bed",
+          "desk",
+          "wardrobe",
+          "lamp",
+          "mirror"
+        ],
+        "grammar_points": [
+          "present simple tense",
+          "articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "8",
+        "sub_unit_id": "51",
+        "unit_title": "Homes and Rooms",
+        "sub_unit_title": "My Bedroom Details",
+        "theme": "bed, desk, wardrobe, bedroom objects, lamp, mirror, details",
+        "generated_at": "2026-04-12T21:53:56.000702",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about the things you find in a kitchen. Think about what people use to cook and eat food.",
+        "guiding_points": [
+          "Point 1: Describe a kitchen table and what you can find on it",
+          "Point 2: Mention a kitchen appliance that you use to cook food",
+          "Point 3: Talk about a common food that people eat in the kitchen"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have a kitchen table. It is in the middle of the room. I put my books and phone on it. I also put my food on it when I eat. I use a stove to cook my food. It is a big machine that helps me make yummy things. My favorite food is pizza. I eat it with my family in the kitchen.",
+        "vocabulary_used": [
+          "kitchen",
+          "table",
+          "room",
+          "put",
+          "books",
+          "phone",
+          "eat",
+          "stove",
+          "cook",
+          "big"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "describing things"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "kitchen table",
+          "stove",
+          "machine",
+          "yummy"
+        ],
+        "grammar_points": [
+          "present simple tense",
+          "describing things with 'is'"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense",
+          "using too many complicated words"
+        ]
+      },
+      "metadata": {
+        "unit_id": "8",
+        "sub_unit_id": "52",
+        "unit_title": "Homes and Rooms",
+        "sub_unit_title": "Kitchen",
+        "theme": "kitchen objects, cooking, eating area, fridge, table, making food",
+        "generated_at": "2026-04-12T21:54:08.278814",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about your favorite food. What do you like to eat? Why do you like it?",
+        "guiding_points": [
+          "Mention your favorite food (e.g. pizza, ice cream, sushi)",
+          "Describe why you like this food (e.g. taste, smell, texture)",
+          "Add a simple detail about how you eat this food (e.g. with family, in a restaurant)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My favorite food is pizza. I like pizza because it is tasty. I eat pizza with my family on Fridays. We go to a restaurant near my house and order a big pizza. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "favorite",
+          "pizza",
+          "tasty",
+          "eat",
+          "family",
+          "restaurant",
+          "near",
+          "house",
+          "order",
+          "big"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "favorite",
+          "tasty",
+          "restaurant"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use simple present tense",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "53",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "My Favorite Food",
+        "theme": "favorite foods, likes and dislikes, tasty food, yum, delicious",
+        "generated_at": "2026-04-12T21:54:21.332259",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about what you eat for breakfast. Describe your favorite breakfast food and how you like to eat it.",
+        "guiding_points": [
+          "Point 1: Mention your favorite breakfast food (e.g. cereal, toast, eggs)",
+          "Point 2: Describe how you like to eat your breakfast (e.g. with milk, with butter, with family)",
+          "Point 3: Add a simple detail about your breakfast routine (e.g. at home, in the morning, with a cup of tea)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to eat toast for breakfast. I put butter on my toast and eat it with my family. We eat breakfast together every morning. Then I drink a glass of orange juice and get ready for school. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way.",
+        "vocabulary_used": [
+          "eat",
+          "toast",
+          "breakfast",
+          "put",
+          "butter",
+          "family",
+          "together",
+          "morning",
+          "orange",
+          "juice"
+        ],
+        "grammar_focus": [
+          "use of the present simple tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "toast",
+          "butter",
+          "family",
+          "morning"
+        ],
+        "grammar_points": [
+          "use of the present simple tense for routines and habits",
+          "articles (a/an/the) for common nouns"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense",
+          "using incorrect articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "55",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Breakfast Food",
+        "theme": "morning meals, breakfast items, eating breakfast, cereal, toast, eggs",
+        "generated_at": "2026-04-12T21:54:32.591194",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your food preferences. What do you like to eat? Do you prefer sweet or salty foods? Do you eat healthy food every day?",
+        "guiding_points": [
+          "Mention a food you like to eat",
+          "Describe whether it is sweet or salty",
+          "Explain why you like it"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to eat apples. They are sweet. I eat apples every day because they are good for my health. This is one of my favorite fruits to eat. I enjoy apples very much. They taste very good and delicious. I often eat apples with my family. I think apples are very good. It is important to eat healthy food.",
+        "vocabulary_used": [
+          "eat",
+          "apples",
+          "sweet",
+          "health",
+          "favorite",
+          "family"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "adjective order"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "like",
+          "apples",
+          "sweet",
+          "healthy"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "adjective order"
+        ],
+        "common_mistakes": [
+          "forgetting to use the verb 'to be' in the simple present tense",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "56",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Food Preferences",
+        "theme": "what I like to eat, healthy food, tastes, sweet, salty, preferences",
+        "generated_at": "2026-04-12T21:54:45.701867",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about making a sandwich. Describe the steps and ingredients you use.",
+        "guiding_points": [
+          "Point 1: Describe the first step in making a sandwich, like cutting the bread.",
+          "Point 2: Mention two ingredients you use in your sandwich, such as cheese and ham.",
+          "Point 3: Explain how you put the ingredients together in your sandwich."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I cut the bread to make two slices. I use cheese and ham in my sandwich. I put the cheese on one slice and the ham on the other. Then I put them together and cut the sandwich. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "bread",
+          "slices",
+          "cheese",
+          "ham",
+          "sandwich",
+          "put",
+          "slice",
+          "together",
+          "favorite",
+          "eat"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic prepositions"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "cut",
+          "slices",
+          "cheese",
+          "ham",
+          "put",
+          "together"
+        ],
+        "grammar_points": [
+          "simple present tense for actions",
+          "using basic prepositions like on and in"
+        ],
+        "common_mistakes": [
+          "forgetting to use the article 'the' before 'bread'",
+          "using the wrong verb tense for actions"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "57",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Making Sandwich",
+        "theme": "making food, sandwich ingredients, steps, bread, cheese, ham, vegetables",
+        "generated_at": "2026-04-12T21:54:58.662301",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 66
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about what you eat for breakfast every day.",
+        "guiding_points": [
+          "Point 1: Mention the time you wake up in the morning",
+          "Point 2: Describe what you eat for breakfast",
+          "Point 3: Include a simple detail about your favorite drink or habit"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at 7 o'clock every morning. I eat breakfast with my family. We have toast, eggs, and orange juice. Then I drink a glass of milk to get strong. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "clock",
+          "morning",
+          "eat",
+          "breakfast",
+          "family",
+          "toast",
+          "eggs",
+          "orange"
+        ],
+        "grammar_focus": [
+          "use of the present simple tense",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "breakfast",
+          "toast",
+          "eggs",
+          "milk"
+        ],
+        "grammar_points": [
+          "present simple tense for habits",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to include time or family in the paragraph",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "58",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Food and Drink",
+        "theme": "meals, beverages, eating habits, drinking water, juice, milk",
+        "generated_at": "2026-04-12T21:55:09.912688",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about what you eat for lunch at school.",
+        "guiding_points": [
+          "Point 1: What do you eat for lunch every day?",
+          "Point 2: Do you eat in the school cafeteria or at your desk?",
+          "Point 3: What is your favorite lunch food at school?"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I eat a sandwich for lunch every day at school. My friends and I sit in the cafeteria. I like to eat a sandwich with a salad on the side. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family. I think this is very good.",
+        "vocabulary_used": [
+          "eat",
+          "sandwich",
+          "school",
+          "friends",
+          "sit",
+          "cafeteria",
+          "salad",
+          "favorite",
+          "family"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "preposition in"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "sandwich",
+          "salad",
+          "cafeteria"
+        ],
+        "grammar_points": [
+          "use of simple present tense for routine activities",
+          "preposition in for locations"
+        ],
+        "common_mistakes": [
+          "using complex sentences",
+          "forgetting to use the preposition in"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "59",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Lunch Food",
+        "theme": "midday meals, lunch at home or school, sandwich, soup, salad",
+        "generated_at": "2026-04-12T21:55:22.255046",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about making a simple sandwich. Describe the ingredients and the steps to make it.",
+        "guiding_points": [
+          "Point 1: Mention two main ingredients of the sandwich",
+          "Point 2: Describe the first step to make the sandwich",
+          "Point 3: Mention one additional ingredient to add to the sandwich"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "To make a sandwich, you need two slices of bread and some cheese. First, put the cheese on one slice of bread. Then, put the other slice on top of the cheese. I also add some tomato to my sandwich. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious.",
+        "vocabulary_used": [
+          "sandwich",
+          "slices",
+          "bread",
+          "cheese",
+          "put",
+          "slice",
+          "tomato",
+          "favorite",
+          "eat"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "basic sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "sandwich",
+          "ingredient",
+          "slice"
+        ],
+        "grammar_points": [
+          "using the present simple tense for recipes",
+          "basic sentence structure with subject-verb-object"
+        ],
+        "common_mistakes": [
+          "forgetting to use the present simple tense",
+          "using complex sentence structures"
+        ]
+      },
+      "metadata": {
+        "unit_id": "9",
+        "sub_unit_id": "61",
+        "unit_title": "Food and Drink",
+        "sub_unit_title": "Food Recipe",
+        "theme": "simple recipes, cooking steps, ingredients, how to make, instructions",
+        "generated_at": "2026-04-12T21:55:33.374795",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your favorite zoo animal. Tell us what it looks like and what it eats.",
+        "guiding_points": [
+          "Mention the name of a zoo animal you like",
+          "Describe what it looks like (color, size, shape)",
+          "Tell us what it eats (food or plants)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like the monkeys at the zoo. They are brown and have long tails. They eat bananas and apples. We can see them playing in the trees every day. Animals are interesting to watch and study. I like taking care of animals. They are cute and friendly creatures. I enjoy spending time with animals. I think this is very good.",
+        "vocabulary_used": [
+          "monkeys",
+          "zoo",
+          "brown",
+          "tails",
+          "eat",
+          "bananas",
+          "apples",
+          "trees",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic adjectives"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "monkeys",
+          "zoo",
+          "brown",
+          "long",
+          "tails"
+        ],
+        "grammar_points": [
+          "use of simple present tense",
+          "basic adjectives (color, size)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a, the)",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "10",
+        "sub_unit_id": "62",
+        "unit_title": "Pets and Animals",
+        "sub_unit_title": "Zoo Animals",
+        "theme": "animals at the zoo, wild animals, visiting zoo, lions, elephants, monkeys",
+        "generated_at": "2026-04-12T21:55:45.595921",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your pet at home. Describe what you do with your pet every day.",
+        "guiding_points": [
+          "Mention the type of pet you have (e.g. dog, cat, fish, bird).",
+          "Describe one activity you do with your pet every day (e.g. feeding, playing, walking).",
+          "Include a simple detail about your pet's favorite thing (e.g. food, toy, place to sleep)."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have a cat at home. I feed my cat every morning. My cat likes to sleep on the soft cushion. The cushion is in the living room. My home is a comfortable place to live. I like spending time in my house. It is a nice place to relax after school. I feel happy and safe in my home.",
+        "vocabulary_used": [
+          "cat",
+          "home",
+          "feed",
+          "morning",
+          "cushion",
+          "living",
+          "room",
+          "comfortable",
+          "house",
+          "nice"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of articles"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "pet",
+          "feed",
+          "morning",
+          "cushion",
+          "living room"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "use of articles"
+        ],
+        "common_mistakes": [
+          "forgetting to use the correct article (a/an/the) before the noun"
+        ]
+      },
+      "metadata": {
+        "unit_id": "10",
+        "sub_unit_id": "63",
+        "unit_title": "Pets and Animals",
+        "sub_unit_title": "Pet Companion",
+        "theme": "my pet, taking care of pets, animals at home, dog, cat, fish, bird",
+        "generated_at": "2026-04-12T21:55:57.880446",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about a farm. Describe the animals you see and the sounds they make.",
+        "guiding_points": [
+          "Mention three animals you see on the farm",
+          "Describe what the animals look like",
+          "Include the sounds the animals make"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I visit a farm every weekend. I see cows, pigs, and chickens. The cows are big and brown. They make a loud 'moo' sound. The pigs are small and white. They make a funny 'oink' sound. The chickens are yellow and brown. They make a happy 'cluck' sound. Animals are interesting to watch and study. I like taking care of animals.",
+        "vocabulary_used": [
+          "farm",
+          "weekend",
+          "cows",
+          "pigs",
+          "chickens",
+          "big",
+          "brown",
+          "loud",
+          "moo",
+          "small"
+        ],
+        "grammar_focus": [
+          "articles (a, the)",
+          "simple adjectives (big, small)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "farm",
+          "cows",
+          "pigs",
+          "chickens",
+          "big",
+          "brown",
+          "loud",
+          "moo",
+          "small",
+          "white",
+          "funny",
+          "oink",
+          "yellow",
+          "cluck"
+        ],
+        "grammar_points": [
+          "using articles (a, the) correctly",
+          "using simple adjectives (big, small)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex adjectives"
+        ]
+      },
+      "metadata": {
+        "unit_id": "10",
+        "sub_unit_id": "69",
+        "unit_title": "Pets and Animals",
+        "sub_unit_title": "Animals",
+        "theme": "common animals, describing animals, sounds, farm animals, pets, wild",
+        "generated_at": "2026-04-12T21:56:10.156763",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a small town. Describe the places you can find in a small town.",
+        "guiding_points": [
+          "Mention the bank in the town.",
+          "Describe what you can find in the post office.",
+          "Tell about a shop you like to visit in the town."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I live in a small town. There is a bank in the town where I can change money. The post office is near the bank. I like to visit the bookshop because they have many interesting books. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around.",
+        "vocabulary_used": [
+          "small",
+          "town",
+          "bank",
+          "change",
+          "money",
+          "post",
+          "office",
+          "near",
+          "bookshop",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "using the definite article 'the'",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "bank",
+          "post office",
+          "bookshop",
+          "change money"
+        ],
+        "grammar_points": [
+          "using the definite article 'the'",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use the definite article 'the'",
+          "using the wrong verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "71",
+        "unit_title": "Town and City",
+        "sub_unit_title": "Town Places",
+        "theme": "places in town, bank, post office, shop, pharmacy, small town",
+        "generated_at": "2026-04-12T21:56:23.306684",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a big city. Describe a place where you like to go.",
+        "guiding_points": [
+          "Mention a cinema or a museum in the city.",
+          "Describe the building where you like to go.",
+          "Tell us about a fun thing you can do there."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I like to go to the cinema in the city. The cinema is in a big building with many floors. I like to watch movies on a big screen. Animals are interesting to watch and study. I like taking care of animals. They are cute and friendly creatures. I enjoy spending time with animals. I think this is very good.",
+        "vocabulary_used": [
+          "cinema",
+          "big",
+          "building",
+          "floors",
+          "movies",
+          "screen",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "use of articles (a/the)",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "cinema",
+          "building",
+          "floors",
+          "movies",
+          "screen"
+        ],
+        "grammar_points": [
+          "use of articles (a/the)",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "72",
+        "unit_title": "Town and City",
+        "sub_unit_title": "City Places",
+        "theme": "big city locations, cinema, museum, park, mall, big buildings",
+        "generated_at": "2026-04-12T21:56:35.456250",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your visit to the park. Describe what you did and what you saw.",
+        "guiding_points": [
+          "Point 1: Mention the day of the week you went to the park",
+          "Point 2: Describe the activities you did in the park",
+          "Point 3: Mention something you liked about the park"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I went to the park on Saturday. I played on the swings and slide. I also sat on a bench under a big tree. The park was very fun and I liked the grass. This is one of my favorite activities. I do this when I have free time. It makes me feel happy and relaxed. I often do this with my friends.",
+        "vocabulary_used": [
+          "park",
+          "saturday",
+          "swings",
+          "slide",
+          "bench",
+          "under",
+          "big",
+          "tree",
+          "grass",
+          "favorite"
+        ],
+        "grammar_focus": [
+          "present simple tense",
+          "use of articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "park",
+          "swings",
+          "slide",
+          "bench",
+          "tree"
+        ],
+        "grammar_points": [
+          "present simple tense",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "using the wrong verb tense",
+          "forgetting to use articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "73",
+        "unit_title": "Town and City",
+        "sub_unit_title": "Park Visit",
+        "theme": "going to the park, playground, activities, trees, benches, fun outside",
+        "generated_at": "2026-04-12T21:56:47.600073",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your town. Tell us where it is, how big it is, and what it is like.",
+        "guiding_points": [
+          "Point 1: Describe the location of your town (e.g. near a river, in a valley, on a hill)",
+          "Point 2: Tell us about the size of your town (e.g. small, big, quiet)",
+          "Point 3: Describe what your town is like (e.g. nice, beautiful, green)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My town is in a valley. It is a small town. I like it because it is quiet and nice. There are many trees and a big park. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around. I know this area very well. I think this is very good.",
+        "vocabulary_used": [
+          "town",
+          "valley",
+          "small",
+          "quiet",
+          "nice",
+          "trees",
+          "big",
+          "park",
+          "living",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "use of the in a valley",
+          "use of the in a sentence"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "town",
+          "valley",
+          "small",
+          "quiet",
+          "nice",
+          "trees",
+          "park"
+        ],
+        "grammar_points": [
+          "use of the in a sentence",
+          "describing a place"
+        ],
+        "common_mistakes": [
+          "forgetting to use the in a sentence",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "74",
+        "unit_title": "Town and City",
+        "sub_unit_title": "My Town",
+        "theme": "describing my town, where I live, small place, quiet, nice town",
+        "generated_at": "2026-04-12T21:57:00.067983",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write about your city. Tell us what it is like. Describe the big city life.",
+        "guiding_points": [
+          "Point 1: What is your city called?",
+          "Point 2: Is your city big or small?",
+          "Point 3: What do you like about big city life?"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My city is called Tokyo. It is a very big city. I like the busy streets and many people. The city is always exciting with bright lights and music. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around. I know this area very well. I think this is very good.",
+        "vocabulary_used": [
+          "tokyo",
+          "big",
+          "busy",
+          "exciting",
+          "bright",
+          "lights",
+          "music",
+          "living",
+          "interesting",
+          "nice"
+        ],
+        "grammar_focus": [
+          "use of 'is called' for proper nouns",
+          "simple present tense for general statements"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "city",
+          "big",
+          "busy",
+          "exciting"
+        ],
+        "grammar_points": [
+          "use of 'is called' for proper nouns",
+          "simple present tense for general statements"
+        ],
+        "common_mistakes": [
+          "forgetting to use a/an or the with a noun",
+          "using present continuous tense instead of simple present"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "75",
+        "unit_title": "Town and City",
+        "sub_unit_title": "My City",
+        "theme": "describing my city, big city life, busy, exciting, many people",
+        "generated_at": "2026-04-12T21:57:11.403929",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about how you get around town.",
+        "guiding_points": [
+          "Describe how you usually get to school.",
+          "Mention one way you like to travel around town.",
+          "Explain why you prefer this mode of transport."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I get to school by bus every day. I like to walk to the park on the weekends. It's because I can see the flowers and birds. I feel happy when I walk. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around. I know this area very well.",
+        "vocabulary_used": [
+          "get",
+          "school",
+          "bus",
+          "walk",
+          "park",
+          "flowers",
+          "birds",
+          "happy",
+          "living",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "prepositions (in, on)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "bus",
+          "park",
+          "weekends",
+          "flowers",
+          "birds"
+        ],
+        "grammar_points": [
+          "using the simple present tense",
+          "correct use of prepositions"
+        ],
+        "common_mistakes": [
+          "forgetting articles (a/an/the)",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "76",
+        "unit_title": "Town and City",
+        "sub_unit_title": "Town Transportation",
+        "theme": "getting around town, bus, taxi, walking, bicycle, moving in town",
+        "generated_at": "2026-04-12T21:57:24.532811",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about how to find the city library. You are walking from the town hall.",
+        "guiding_points": [
+          "Mention the starting point (town hall)",
+          "Describe the direction you need to go (straight or turn)",
+          "Include a landmark or a sign to help people find the library"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I start from the town hall. I go straight on Main Street. Then I turn left at the big sign that says 'Library'. The library is on my right. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around. I know this area very well. I think this is very good.",
+        "vocabulary_used": [
+          "town",
+          "hall",
+          "straight",
+          "main",
+          "street",
+          "turn",
+          "left",
+          "big",
+          "sign",
+          "library"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "directional words"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "town hall",
+          "straight",
+          "turn left",
+          "right",
+          "Main Street"
+        ],
+        "grammar_points": [
+          "using simple present tense for directions",
+          "using directional words (straight, turn, left, right)"
+        ],
+        "common_mistakes": [
+          "forgetting to use directional words",
+          "using incorrect prepositions (e.g. 'at' instead of 'on')"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "77",
+        "unit_title": "Town and City",
+        "sub_unit_title": "Basic Directions",
+        "theme": "where is..., finding places, simple navigation, go straight, turn here",
+        "generated_at": "2026-04-12T21:57:35.900265",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a park in your town. Describe its location and some nearby places.",
+        "guiding_points": [
+          "Mention the name of the park in your town.",
+          "Describe the location of the park in relation to other places, such as a river, a school, or a shopping center.",
+          "Tell about something interesting or fun you can do in the park."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "The park is near my school. I can walk there in five minutes. The park is next to a big river. In the park, I like to play soccer with my friends. Animals are interesting to watch and study. I like taking care of animals. They are cute and friendly creatures. I enjoy spending time with animals. I think this is very good.",
+        "vocabulary_used": [
+          "park",
+          "near",
+          "school",
+          "walk",
+          "five",
+          "big",
+          "river",
+          "play",
+          "soccer",
+          "friends"
+        ],
+        "grammar_focus": [
+          "prepositions (in, near, next to)",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "park",
+          "river",
+          "soccer",
+          "friends"
+        ],
+        "grammar_points": [
+          "prepositions (in, near, next to)",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use prepositions",
+          "using incorrect verb tenses"
+        ]
+      },
+      "metadata": {
+        "unit_id": "11",
+        "sub_unit_id": "78",
+        "unit_title": "Town and City",
+        "sub_unit_title": "Park Location",
+        "theme": "describing location, near, far, next to, behind, in front of, prepositions",
+        "generated_at": "2026-04-12T21:57:48.027540",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your skills. Describe what you can do well. Include three things you are good at.",
+        "guiding_points": [
+          "Point 1: Describe a skill related to sports or physical activities",
+          "Point 2: Mention a skill related to music or art",
+          "Point 3: Include a skill related to cooking or food"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I am good at playing soccer. I can run fast and kick the ball well. I also like to draw pictures and paint. I can make a delicious sandwich with turkey and cheese. This object is useful in my daily life. I use this thing very often. It is important to me. I like how it looks and works. I think this is very good.",
+        "vocabulary_used": [
+          "soccer",
+          "run",
+          "ball",
+          "pictures",
+          "sandwich",
+          "cheese"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic adjectives"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "soccer",
+          "delicious",
+          "turkey",
+          "cheese"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "basic adjectives"
+        ],
+        "common_mistakes": [
+          "forgetting to use simple present tense",
+          "using complex adjectives"
+        ]
+      },
+      "metadata": {
+        "unit_id": "12",
+        "sub_unit_id": "79",
+        "unit_title": "Learning and Skills",
+        "sub_unit_title": "My Skills",
+        "theme": "what I can do, abilities, I can..., talents, things I am good at",
+        "generated_at": "2026-04-12T21:58:00.136398",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about a picture of a ball. Describe the ball's color, size, and shape.",
+        "guiding_points": [
+          "Point 1: Describe the color of the ball",
+          "Point 2: Mention the size of the ball (big or small)",
+          "Point 3: Describe the shape of the ball (round or square)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "The ball is red. It is small. The ball is round. It is fun to play with. I play with this ball every day. It is one of my favorite toys. I like to play ball games with my friends. This ball is very nice. I use this ball regularly. It makes me feel happy when I play with it.",
+        "vocabulary_used": [
+          "ball",
+          "red",
+          "small",
+          "round",
+          "play"
+        ],
+        "grammar_focus": [
+          "simple adjectives",
+          "article use"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "red",
+          "small",
+          "round",
+          "ball"
+        ],
+        "grammar_points": [
+          "using simple adjectives to describe objects",
+          "using articles (a, the) correctly"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex adjectives"
+        ]
+      },
+      "metadata": {
+        "unit_id": "13",
+        "sub_unit_id": "84",
+        "unit_title": "Objects and Descriptions",
+        "sub_unit_title": "Object Description",
+        "theme": "describing things, color, size, shape, big, small, round, square",
+        "generated_at": "2026-04-12T21:58:12.186823",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your things at home. Describe your favorite bag, phone, and book. Include what you use them for and where you keep them.",
+        "guiding_points": [
+          "Mention your favorite bag and its color",
+          "Describe your phone and what you use it for",
+          "Tell where you keep your favorite book at home"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have a red bag. I use it to carry my things to school. My phone is black and I use it to talk to my friends. I keep my favorite book on a shelf in my bedroom. This object is useful in my daily life. I use this thing very often. It is important to me. I like how it looks and works.",
+        "vocabulary_used": [
+          "red",
+          "bag",
+          "school",
+          "phone",
+          "friends",
+          "favorite",
+          "book",
+          "shelf",
+          "bedroom"
+        ],
+        "grammar_focus": [
+          "use of the definite article 'the'",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "bag",
+          "phone",
+          "book",
+          "shelf",
+          "bedroom"
+        ],
+        "grammar_points": [
+          "use of the definite article 'the'",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to include the definite article 'the'",
+          "using the wrong verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "13",
+        "sub_unit_id": "85",
+        "unit_title": "Objects and Descriptions",
+        "sub_unit_title": "My Things",
+        "theme": "my possessions, objects I own, personal items, bag, phone, book",
+        "generated_at": "2026-04-12T21:58:24.276458",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about where you keep your books.",
+        "guiding_points": [
+          "Point 1: Describe where you keep your books at home.",
+          "Point 2: Mention the name of the book and the person who reads it.",
+          "Point 3: Explain how you keep the book safe and organized."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I keep my books on the table in the living room. My sister likes to read 'The Little Prince'. She reads it every evening before bed. I help her keep the book under the chair so it's safe. I like living in this place very much. There are many interesting things to see here. It is a nice place to walk around.",
+        "vocabulary_used": [
+          "books",
+          "table",
+          "living",
+          "room",
+          "read",
+          "evening",
+          "bed",
+          "book",
+          "under",
+          "interesting"
+        ],
+        "grammar_focus": [
+          "use of 'on the table'",
+          "use of 'under the chair'"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "book",
+          "table",
+          "living room",
+          "sister",
+          "evening",
+          "bed"
+        ],
+        "grammar_points": [
+          "use of prepositions 'on' and 'under'",
+          "use of simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use prepositions",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "13",
+        "sub_unit_id": "86",
+        "unit_title": "Objects and Descriptions",
+        "sub_unit_title": "Book Location",
+        "theme": "where things are, prepositions of place, on the table, under the chair",
+        "generated_at": "2026-04-12T21:58:36.474187",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your school day. What time do you wake up? What classes do you have? What subjects do you learn?",
+        "guiding_points": [
+          "Mention your wake-up time and breakfast",
+          "Describe your classes and subjects",
+          "Include a simple detail about your school day, like a favorite subject or activity"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at eight o'clock every morning. I have English and math classes. I like to learn English because I can speak with my friends. Then I have a break and eat lunch with my friends. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "eight",
+          "clock",
+          "morning",
+          "learn",
+          "friends",
+          "break",
+          "eat",
+          "school"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "timetable",
+          "subjects",
+          "break"
+        ],
+        "grammar_points": [
+          "using the simple present tense to describe routines",
+          "using articles to describe specific classes"
+        ],
+        "common_mistakes": [
+          "forgetting to use the simple present tense",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "14",
+        "sub_unit_id": "87",
+        "unit_title": "School Life",
+        "sub_unit_title": "School Day",
+        "theme": "my day at school, classes, timetable, subjects, learning",
+        "generated_at": "2026-04-12T21:58:48.587858",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about the classroom. Describe what you see when you enter the classroom. What are the main things you see?",
+        "guiding_points": [
+          "Point 1: Describe the desk and chair",
+          "Point 2: Mention the blackboard or whiteboard",
+          "Point 3: Include the computer and map on the wall"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "When I enter the classroom, I see a big desk in the front. There are two chairs for the teacher. The teacher writes on the blackboard with a piece of chalk. There is a computer on a table and a big map on the wall. My home is a comfortable place to live. I like spending time in my house.",
+        "vocabulary_used": [
+          "big",
+          "desk",
+          "teacher",
+          "blackboard",
+          "chalk",
+          "computer",
+          "table",
+          "map",
+          "home",
+          "comfortable"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "desk",
+          "chair",
+          "blackboard",
+          "chalk",
+          "computer",
+          "map"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using the wrong tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "14",
+        "sub_unit_id": "88",
+        "unit_title": "School Life",
+        "sub_unit_title": "Classroom Objects",
+        "theme": "things in the classroom, desk, chair, board, computer, map",
+        "generated_at": "2026-04-12T21:59:00.685856",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your school bag. What do you carry in it?",
+        "guiding_points": [
+          "Point 1: Describe the things you carry in your school bag.",
+          "Point 2: Mention the books you have in your bag.",
+          "Point 3: Tell us about the pencils and pens you use."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I carry my school bag to school every day. My bag has a lot of books in it, like English and math books. I also have a pencil case with many pencils and pens. I use them to do my homework and take notes in class. I go to school five days a week. I like learning new things at school.",
+        "vocabulary_used": [
+          "school",
+          "bag",
+          "books",
+          "pencil",
+          "case",
+          "pencils",
+          "homework",
+          "notes",
+          "five"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of articles"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "school bag",
+          "pencil case",
+          "homework",
+          "take notes"
+        ],
+        "grammar_points": [
+          "use of articles (a, the)",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "14",
+        "sub_unit_id": "89",
+        "unit_title": "School Life",
+        "sub_unit_title": "School Bag",
+        "theme": "my school bag, books, pencils, contents, what I carry",
+        "generated_at": "2026-04-12T21:59:12.910769",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your classroom. Describe where you sit and what is around you.",
+        "guiding_points": [
+          "Point 1: Where is your desk in the classroom?",
+          "Point 2: What is on the walls of your classroom?",
+          "Point 3: Where do you keep your books and pencils?"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I sit near the window in my classroom. There is a big picture of the Earth on the wall. I keep my books and pencils in a box under my desk. My teacher writes on the board with a black pen. My home is a comfortable place to live. I like spending time in my house. It is a nice place to relax after school.",
+        "vocabulary_used": [
+          "sit",
+          "near",
+          "window",
+          "big",
+          "books",
+          "pencils",
+          "under",
+          "desk",
+          "teacher",
+          "pen"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "window",
+          "picture",
+          "wall",
+          "box",
+          "desk"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "14",
+        "sub_unit_id": "90",
+        "unit_title": "School Life",
+        "sub_unit_title": "My Classroom",
+        "theme": "describing the classroom, where I study, room layout, my place",
+        "generated_at": "2026-04-12T21:59:25.172752",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about the things you need in your pencil case at school.",
+        "guiding_points": [
+          "Point 1: Think about the things you need to write and draw at school.",
+          "Point 2: Describe the objects you put in your pencil case, such as pens, pencils, and erasers.",
+          "Point 3: Think about how you organize your pencil case to find things easily."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I put my pens and pencils in my pencil case. My pencil case is red and has a zipper. I also put my eraser and sharpener in it. I like to put my favourite pen at the top so I can find it easily. I go to school five days a week. I like learning new things at school. My teachers are very kind and helpful.",
+        "vocabulary_used": [
+          "put",
+          "pencils",
+          "pencil",
+          "case",
+          "red",
+          "eraser",
+          "sharpener",
+          "pen",
+          "school",
+          "five"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic prepositions"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "pencil case",
+          "pen",
+          "pencil",
+          "eraser",
+          "sharpener"
+        ],
+        "grammar_points": [
+          "use of simple present tense",
+          "use of basic prepositions like 'in'"
+        ],
+        "common_mistakes": [
+          "forgetting to use the verb 'put' to describe actions",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "14",
+        "sub_unit_id": "91",
+        "unit_title": "School Life",
+        "sub_unit_title": "School Objects",
+        "theme": "school supplies, pen, ruler, eraser, pencil case, scissors, glue",
+        "generated_at": "2026-04-12T21:59:37.669033",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 66
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about introducing yourself to a friend and asking simple questions.",
+        "guiding_points": [
+          "Mention your name and age.",
+          "Describe how you greet your friend when you meet.",
+          "Ask a simple question to your friend, such as 'How are you?'"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My name is Maria. I am 16 years old. When I meet my friend, I say 'Hello!' and give her a hug. I ask her, 'How are you?' She says she is happy and we talk about our weekend. I like meeting new people. It is nice to make new friends. I enjoy talking with others. Being friendly is important to me.",
+        "vocabulary_used": [
+          "maria",
+          "years",
+          "old",
+          "hug",
+          "happy",
+          "weekend",
+          "nice",
+          "friends"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "introduce",
+          "greet",
+          "friend",
+          "happy"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ],
+        "common_mistakes": [
+          "using complex sentences",
+          "forgetting articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "15",
+        "sub_unit_id": "97",
+        "unit_title": "Introductions and Greetings",
+        "sub_unit_title": "Simple Questions",
+        "theme": "introducing myself, asking simple questions, greetings, hello, how are you, name",
+        "generated_at": "2026-04-12T21:59:48.946954",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your favorite toy. Tell how many toys you have and what they are.",
+        "guiding_points": [
+          "Point 1: Describe your favorite toy and its color.",
+          "Point 2: Mention how many toys you have in total.",
+          "Point 3: Tell what other toys are in the same color as your favorite toy."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have 5 toys in my room. My favorite toy is a red teddy bear. I have 2 other red toys, a red ball and a red car. They are all fun to play with. I like learning about numbers and colors. This is easy to remember and understand. I use this knowledge every day. It is fun to count and name colors.",
+        "vocabulary_used": [
+          "room",
+          "favorite",
+          "toy",
+          "red",
+          "bear",
+          "ball",
+          "car",
+          "play"
+        ],
+        "grammar_focus": [
+          "use of the definite article 'the'",
+          "counting numbers up to 5"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "toy",
+          "favorite",
+          "red",
+          "room",
+          "ball",
+          "car"
+        ],
+        "grammar_points": [
+          "use of articles 'a', 'an', 'the'",
+          "counting numbers up to 5"
+        ],
+        "common_mistakes": [
+          "forgetting to include numbers",
+          "using incorrect articles"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "98",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Counting Numbers",
+        "theme": "numbers 1-100, counting, basic math, how many, quantity",
+        "generated_at": "2026-04-12T22:00:02.103900",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your favorite color. What color is it? Why do you like it? What things are this color?",
+        "guiding_points": [
+          "Mention your favorite color",
+          "Explain why you like this color",
+          "Describe something that is this color"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "My favorite color is blue. I like it because it is a happy color. The sky is blue on sunny days. I see blue everywhere in my life. I have many blue things in my room. Blue makes me feel calm and happy. I like learning about different colors. Blue is the best color for me. I love the color blue very much.",
+        "vocabulary_used": [
+          "favorite",
+          "color",
+          "blue",
+          "happy",
+          "sky",
+          "sunny"
+        ],
+        "grammar_focus": [
+          "use of 'my favorite' phrase",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "favorite",
+          "color",
+          "happy",
+          "sky"
+        ],
+        "grammar_points": [
+          "use of articles (my)",
+          "simple sentence structure"
+        ],
+        "common_mistakes": [
+          "forgetting to use the article 'my'",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "99",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Colors",
+        "theme": "basic colors, naming colors, red, blue, green, yellow, favorite color",
+        "generated_at": "2026-04-12T22:00:14.593633",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 63
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your favorite colorful objects in your room.",
+        "guiding_points": [
+          "Point 1: Describe a colorful object in your room, such as a rug or a picture.",
+          "Point 2: Mention the colors of this object, like red, blue, or yellow.",
+          "Point 3: Add a simple detail about where you can find this object in your room."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have a colorful rug in my room. It is red and blue. The rug is under my bed. My friends like to sit on it when they visit me. My home is a comfortable place to live. I like spending time in my house. It is a nice place to relax after school. I feel happy and safe in my home.",
+        "vocabulary_used": [
+          "rug",
+          "room",
+          "red",
+          "blue",
+          "under",
+          "bed",
+          "friends",
+          "sit",
+          "home",
+          "comfortable"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "prepositions (in, on, under)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "colorful",
+          "rug",
+          "red",
+          "blue",
+          "under"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "prepositions (in, on, under)"
+        ],
+        "common_mistakes": [
+          "forgetting to use simple present tense",
+          "using incorrect prepositions"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "100",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Colorful Objects",
+        "theme": "describing colors of things around me, my colorful room, world colors",
+        "generated_at": "2026-04-12T22:00:25.803355",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 62
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your birthday and age. Tell us how old you are and what you do on your birthday.",
+        "guiding_points": [
+          "Point 1: mention your age and how old you are",
+          "Point 2: describe what you do on your birthday",
+          "Point 3: include the day of the week your birthday is on"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I am five years old. My birthday is on Sunday. I have a big party with my friends and family. We eat cake and play games together. I like learning about numbers and colors. This is easy to remember and understand. I use this knowledge every day. It is fun to count and name colors. I think this is very good.",
+        "vocabulary_used": [
+          "five",
+          "years",
+          "old",
+          "sunday",
+          "big",
+          "party",
+          "friends",
+          "family",
+          "eat",
+          "cake"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "use of articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "five",
+          "years old",
+          "Sunday"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use the correct form of 'to be' (am, is, are)",
+          "using incorrect articles (e.g. 'a' instead of 'the')"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "101",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Numbers and Ages",
+        "theme": "saying age, how old are you, numbers, birthday, years old",
+        "generated_at": "2026-04-12T22:00:37.949318",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about a shopping trip. Tell us about something you bought, how much it cost, and if it was expensive or cheap.",
+        "guiding_points": [
+          "Mention a specific item you bought, like a shirt or a book.",
+          "Describe how much it cost and if it was expensive or cheap.",
+          "Tell us if you liked the item and if you would buy it again."
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I bought a new pen yesterday. It cost 5 dollars. I think it's cheap. I like to write with it and I will buy another one. I like going shopping with my family. It is fun to buy new things. I help my parents when we go shopping. We go to the store every week. I think this is very good.",
+        "vocabulary_used": [
+          "pen",
+          "cost",
+          "dollars",
+          "cheap",
+          "buy",
+          "family"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "basic prepositions"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "buy",
+          "cost",
+          "cheap",
+          "expensive"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "basic prepositions"
+        ],
+        "common_mistakes": [
+          "forgetting to use basic prepositions",
+          "using complex vocabulary"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "102",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Numbers and Prices",
+        "theme": "prices, shopping, how much, cost, money, buying, cheap, expensive",
+        "generated_at": "2026-04-12T22:00:50.139668",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 61
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about the three red apples and two blue pens on my desk.",
+        "guiding_points": [
+          "Mention the number of red apples and their color",
+          "Describe the pens, including their number and color",
+          "Add a simple detail about what you see or think about the objects"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I have three red apples on my desk. They are very juicy. Two blue pens are also on my desk. I think I will use them to write a letter. I like learning about numbers and colors. This is easy to remember and understand. I use this knowledge every day. It is fun to count and name colors. I think this is very good.",
+        "vocabulary_used": [
+          "three",
+          "red",
+          "apples",
+          "desk",
+          "juicy",
+          "blue"
+        ],
+        "grammar_focus": [
+          "article 'my'",
+          "simple present tense"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "three",
+          "red",
+          "juicy",
+          "blue",
+          "desk"
+        ],
+        "grammar_points": [
+          "article 'my'",
+          "simple present tense"
+        ],
+        "common_mistakes": [
+          "forgetting to use the article 'my'",
+          "using the wrong verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "16",
+        "sub_unit_id": "103",
+        "unit_title": "Numbers and Colors",
+        "sub_unit_title": "Numbers and Colors",
+        "theme": "combining numbers and colors, descriptions, three red apples, two blue pens",
+        "generated_at": "2026-04-12T22:01:02.302576",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 64
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about your last shopping trip. What did you buy? Where did you go? What did you need and want?",
+        "guiding_points": [
+          "Point 1: Describe a store you went to (e.g. supermarket, mall, market)",
+          "Point 2: Mention something you needed to buy (e.g. food, clothes, toys)",
+          "Point 3: Say what you wanted to buy but didn't have enough money for"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I went to the supermarket with my mom last week. We needed to buy some bread and milk. I also wanted to buy a new toy, but it was too expensive. We bought some apples and oranges instead. I like going shopping with my family. It is fun to buy new things. I help my parents when we go shopping.",
+        "vocabulary_used": [
+          "supermarket",
+          "mom",
+          "buy",
+          "bread",
+          "milk",
+          "toy",
+          "expensive",
+          "apples",
+          "family"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "supermarket",
+          "bread",
+          "milk",
+          "toy"
+        ],
+        "grammar_points": [
+          "use of simple present tense to describe a routine action",
+          "use of articles (a/an/the) to describe specific objects"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles (a/an/the)",
+          "using incorrect verb tense"
+        ]
+      },
+      "metadata": {
+        "unit_id": "17",
+        "sub_unit_id": "104",
+        "unit_title": "Shopping and Money",
+        "sub_unit_title": "Going Shopping",
+        "theme": "shopping trip, buying things, stores, going to buy, need and want",
+        "generated_at": "2026-04-12T22:01:13.978061",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 60
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your last visit to a supermarket. Describe what you did and what you bought.",
+        "guiding_points": [
+          "Point 1: What you saw when you entered the supermarket",
+          "Point 2: What you put in your shopping cart",
+          "Point 3: What happened at the checkout"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I went to the supermarket with my mom. We walked down the big aisle with many shelves. We put some bread and milk in our cart. Then we went to the checkout and paid with a card. This is one of my favorite things to eat. I enjoy this food very much. It tastes very good and delicious. I often eat this with my family.",
+        "vocabulary_used": [
+          "supermarket",
+          "mom",
+          "big",
+          "aisle",
+          "shelves",
+          "put",
+          "bread",
+          "milk",
+          "cart",
+          "checkout"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "supermarket",
+          "aisle",
+          "shelves",
+          "cart",
+          "checkout"
+        ],
+        "grammar_points": [
+          "simple present tense",
+          "articles (a/an/the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex sentences"
+        ]
+      },
+      "metadata": {
+        "unit_id": "17",
+        "sub_unit_id": "106",
+        "unit_title": "Shopping and Money",
+        "sub_unit_title": "Supermarket",
+        "theme": "supermarket shopping, food shopping, cart, shelves, products, checkout",
+        "generated_at": "2026-04-12T22:01:26.236095",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a paragraph about making a shopping list. Think about what you need to buy and how you can organize it.",
+        "guiding_points": [
+          "Point 1: Write about what you need to buy (food, toiletries, etc.)",
+          "Point 2: Describe how you can organize your shopping list (alphabetical order, categories, etc.)",
+          "Point 3: Mention a simple detail about your shopping plan (e.g., going to the store at a specific time)"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I make a shopping list every week. I write down what I need to buy, like milk and bread. I organize my list in alphabetical order so it's easy to find what I need. Then, I go to the store on Saturday morning. I like going shopping with my family. It is fun to buy new things. I help my parents when we go shopping.",
+        "vocabulary_used": [
+          "list",
+          "buy",
+          "milk",
+          "bread",
+          "organize",
+          "alphabetical",
+          "order",
+          "saturday",
+          "morning",
+          "family"
+        ],
+        "grammar_focus": [
+          "use of the present tense",
+          "simple sentence structure"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "shopping list",
+          "organize",
+          "alphabetical order"
+        ],
+        "grammar_points": [
+          "use of the present tense for regular actions",
+          "simple sentence structure with SVO"
+        ],
+        "common_mistakes": [
+          "forgetting to include the main idea (shopping list)",
+          "using complex sentence structures"
+        ]
+      },
+      "metadata": {
+        "unit_id": "17",
+        "sub_unit_id": "107",
+        "unit_title": "Shopping and Money",
+        "sub_unit_title": "Shopping List",
+        "theme": "making a list, what to buy, planning, items needed, organize shopping",
+        "generated_at": "2026-04-12T22:01:38.419073",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 65
+      }
+    },
+    {
+      "exercise": {
+        "instruction": "Write a short paragraph about your daily routine and what time you do things.",
+        "guiding_points": [
+          "Mention what time you wake up in the morning",
+          "Describe what you do after waking up",
+          "Include what time you have breakfast and what you eat"
+        ],
+        "word_count_target": "60-80 words (3-4 lines)",
+        "difficulty": "A1"
+      },
+      "model_answer": {
+        "text": "I wake up at seven o'clock every morning. Then I get out of bed and wash my face. I eat breakfast at eight o'clock with my family. We have toast and drink orange juice. I do this every morning before I go to school. This is part of my daily routine. I like to start my day this way. It helps me feel ready for the day.",
+        "vocabulary_used": [
+          "wake",
+          "up",
+          "seven",
+          "clock",
+          "morning",
+          "get",
+          "bed",
+          "wash",
+          "face",
+          "eat"
+        ],
+        "grammar_focus": [
+          "simple present tense",
+          "articles (a, the)"
+        ]
+      },
+      "teacher_notes": {
+        "key_vocabulary": [
+          "wake",
+          "bed",
+          "breakfast",
+          "family",
+          "toast"
+        ],
+        "grammar_points": [
+          "simple present tense for routines",
+          "use of articles (a, the)"
+        ],
+        "common_mistakes": [
+          "forgetting to use articles",
+          "using complex verb tenses"
+        ]
+      },
+      "metadata": {
+        "unit_id": "18",
+        "sub_unit_id": "108",
+        "unit_title": "Time and Schedules",
+        "sub_unit_title": "Telling Time",
+        "theme": "clock, time, what time is it, daily schedule, hours, minutes, o'clock",
+        "generated_at": "2026-04-12T22:01:51.525979",
+        "model": "llama-3.1-8b-instant",
+        "model_answer_word_count": 67
+      }
+    }
+  ],
+  "errors": null
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "id": 1,
+    "question": "She ___ to swim when it is hot.",
+    "options": [
+      "love",
+      "loves",
+      "loved",
+      "loving"
+    ],
+    "answer": "loves",
+    "explanation": "Present simple - 3rd person singular adds -s"
+  },
+  {
+    "id": 2,
+    "question": "It ___ in the winter.",
+    "options": [
+      "snow",
+      "snowing",
+      "had snowed",
+      "snows"
+    ],
+    "answer": "snows",
+    "explanation": "Present simple for general truth"
+  },
+  {
+    "id": 3,
+    "question": "John ___ his bicycle every day.",
+    "options": [
+      "ride",
+      "ridden",
+      "rides",
+      "to ride"
+    ],
+    "answer": "rides",
+    "explanation": "Present simple - 3rd person singular adds -s"
+  },
+  {
+    "id": 4,
+    "question": "There ___ a race next week.",
+    "options": [
+      "to be",
+      "was",
+      "will be",
+      "are"
+    ],
+    "answer": "will be",
+    "explanation": "Future simple with will + base verb"
+  },
+  {
+    "id": 5,
+    "question": "The bridesmaids ___ beautiful dresses at the wedding last Saturday.",
+    "options": [
+      "wears",
+      "wore",
+      "wear"
+    ],
+    "answer": "wore",
+    "explanation": "Past simple of irregular verb wear → wore"
+  }
+]

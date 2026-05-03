@@ -2,11 +2,13 @@ from django.http import JsonResponse, FileResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 import json
-import os
+import os, re, difflib,threading
 from .forms import RegisterForm
 from .models import Learner , Unit,LearnerPreferences, SubUnit, ReadingText, ReadingQuestion,ReadingExerciseResult
 from .models import  GeneratedReadingText, GeneratedReadingQuestion,GeneratedExerciseResult
-from django.contrib.auth.hashers import check_password
+from .models import WritingExercise, WritingExerciseResult
+from .models import SpeakingExercise, SpeakingExerciseResult
+from django.contrib.auth.hashers import check_password, make_password
 from django.db.models import Exists, OuterRef 
 
 from rest_framework.decorators import api_view, permission_classes 
@@ -19,6 +21,10 @@ from .models import Niveau, Question, Test, Reponse, TestAudio
 from django.shortcuts import render
 from scripts.generate_practice_text import generate_and_save_reading_ex
 from .models import ListeningAudio, ListeningQuestion, ListeningExerciseResult
+from .models import GrammarCourse, GrammarSection, GrammarExerciseResult
+from .models import GeneratedSpeakingExercise, GeneratedSpeakingResult
+from .models import GeneratedListeningExercise,GeneratedListeningQuestion, GeneratedListeningResult
+from django.conf import settings
 # ============================================================
 # Vue pour servir la page d'accueil (home.html)
 # ============================================================
@@ -100,6 +106,132 @@ def register_api(request):
             return JsonResponse({'success': False, 'errors': ['Données invalides']}, status=400)
     
     return JsonResponse({'success': False, 'errors': ['Méthode non autorisée']}, status=405)
+
+
+@csrf_exempt
+def update_account_api(request):
+    """
+    POST /api/account/update/
+    Met à jour name, email, phone et (optionnellement) le password du learner.
+    Gère les comptes Google (pas de current_password requis).
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'errors': ['Méthode non autorisée']}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        learner_id = data.get('learner_id')
+
+        if not learner_id:
+            return JsonResponse({'success': False, 'errors': ['learner_id manquant']}, status=400)
+
+        try:
+            learner = Learner.objects.get(learner_id=learner_id)
+        except Learner.DoesNotExist:
+            return JsonResponse({'success': False, 'errors': ['Utilisateur non trouvé']}, status=404)
+
+        # ── Mise à jour des champs de base ──────────────
+        name  = data.get('username', '').strip()
+        email = data.get('email', '').strip()
+        phone = data.get('phone', '').strip()
+
+        if not name or not email:
+            return JsonResponse({'success': False, 'errors': ['Nom et email requis']}, status=400)
+
+        # Vérifier que l'email n'est pas déjà utilisé par un autre learner
+        if Learner.objects.filter(email=email).exclude(learner_id=learner_id).exists():
+            return JsonResponse({'success': False, 'errors': ['Cet email est déjà utilisé']}, status=400)
+
+        learner.name  = name
+        learner.email = email
+        learner.phone = phone if phone else None
+
+        # ── Changement de mot de passe (optionnel) ──────
+        current_password  = data.get('current_password', '').strip()
+        new_password      = data.get('new_password', '').strip()
+        is_google_account = bool(learner.google_id)
+
+        if new_password:
+            if len(new_password) < 8:
+                return JsonResponse(
+                    {'success': False, 'errors': ['Le nouveau mot de passe doit faire au moins 8 caractères']},
+                    status=400
+                )
+
+            if is_google_account:
+                # Compte Google → pas besoin de vérifier l'ancien mot de passe
+                from django.contrib.auth.hashers import make_password
+                learner.password = make_password(new_password)
+
+            else:
+                # Compte normal → vérifier l'ancien mot de passe
+                if not current_password:
+                    return JsonResponse(
+                        {'success': False, 'errors': ['Mot de passe actuel requis']},
+                        status=400
+                    )
+                from django.contrib.auth.hashers import make_password
+                if not check_password(current_password, learner.password):
+                    return JsonResponse(
+                        {'success': False, 'errors': ['Mot de passe actuel incorrect']},
+                        status=400
+                    )
+                learner.password = make_password(new_password)
+
+        learner.save()
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Compte mis à jour avec succès',
+            'learner': {
+                'learner_id':       learner.learner_id,
+                'name':             learner.name,
+                'email':            learner.email,
+                'phone':            learner.phone,
+                'cefr_level':       learner.cefr_level,
+                'is_google_account': is_google_account,
+            }
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'errors': ['Données JSON invalides']}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'errors': [str(e)]}, status=500)
+
+@csrf_exempt
+def delete_account_api(request):
+    """
+    DELETE /api/account/delete/
+    Supprime définitivement le compte du learner et toutes ses données.
+    """
+    if request.method != 'DELETE':
+        return JsonResponse({'success': False, 'errors': ['Méthode non autorisée']}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        learner_id = data.get('learner_id')
+
+        if not learner_id:
+            return JsonResponse({'success': False, 'errors': ['learner_id manquant']}, status=400)
+
+        try:
+            learner = Learner.objects.get(learner_id=learner_id)
+        except Learner.DoesNotExist:
+            return JsonResponse({'success': False, 'errors': ['Utilisateur non trouvé']}, status=404)
+
+        # Suppression — CASCADE supprime automatiquement toutes les données liées
+        # (LearnerPreferences, Test, Reponse, ReadingExerciseResult, etc.)
+        learner.delete()
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Account deleted successfully'
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'errors': ['Données JSON invalides']}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'errors': [str(e)]}, status=500)
 
 
 @csrf_exempt
@@ -200,7 +332,6 @@ def save_preferences_api(request):
         if cefr_level.upper() not in valid_levels:
             return JsonResponse({'success': False, 'error': f'Niveau CEFR invalide: {cefr_level}'}, status=400)
         learner.cefr_level = cefr_level.upper()
-        learner.progress   = data.get('progress', learner.progress)
         learner.save()
  
     # ── Créer ou mettre à jour les préférences ───────────────
@@ -239,8 +370,11 @@ def get_learner_api(request):
                     'learner_id': learner.learner_id,
                     'name':       learner.name,
                     'email':      learner.email,
+                    'phone':      learner.phone, 
                     'cefr_level': learner.cefr_level,
-                    'progress':   learner.progress
+                    'progress':   learner.progress,
+                    'picture':    learner.picture,
+                    'is_google_account': bool(learner.google_id),
                 }
             })
         except Learner.DoesNotExist:
@@ -1973,3 +2107,3060 @@ def check_listening_result_api(request):
         return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+
+
+
+# writing
+
+@csrf_exempt
+def get_writing_exercise_api(request):
+    """
+    GET /api/writing-exercise/?subunit_id=X
+    Retourne l'exercice de writing pour une sous-unité.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+    
+    subunit_id = request.GET.get('subunit_id')
+    if not subunit_id:
+        return JsonResponse({'success': False, 'error': 'subunit_id manquant'}, status=400)
+    
+    try:
+        subunit = get_object_or_404(SubUnit, id=subunit_id)
+        exercise = WritingExercise.objects.filter(sub_unit=subunit).first()
+        
+        if not exercise:
+            return JsonResponse({
+                'success': False, 
+                'error': 'Aucun exercice de writing trouvé pour cette sous-unité'
+            }, status=404)
+        
+        return JsonResponse({
+            'success': True,
+            'exercise': {
+                'id': exercise.id,
+                'instruction': exercise.instruction,
+                'guiding_points': exercise.guiding_points,
+                'word_count_target': exercise.word_count_target,
+                'difficulty': exercise.difficulty,
+                'theme': exercise.theme,
+                'unit_title': exercise.unit_title,
+                'subunit_title': exercise.subunit_title,
+                'model_answer': {
+                    'text': exercise.model_answer_text,
+                    'vocabulary': exercise.model_answer_vocabulary,
+                    'grammar': exercise.model_answer_grammar,
+                },
+                'teacher_notes': {
+                    'key_vocabulary': exercise.key_vocabulary,
+                    'grammar_points': exercise.grammar_patterns,  # ← CORRIGÉ: grammar_patterns
+                    'forbidden_words': exercise.forbidden_words,  # ← CORRIGÉ: forbidden_words (pas common_mistakes)
+                }
+            }
+        })
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+
+@csrf_exempt
+def submit_writing_exercise_api(request):
+    """
+    POST /api/submit-writing-exercise/
+    Body: { "exercise_id": 1, "learner_id": "uuid", "text": "..." }
+
+    Évalue le texte via Groq (validation copie/hors-sujet) puis Ollama (scoring).
+    Sauvegarde le résultat si learner connecté.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        data           = json.loads(request.body)
+        exercise_id    = data.get('exercise_id')
+        learner_id     = data.get('learner_id')
+        submitted_text = data.get('text', '').strip()
+
+        if not exercise_id:
+            return JsonResponse({'success': False, 'error': 'exercise_id manquant'}, status=400)
+        if not submitted_text:
+            return JsonResponse({'success': False, 'error': 'Texte vide'}, status=400)
+
+        exercise = WritingExercise.objects.get(id=exercise_id)
+
+        # ── Résoudre le learner ─────────────────────────────────
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+
+        # ── Vérifier doublon ────────────────────────────────────
+        if learner:
+            existing = WritingExerciseResult.objects.filter(
+                learner=learner, writing_exercise=exercise
+            ).first()
+            if existing:
+                return JsonResponse({
+                    'success':          True,
+                    'already_submitted': True,
+                    'result': {
+                        'overall_score': existing.overall_score,
+                        'word_count':    existing.word_count,
+                        'feedback':      existing.feedback_data,
+                    },
+                    'your_text':    existing.submitted_text,
+                    'model_answer': exercise.model_answer_text,
+                })
+
+        # ── Évaluation ─────────────────────────────────────────
+        word_count = len(submitted_text.split())
+        length_score, length_feedback = _evaluate_length(word_count, exercise.word_count_target)
+
+        # ── Étape 1 : Groq vérifie copie / hors-sujet ───────────
+        print('[Writing] Appel Groq (validation)...')
+        validity     = _check_validity_with_groq(exercise.instruction, submitted_text)
+        is_copied    = validity['is_copied']
+        is_off_topic = validity['is_off_topic']
+        print(f'[Writing] Groq — is_copied={is_copied} is_off_topic={is_off_topic}')
+
+        if is_copied:
+            ai = {
+                'content_score': 0, 'vocabulary_score': 0, 'grammar_score': 0,
+                'is_copied': True, 'is_off_topic': False,
+                'general': '⚠️ It looks like you copied the question. Please write your own paragraph.',
+                'errors': [],
+            }
+        elif is_off_topic:
+            ai = {
+                'content_score': 10, 'vocabulary_score': 20, 'grammar_score': 20,
+                'is_copied': False, 'is_off_topic': True,
+                'general': '🤔 Your text is off-topic. Please make sure you answer the question.',
+                'errors': [],
+            }
+        else:
+            # ── Étape 2 : Ollama fait le scoring complet ──────────
+            # Groq a validé que le texte est original et sur le sujet.
+            # Ollama ne s'occupe QUE du scoring et de la détection d'erreurs.
+            try:
+                print('[Writing] Appel Ollama (scoring)...')
+                ai = _evaluate_with_ollama(exercise, submitted_text)
+                ai['is_copied']    = False
+                ai['is_off_topic'] = False
+                print(f'[Writing] Ollama OK — content={ai["content_score"]} vocab={ai["vocabulary_score"]} grammar={ai["grammar_score"]}')
+            except Exception as ollama_err:
+                import traceback as _tb
+                print(f'[Writing] Ollama indisponible, fallback: {ollama_err}')
+                print(_tb.format_exc())
+                ai = _writing_fallback(exercise, submitted_text)
+
+        overall_score = int(
+            ai['content_score']    * 0.35 +
+            ai['vocabulary_score'] * 0.25 +
+            ai['grammar_score']    * 0.25 +
+            length_score           * 0.15
+        )
+
+        feedback_data = {
+            'general':             ai['general'],        
+            'errors':              ai.get('errors', []),
+            'word_count_feedback': length_feedback,
+            'is_copied':           ai.get('is_copied', False),
+            'is_off_topic':        ai.get('is_off_topic', False),
+            'score_breakdown': {
+                'content':    ai['content_score'],
+                'vocabulary': ai['vocabulary_score'],
+                'grammar':    ai['grammar_score'],
+                'length':     length_score,
+            },
+        }
+        
+        # ── CONSTRUIRE LE TEXTE AVEC ERREURS SURIGNÉES ──────────
+        your_text_highlighted = submitted_text
+        
+        # Seulement si le texte est valide (pas copié, pas hors-sujet)
+        if not ai.get('is_copied', False) and not ai.get('is_off_topic', False):
+            errors = ai.get('errors', [])
+            if errors:
+                your_text_highlighted = _highlight_errors(submitted_text, errors)
+                print(f'[Writing] {len(errors)} erreurs détectées et surlignées')
+        
+        # ── Sauvegarder si learner connecté ────────────────────
+        if learner:
+            from django.utils import timezone as tz
+            result = WritingExerciseResult(
+                learner          = learner,
+                writing_exercise = exercise,
+                submitted_text   = submitted_text,
+                word_count       = word_count,
+                content_score    = ai['content_score'],
+                vocabulary_score = ai['vocabulary_score'],
+                grammar_score    = ai['grammar_score'],
+                length_score     = length_score,
+                overall_score    = overall_score,
+                feedback_data    = feedback_data,
+                status           = 'evaluated',
+                evaluated_at     = tz.now(),
+            )
+            result.save()
+
+        return JsonResponse({
+            'success':           True,
+            'already_submitted': False,
+            'result': {
+                'overall_score': overall_score,
+                'word_count':    word_count,
+                'feedback':      feedback_data,
+            },
+            'your_text':             submitted_text,
+            'your_text_highlighted': your_text_highlighted, 
+            'model_answer':          exercise.model_answer_text,
+        })
+
+    except WritingExercise.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Exercice non trouvé'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@csrf_exempt
+def check_writing_result_api(request):
+    """
+    GET /api/check-writing-result/?exercise_id=X&learner_id=Y&subunit_id=Z
+    Vérifie si un learner a déjà complété un exercice de writing.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    exercise_id = request.GET.get('exercise_id')
+    learner_id  = request.GET.get('learner_id')
+    subunit_id  = request.GET.get('subunit_id')
+ 
+    if not learner_id:
+        return JsonResponse({'success': False, 'error': 'learner_id requis'}, status=400)
+ 
+    try:
+        learner = Learner.objects.get(learner_id=learner_id)
+ 
+        if not exercise_id and subunit_id:
+            exercise = WritingExercise.objects.filter(sub_unit_id=subunit_id).first()
+            if exercise:
+                exercise_id = exercise.id
+ 
+        if not exercise_id:
+            return JsonResponse({'success': False, 'error': 'exercise_id ou subunit_id requis'}, status=400)
+ 
+        result = WritingExerciseResult.objects.filter(
+            learner=learner, writing_exercise_id=exercise_id
+        ).first()
+ 
+        if result:
+            return JsonResponse({
+                'success':      True,
+                'has_result':   True,
+                'score':        result.overall_score,
+                'word_count':   result.word_count,
+                'feedback':     result.feedback_data,
+                'submitted_text': result.submitted_text,            
+                'submitted_at': result.submitted_at.isoformat(),
+                'status':       result.status,
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ══════════════════════════════════════════════════════════════════════
+#  HELPERS WRITING — Ollama + Fallback
+# ══════════════════════════════════════════════════════════════════════
+ 
+def _evaluate_length(word_count: int, word_count_target: str = '60-80 words'):
+    """
+    Calcule le score de longueur (0-100) et le message associé.
+    Lit la cible depuis word_count_target (ex: '60-80 words', '80-100 words').
+    """
+    import re
+    nums = re.findall(r'\d+', word_count_target or '60-80')
+    target_min = int(nums[0]) if nums else 60
+    target_max = int(nums[1]) if len(nums) > 1 else target_min + 20
+ 
+    if target_min <= word_count <= target_max:
+        return 100, f"Perfect! You wrote {word_count} words (target: {target_min}-{target_max})."
+    elif word_count < target_min:
+        pct = int((word_count / target_min) * 100)
+        return pct, f"Your text is a bit short ({word_count} words). Try to write at least {target_min} words."
+    else:
+        excess  = word_count - target_max
+        penalty = min(30, excess * 2)
+        return max(70, 100 - penalty), f"Your text is a bit long ({word_count} words). Try to stay around {target_min}-{target_max} words."
+ 
+ 
+def _check_validity_with_groq(instruction: str, submitted_text: str) -> dict:
+    """
+    Utilise le package groq officiel pour détecter copie / hors-sujet.
+    En cas d'erreur → retourne False/False (on ne pénalise pas l'étudiant)
+    """
+    from dotenv import load_dotenv as _load_dotenv
+    _env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+    _load_dotenv(_env_path, override=True)
+    GROQ_API_KEY = os.environ.get('GROQ_API_writing', '')
+
+    if not GROQ_API_KEY:
+        print('[Groq] GROQ_API_KEY manquant — validation ignorée')
+        return {'is_copied': False, 'is_off_topic': False}
+
+    prompt = f"""You are an English teacher checking a student's writing exercise.
+
+QUESTION: {instruction}
+
+STUDENT TEXT: {submitted_text}
+
+Answer ONLY with a JSON object — no explanation, no markdown:
+{{"is_copied": false, "is_off_topic": false}}
+
+Rules:
+- is_copied = true  → the student essentially copied or rephrased the question itself (not their own writing)
+- is_off_topic = true → the text talks about something COMPLETELY unrelated to the question. If the student made ANY attempt to answer, even partially, set false.
+- When in doubt, set both to false."""
+
+    try:
+        from groq import Groq # type: ignore
+        import json as _json
+        client = Groq(api_key=GROQ_API_KEY)
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            max_tokens=60,
+            temperature=0,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        text = response.choices[0].message.content.strip()
+        match = re.search(r'\{.*\}', text, re.DOTALL)
+        if match:
+            result = _json.loads(match.group(0))
+            print(f'[Groq] OK — is_copied={result.get("is_copied")} is_off_topic={result.get("is_off_topic")}')
+            return {
+                'is_copied':    bool(result.get('is_copied', False)),
+                'is_off_topic': bool(result.get('is_off_topic', False)),
+            }
+    except Exception as e:
+        print(f'[Groq] Erreur validation: {e}')
+
+    return {'is_copied': False, 'is_off_topic': False}
+
+# spelling --> faute d'orthographe
+def _build_writing_prompt(exercise, submitted_text: str) -> str:
+    instruction = exercise.instruction or ''
+    target = exercise.word_count_target or '60-80 words'
+
+    return f"""You are an English teacher. Analyze the student paragraph below.
+
+=== QUESTION ===
+{instruction}
+
+=== STUDENT PARAGRAPH ===
+{submitted_text}
+
+=== YOUR TASK ===
+The student has already been verified as NOT copying and NOT being off-topic. 
+Your job is ONLY to score and find errors.
+
+Score the paragraph:
+- content_score (20-100): How well they answered the question
+- vocabulary_score (20-100): Word variety and appropriateness  
+- grammar_score (20-100): Grammar accuracy
+
+Find up to 5 errors. Each error MUST be a valid JSON object with EXACTLY these three string fields:
+"word" — the exact wrong text from the student paragraph
+"correction" — the corrected version
+"type" — either "grammar", "vocabulary"
+
+Provide brief general feedback (1 sentence).
+
+=== RESPONSE FORMAT ===
+Return ONLY a single JSON object. NO markdown, NO explanation, NO code blocks, NO text before or after:
+
+{{"content_score":50,"vocabulary_score":50,"grammar_score":50,"general":"Good effort!","errors":[{{"word":"usualy","correction":"usually","type":"vocabulary"}}]}}
+
+IMPORTANT RULES:
+1. The "errors" field MUST be a JSON array (square brackets []), even if empty.
+2. Each error MUST be a JSON object with double quotes around keys AND values: {{"word":"...","correction":"...","type":"..."}}
+3. NEVER use Python dict syntax like ["key":"value"] — this is WRONG.
+4. If no errors found, use: "errors":[]
+5. Do NOT include any text outside the JSON object."""
+
+
+def _highlight_errors(text: str, errors: list) -> str:
+    """
+    Surligne les mots erronés en rouge dans le texte de l'apprenant.
+    Version corrigée : échappe les guillemets HTML et vérifie que le mot existe.
+    """
+    import re
+    import html as html_module
+    
+    if not errors:
+        return text
+    
+    result = text
+    
+    # Trier par longueur décroissante pour éviter les conflits (ex: "be" avant "begin")
+    sorted_errors = sorted(
+        [e for e in errors if e.get('word')],
+        key=lambda e: len(e.get('word', '')),
+        reverse=True
+    )
+    
+    already_replaced = set()
+    
+    for err in sorted_errors:
+        word = err.get('word', '')
+        correction = err.get('correction', '')
+        err_type = err.get('type', 'error')
+        
+        if not word or word in already_replaced:
+            continue
+        
+        # 🔥 FIX 1 : Vérifier que le mot existe VRAIMENT dans le texte (mot entier)
+        escaped = re.escape(word)
+        pattern = r'\b' + escaped + r'\b'
+        
+        if not re.search(pattern, result, re.IGNORECASE):
+            # Le mot n'existe pas dans le texte (Ollama s'est trompé), on skip
+            print(f"[Highlight] Mot '{word}' non trouvé dans le texte, ignoré")
+            continue
+        
+        # 🔥 FIX 2 : Échapper les guillemets pour ne pas casser le HTML
+        safe_word = html_module.escape(word)
+        safe_correction = html_module.escape(correction)
+        safe_type = html_module.escape(err_type)
+        
+        # Construire le title sans risque de casser les guillemets HTML
+        title_attr = f"{safe_type}: {safe_word} → {safe_correction}"
+        
+        replacement = (
+            f'<span class="error-word" '
+            f'title="{title_attr}">'
+            f'{word}</span>'
+        )
+        
+        # Remplacer la première occurrence trouvée
+        new_result, count = re.subn(pattern, replacement, result, count=1, flags=re.IGNORECASE)
+        
+        if count > 0:
+            result = new_result
+            already_replaced.add(word)
+    
+    return result
+def _parse_ollama_json(text: str) -> dict:
+    """
+    Extrait le JSON de la réponse Ollama, même s'il y a du texte avant/après.
+    Gère les réponses tronquées, mal formatées, et corrige les erreurs courantes.
+    """
+    import json
+    import re
+    
+    text = text.strip()
+    
+    # 1. Essayer de parser directement
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    
+    # 2. Chercher un bloc JSON entre accolades (le plus profond possible)
+    # Chercher la dernière accolade fermante pour capturer tout l'objet
+    start_idx = text.find('{')
+    end_idx = text.rfind('}')
+    
+    if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+        json_str = text[start_idx:end_idx+1]
+        
+        # 🔥 FIX PRINCIPAL : Corriger la syntaxe ["key":"value"] → [{"key":"value"}]
+        # Ollama retourne parfois un tableau avec syntaxe de dictionnaire Python
+        # On remplace [motif_python] par [{"word":"...","correction":"...","type":"..."}]
+        
+        # Pattern pour détecter ["word":"correction", "word2":"correction2"]
+        # et le convertir en [{"word":"correction"}, {"word2":"correction2"}]
+        
+        def fix_errors_array(match):
+            """Convertit un tableau d'erreurs malformé en JSON valide"""
+            inner = match.group(1).strip()
+            if not inner:
+                return '"errors":[]'
+            
+            # Parser les paires "key":"value" ou "key":"value", "key2":"value2"
+            # Pattern : "text":"correction" (avec ou sans virgule)
+            pairs = re.findall(r'"([^"]+)"\s*:\s*"([^"]+)"', inner)
+            
+            if pairs:
+                objects = []
+                for word, correction in pairs:
+                    # Déterminer le type automatiquement
+                    err_type = "spelling"
+                    if " " in word or " " in correction:
+                        err_type = "grammar"
+                    elif word.lower() != word or correction.lower() != correction:
+                        err_type = "spelling" if len(word) < 15 else "grammar"
+                    
+                    obj = f'{{"word":"{word}","correction":"{correction}","type":"{err_type}"}}'
+                    objects.append(obj)
+                
+                return '"errors":[' + ','.join(objects) + ']'
+            
+            return '"errors":[]'
+        
+        # Remplacer les tableaux d'erreurs malformés
+        # Pattern : "errors" suivi de : puis [contenu avec des : à l'intérieur]
+        json_str = re.sub(
+            r'"errors"\s*:\s*\[(.*?)\](?=\s*[,}])',
+            fix_errors_array,
+            json_str,
+            flags=re.DOTALL
+        )
+        
+        # Autres nettoyages JSON courants
+        json_str = re.sub(r'(\w+)"\s*:', r'"\1":', json_str)  # Fix clés sans guillemets ouvrants
+        json_str = re.sub(r',\s*([}\]])', r'\1', json_str)     # Virgules finales
+        json_str = re.sub(r'}\s*{', r'},{', json_str)          # Objets collés
+        json_str = re.sub(r'"\s*:\s*"', '":"', json_str)      # Espaces excessifs
+        
+        try:
+            return json.loads(json_str)
+        except json.JSONDecodeError:
+            pass
+    
+    # 3. Chercher un bloc markdown ```json ... ```
+    match = re.search(r'```(?:json)?\s*(.*?)\s*```', text, re.DOTALL)
+    if match:
+        inner = match.group(1).strip()
+        # Appliquer les mêmes fixes
+        inner = re.sub(r'"errors"\s*:\s*\[(.*?)\](?=\s*[,}])', fix_errors_array, inner, flags=re.DOTALL)
+        try:
+            return json.loads(inner)
+        except json.JSONDecodeError:
+            pass
+    
+    # 4. Compléter un JSON incomplet (accolades/crochets manquants)
+    try:
+        fixed = text
+        if fixed.count('{') > fixed.count('}'):
+            fixed += '}' * (fixed.count('{') - fixed.count('}'))
+        if fixed.count('[') > fixed.count(']'):
+            fixed += ']' * (fixed.count('[') - fixed.count(']'))
+        fixed = re.sub(r',\s*([}\]])', r'\1', fixed)
+        # Appliquer le fix des erreurs
+        fixed = re.sub(r'"errors"\s*:\s*\[(.*?)\](?=\s*[,}])', fix_errors_array, fixed, flags=re.DOTALL)
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        pass
+    
+    # 5. Extraction regex des scores et erreurs
+    print(f"[Ollama] Fallback regex extraction from: {text[:500]}")
+    
+    scores = {}
+    for key in ['content_score', 'vocabulary_score', 'grammar_score']:
+        pattern = rf'"{key}"\s*:\s*(\d+)'
+        m = re.search(pattern, text)
+        if m:
+            scores[key] = int(m.group(1))
+    
+    general_match = re.search(r'"general"\s*:\s*"([^"]+)"', text)
+    general = general_match.group(1) if general_match else "Good effort! Keep practicing 🎉"
+    
+    # Extraction des erreurs avec le nouveau pattern ["word":"correction"]
+    errors = []
+    # Pattern pour ["word":"correction", "word2":"correction2", ...]
+    error_pairs = re.findall(r'"([^"]+)"\s*:\s*"([^"]+)"', text)
+    for word, correction in error_pairs:
+        # Ignorer les champs connus qui ne sont pas des erreurs
+        if word in ['content_score', 'vocabulary_score', 'grammar_score', 'general', 'word', 'correction', 'type']:
+            continue
+        # Vérifier que ce n'est pas un nombre (score)
+        if correction.isdigit():
+            continue
+            
+        err_type = "spelling"
+        if " " in word:
+            err_type = "grammar"
+        
+        errors.append({
+            "word": word,
+            "correction": correction,
+            "type": err_type
+        })
+    
+    # Essayer aussi le pattern standard d'objets JSON
+    try:
+        error_objects = re.findall(r'\{"word":"([^"]+)","correction":"([^"]+)","type":"([^"]+)"\}', text)
+        for word, correction, err_type in error_objects:
+            errors.append({
+                "word": word,
+                "correction": correction,
+                "type": err_type
+            })
+    except:
+        pass
+    
+    if scores:
+        return {
+            "content_score": scores.get('content_score', 50),
+            "vocabulary_score": scores.get('vocabulary_score', 50),
+            "grammar_score": scores.get('grammar_score', 50),
+            "is_copied": False,
+            "is_off_topic": False,
+            "general": general,
+            "errors": errors[:5],
+        }
+    
+    # 6. Vrai dernier recours
+    print(f"[Ollama] Impossible de parser la réponse: {text[:500]}")
+    return {
+        "content_score": 50,
+        "vocabulary_score": 50,
+        "grammar_score": 50,
+        "is_copied": False,
+        "is_off_topic": False,
+        "general": "Good effort! Keep practicing 🎉",
+        "errors": []
+    }
+ 
+ 
+def _evaluate_with_ollama(exercise, submitted_text: str) -> dict:
+    import json, urllib.request, urllib.error, socket, time
+
+    OLLAMA_URL   = getattr(settings, 'OLLAMA_URL',   'http://localhost:11434')
+    OLLAMA_MODEL = getattr(settings, 'OLLAMA_MODEL', 'llama3.2:3b')
+    
+    try:
+        ping_req = urllib.request.Request(f'{OLLAMA_URL}/api/tags', method='GET')
+        with urllib.request.urlopen(ping_req, timeout=5) as resp:
+            _ = resp.read()
+    except Exception as e:
+        raise Exception(f'Ollama ne répond pas sur {OLLAMA_URL}: {e}')
+
+    prompt   = _build_writing_prompt(exercise, submitted_text)
+    payload  = json.dumps({
+        'model':  OLLAMA_MODEL,
+        'prompt': prompt,
+        'stream': False,
+        'options': {
+            'temperature': 0.05,
+            'num_predict': 1200,
+            'num_ctx': 2048,
+            'top_p': 0.9,
+            'repeat_penalty': 1.2,
+        },
+    }).encode('utf-8')
+
+    req = urllib.request.Request(
+        f'{OLLAMA_URL}/api/generate',
+        data=payload,
+        headers={'Content-Type': 'application/json'},
+        method='POST',
+    )
+
+    max_retries = 2
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            with urllib.request.urlopen(req, timeout=300) as resp:
+                body = resp.read().decode('utf-8')
+                ollama_r = json.loads(body)
+                break
+        except socket.timeout:
+            last_error = f'Timeout (tentative {attempt + 1})'
+            if attempt < max_retries - 1:
+                time.sleep(5)
+            continue
+        except urllib.error.URLError as e:
+            last_error = f'URLError: {e}'
+            if attempt < max_retries - 1:
+                time.sleep(2)
+            continue
+    else:
+        raise Exception(f'Ollama échec après {max_retries} tentatives: {last_error}')
+
+    raw_text = ollama_r.get('response', '')
+    ai_data  = _parse_ollama_json(raw_text)
+    
+    # 🔥 SUPPRIMÉ : La logique qui override is_off_topic/is_copied
+    # Groq gère déjà ça mieux. On retourne juste les scores bruts.
+    
+    content_score = int(ai_data.get('content_score', 50))
+    
+    # On ne force PLUS les cas copied/off-topic ici — c'est Groq qui décide
+    # dans submit_writing_exercise_api. On retourne juste les scores.
+    
+    return {
+        'content_score': max(0, min(100, content_score)),
+        'vocabulary_score': max(0, min(100, int(ai_data.get('vocabulary_score', 50)))),
+        'grammar_score': max(0, min(100, int(ai_data.get('grammar_score', 50)))),
+        'is_copied': bool(ai_data.get('is_copied', False)),      # Info seulement, override par Groq
+        'is_off_topic': bool(ai_data.get('is_off_topic', False)),  # Info seulement, override par Groq
+        'general': ai_data.get('general', 'Good effort! Keep practicing 🎉'),
+        'errors': (ai_data.get('errors', []) or [])[:5],
+    }
+ 
+ 
+def _writing_fallback(exercise, submitted_text: str) -> dict:
+    import re
+
+    text_lower  = submitted_text.lower()
+    instr_lower = (exercise.instruction or "").lower()
+
+    # ── Détection copie ─────────────────────────────────────────────────
+    stop_words = {'describe', 'write', 'about', 'your', 'what', 'when', 'where',
+                  'explain', 'tell', 'give', 'make', 'sure', 'this', 'that', 'with',
+                  'have', 'from', 'they', 'would', 'there', 'their', 'should', 'please',
+                  'paragraph', 'short', 'essay', 'text', 'sentence', 'answer', 'question'}
+    instr_words = {w for w in instr_lower.split() if len(w) > 3 and w not in stop_words}
+    text_words  = {w for w in text_lower.split()  if len(w) > 3}
+    overlap = len(instr_words & text_words) / len(instr_words) if instr_words else 0
+    is_copied = overlap > 0.75 and len(text_lower.split()) < len(instr_lower.split()) * 2
+
+    # ── Détection hors-sujet — matching souple (préfixes/racines) ───────
+    # On utilise les 4 premiers caractères de chaque mot-clé pour tolérer
+    # les pluriels, conjugaisons, majuscules (saturday/saturdays, routine/routines...)
+    topic_keywords = [
+        re.sub(r'[^\w]', '', w)[:4]   # stem = 4 premiers caractères
+        for w in instr_words
+        if len(re.sub(r'[^\w]', '', w)) >= 4
+    ]
+    # Même chose côté texte de l'étudiant
+    text_stems = {w[:4] for w in re.findall(r'\w{4,}', text_lower)}
+
+    if topic_keywords:
+        topic_matches = sum(1 for kw in topic_keywords if kw in text_stems)
+        match_ratio = topic_matches / len(topic_keywords)
+    else:
+        match_ratio = 1.0   # pas de mots-clés → on ne peut pas juger → valide
+
+    # Seuil abaissé à 0.03 (au moins 1 mot sur ~33) ET longueur suffisante
+    is_off_topic = (
+        not is_copied
+        and len(text_lower.split()) > 10
+        and bool(topic_keywords)
+        and match_ratio < 0.03
+    )
+
+    if is_copied:
+        return {
+            'content_score': 0, 'vocabulary_score': 0, 'grammar_score': 0,
+            'is_copied': True, 'is_off_topic': False,
+            'general': '⚠️ It looks like you copied the question. Please write your own paragraph.',
+            'errors': [],
+        }
+    elif is_off_topic:
+        return {
+            'content_score': 10, 'vocabulary_score': 20, 'grammar_score': 20,
+            'is_copied': False, 'is_off_topic': True,
+            'general': '🤔 Your text is off-topic. Please make sure you answer the question.',
+            'errors': [],
+        }
+
+    return {
+        'content_score': 50,
+        'vocabulary_score': 60,
+        'grammar_score': 70,
+        'is_copied': False,
+        'is_off_topic': False,
+        'general': '👍 Good effort! Keep practicing 🎉',
+        'errors': [],
+    }
+
+
+
+## speaking -------------
+
+SPEAKING_AUDIO_DIR = settings.BASE_DIR / 'data' / 'speaking' / 'audio_generated'
+ 
+ 
+# ──────────────────────────────────────────────────────────────────────
+# VUE 1 — GET /api/speaking-exercise/?subunit_id=X
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def get_speaking_exercise_api(request):
+    """
+    Retourne l'exercice de speaking pour une sous-unité.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    subunit_id = request.GET.get('subunit_id')
+    if not subunit_id:
+        return JsonResponse({'success': False, 'error': 'subunit_id manquant'}, status=400)
+ 
+    try:
+        subunit  = get_object_or_404(SubUnit, id=subunit_id)
+        exercise = SpeakingExercise.objects.filter(sub_unit=subunit).first()
+ 
+        if not exercise:
+            return JsonResponse({
+                'success': False,
+                'error':   'Aucun exercice de speaking trouvé pour cette sous-unité'
+            }, status=404)
+ 
+        return JsonResponse({
+            'success': True,
+            'exercise': {
+                'id':                    exercise.id,
+                'theme':                 exercise.theme,
+                'level':                 exercise.level,
+                'instructions':          exercise.instructions,
+                'sentence':              exercise.sentence,
+                'sentence_words':        exercise.sentence_words,
+                'audio_url':             f'/api/speaking-audio/{exercise.id}/stream/',
+                'vocabulary_categories': exercise.vocabulary_categories,
+               
+            }
+        })
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+# ──────────────────────────────────────────────────────────────────────
+# VUE 2 — GET /api/speaking-audio/<exercise_id>/stream/
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def serve_speaking_audio(request, exercise_id):
+    """
+    Streame le MP3 de référence pré-généré vers le frontend.
+    Chemin : PLATFORM/backend/data/speaking/audio_generated/<filename>
+    """
+    import mimetypes
+ 
+    try:
+        exercise = get_object_or_404(SpeakingExercise, id=exercise_id)
+ 
+        # Construire le chemin absolu
+        audio_path = exercise.audio_path.replace('\\', '/')
+ 
+        if os.path.isabs(audio_path) and os.path.exists(audio_path):
+            file_path = audio_path
+        else:
+            # Chemin relatif à BASE_DIR
+            file_path = os.path.join(settings.BASE_DIR, audio_path)
+ 
+        # Fallback : chercher directement dans le dossier audio_generated
+        if not os.path.exists(file_path):
+            file_path = os.path.join(SPEAKING_AUDIO_DIR, exercise.audio_filename)
+ 
+        if not os.path.exists(file_path):
+            return JsonResponse(
+                {'success': False, 'error': f'Fichier audio introuvable : {exercise.audio_filename}'},
+                status=404
+            )
+ 
+        content_type, _ = mimetypes.guess_type(file_path)
+        content_type = content_type or 'audio/mpeg'
+ 
+        response = FileResponse(
+            open(file_path, 'rb'),
+            content_type=content_type,
+            as_attachment=False
+        )
+        response['Accept-Ranges']  = 'bytes'
+        response['Content-Length'] = os.path.getsize(file_path)
+        response['Cache-Control']  = 'no-cache'
+        return response
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ──────────────────────────────────────────────────────────────────────
+# HELPER — Comparaison mot à mot
+# ──────────────────────────────────────────────────────────────────────
+ 
+def _normalize_word(w: str) -> str:
+    NUMBER_MAP = {
+        '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four',
+        '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine',
+        '10': 'ten', '11': 'eleven', '12': 'twelve', '13': 'thirteen',
+        '14': 'fourteen', '15': 'fifteen', '16': 'sixteen', '17': 'seventeen',
+        '18': 'eighteen', '19': 'nineteen', '20': 'twenty', '21': 'twenty-one',
+        '22': 'twenty-two', '23': 'twenty-three', '24': 'twenty-four',
+        '25': 'twenty-five', '26': 'twenty-six', '27': 'twenty-seven',
+        '28': 'twenty-eight', '29': 'twenty-nine', '30': 'thirty',
+        '31': 'thirty-one', '32': 'thirty-two', '33': 'thirty-three',
+        '34': 'thirty-four', '35': 'thirty-five', '36': 'thirty-six',
+        '37': 'thirty-seven', '38': 'thirty-eight', '39': 'thirty-nine',
+        '40': 'forty', '41': 'forty-one', '42': 'forty-two', '43': 'forty-three',
+        '44': 'forty-four', '45': 'forty-five', '46': 'forty-six',
+        '47': 'forty-seven', '48': 'forty-eight', '49': 'forty-nine',
+        '50': 'fifty', '51': 'fifty-one', '52': 'fifty-two', '53': 'fifty-three',
+        '54': 'fifty-four', '55': 'fifty-five', '56': 'fifty-six',
+        '57': 'fifty-seven', '58': 'fifty-eight', '59': 'fifty-nine',
+        '60': 'sixty', '61': 'sixty-one', '62': 'sixty-two', '63': 'sixty-three',
+        '64': 'sixty-four', '65': 'sixty-five', '66': 'sixty-six',
+        '67': 'sixty-seven', '68': 'sixty-eight', '69': 'sixty-nine',
+        '70': 'seventy', '71': 'seventy-one', '72': 'seventy-two',
+        '73': 'seventy-three', '74': 'seventy-four', '75': 'seventy-five',
+        '76': 'seventy-six', '77': 'seventy-seven', '78': 'seventy-eight',
+        '79': 'seventy-nine', '80': 'eighty', '81': 'eighty-one',
+        '82': 'eighty-two', '83': 'eighty-three', '84': 'eighty-four',
+        '85': 'eighty-five', '86': 'eighty-six', '87': 'eighty-seven',
+        '88': 'eighty-eight', '89': 'eighty-nine', '90': 'ninety',
+        '91': 'ninety-one', '92': 'ninety-two', '93': 'ninety-three',
+        '94': 'ninety-four', '95': 'ninety-five', '96': 'ninety-six',
+        '97': 'ninety-seven', '98': 'ninety-eight', '99': 'ninety-nine',
+        '100': 'one hundred',
+    }
+    WORD_MAP = {v: k for k, v in NUMBER_MAP.items()}
+    
+    cleaned = re.sub(r"[^\w']", '', w).lower()
+    
+    # Chiffre → mot (ex: "20" → "twenty")
+    if cleaned in NUMBER_MAP:
+        return NUMBER_MAP[cleaned]
+    
+    # Mot → déjà au bon format (ex: "twenty" → "twenty")
+    if cleaned in WORD_MAP:
+        return cleaned  # Déjà normalisé
+    
+    return cleaned
+ 
+ 
+def _compare_words(reference_words: list, transcript: str) -> dict:
+    """
+    Compare les mots de la transcription STT avec les mots de référence.
+ 
+    Retourne :
+    {
+        "word_results": [
+            {"word": "Every",   "status": "correct"},
+            {"word": "morning", "status": "wrong",   "said": "mornin"},
+            {"word": "I",       "status": "missing"},
+            ...
+        ],
+        "correct_words": 8,
+        "total_words":   12
+    }
+ 
+    Statuts possibles :
+        correct  → mot bien prononcé
+        wrong    → mot présent mais mal prononcé
+        missing  → mot absent de la transcription
+        extra    → mot dit en plus (non dans la référence)
+    """
+    # Tokeniser la transcription
+    spoken_tokens = re.findall(r"\S+", transcript)
+ 
+    # Utiliser SequenceMatcher pour aligner référence ↔ dit
+    ref_norm    = [_normalize_word(w) for w in reference_words]
+    spoken_norm = [_normalize_word(w) for w in spoken_tokens]
+ 
+    matcher = difflib.SequenceMatcher(None, ref_norm, spoken_norm, autojunk=False)
+    opcodes = matcher.get_opcodes()
+ 
+    word_results  = []
+    correct_count = 0
+ 
+    for tag, i1, i2, j1, j2 in opcodes:
+        if tag == 'equal':
+            # Mots identiques → correct
+            for k in range(i2 - i1):
+                word_results.append({'word': reference_words[i1 + k], 'status': 'correct'})
+                correct_count += 1
+ 
+        elif tag == 'replace':
+            # Mots remplacés → wrong (on aligne 1-pour-1 autant que possible)
+            ref_chunk    = reference_words[i1:i2]
+            spoken_chunk = spoken_tokens[j1:j2]
+            max_len      = max(len(ref_chunk), len(spoken_chunk))
+ 
+            for k in range(max_len):
+                if k < len(ref_chunk) and k < len(spoken_chunk):
+                    word_results.append({
+                        'word':   ref_chunk[k],
+                        'status': 'wrong',
+                        'said':   spoken_chunk[k]
+                    })
+                elif k < len(ref_chunk):
+                    # Plus de mots de référence que de mots dits
+                    word_results.append({'word': ref_chunk[k], 'status': 'missing'})
+                else:
+                    # Plus de mots dits que de mots de référence
+                    word_results.append({'word': spoken_chunk[k], 'status': 'extra'})
+ 
+        elif tag == 'delete':
+            # Mot de référence non prononcé → missing
+            for k in range(i2 - i1):
+                word_results.append({'word': reference_words[i1 + k], 'status': 'missing'})
+ 
+        elif tag == 'insert':
+            # Mots prononcés en trop → extra
+            for k in range(j2 - j1):
+                word_results.append({'word': spoken_tokens[j1 + k], 'status': 'extra'})
+ 
+    return {
+        'word_results':  word_results,
+        'correct_words': correct_count,
+        'total_words':   len(reference_words),
+    }
+ 
+ 
+# ──────────────────────────────────────────────────────────────────────
+# VUE 3 — POST /api/submit-speaking/
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def submit_speaking_exercise_api(request):
+    """
+    Reçoit l'enregistrement vocal - LIMITÉ À 1 TENTATIVE PAR APPRENANT
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        exercise_id = request.POST.get('exercise_id')
+        learner_id  = request.POST.get('learner_id')
+        audio_file  = request.FILES.get('audio')
+
+        if not exercise_id:
+            return JsonResponse({'success': False, 'error': 'exercise_id manquant'}, status=400)
+        if not audio_file:
+            return JsonResponse({'success': False, 'error': 'Fichier audio manquant'}, status=400)
+
+        exercise = get_object_or_404(SpeakingExercise, id=exercise_id)
+
+        # ── Récupérer le learner ─────────────────────────
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+
+        # ✅ VÉRIFICATION: Déjà complété ? → Bloquer
+        if learner:
+            existing = SpeakingExerciseResult.objects.filter(
+                learner=learner,
+                speaking_exercise=exercise
+            ).first()
+            
+            if existing:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Exercise already completed',
+                    'code': 'ALREADY_COMPLETED',
+                    'result': {
+                        'transcript': existing.learner_transcript,
+                        'word_results': existing.word_results,
+                        'correct_words': existing.correct_words,
+                        'total_words': existing.total_words,
+                        'accuracy_score': existing.accuracy_score,
+                        'feedback': existing.feedback,
+                        'attempt_number': existing.attempt_number,
+                    }
+                }, status=403)
+
+        # ── Transcription STT ─────────────────────────────
+        transcript = _transcribe_audio(audio_file)
+
+        # ── Comparaison mot à mot ─────────────────────────
+        reference_words = exercise.sentence_words or re.findall(r'\S+', exercise.sentence)
+        comparison      = _compare_words(reference_words, transcript)
+
+        word_results  = comparison['word_results']
+        correct_words = comparison['correct_words']
+        total_words   = comparison['total_words']
+        accuracy      = int((correct_words / total_words) * 100) if total_words > 0 else 0
+
+        # ── Sauvegarder le résultat ───────────────────────
+        result = None
+        if learner:
+            result = SpeakingExerciseResult(
+                learner           = learner,
+                speaking_exercise = exercise,
+                learner_transcript= transcript,
+                word_results      = word_results,
+            )
+            result.save()  # attempt_number = 1 automatiquement
+
+        feedback       = result.feedback        if result else _quick_feedback(accuracy)
+        attempt_number = result.attempt_number  if result else 1
+
+        return JsonResponse({
+            'success':             True,
+            'already_done':        False,
+            'transcript':          transcript,
+            'word_results':        word_results,
+            'correct_words':       correct_words,
+            'total_words':         total_words,
+            'accuracy_score':      accuracy,
+            'feedback':            feedback,
+            'attempt_number':      attempt_number,  # Toujours 1
+            'reference_audio_url': f'/api/speaking-audio/{exercise.id}/stream/',
+        })
+
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+def _quick_feedback(accuracy: int) -> str:
+    """Feedback rapide sans objet Result (learner non connecté)."""
+    if accuracy >= 90: return 'excellent'
+    if accuracy >= 75: return 'very_good'
+    if accuracy >= 60: return 'good'
+    if accuracy >= 40: return 'keep_going'
+    return 'try_again'
+ 
+ 
+def _transcribe_audio(audio_file) -> str:
+    """
+    Transcrit le fichier audio reçu en texte.
+ 
+    Stratégie (ordre de priorité) :
+      1. OpenAI Whisper (pip install openai-whisper) — meilleure précision
+      2. SpeechRecognition + Google Web Speech API — fallback gratuit
+ 
+    Si aucune lib n'est disponible → retourne une chaîne vide
+    (l'exercice peut quand même s'afficher avec 0% de précision).
+    """
+    import tempfile
+ 
+    # Sauvegarder le fichier dans un temp file
+    suffix = _get_audio_suffix(audio_file.name)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        for chunk in audio_file.chunks():
+            tmp.write(chunk)
+        tmp_path = tmp.name
+ 
+    try:
+        # ── Tentative 1 : Whisper local ───────────────────────────────
+        try:
+            import whisper
+            model  = whisper.load_model('base')          # 'tiny' pour + de vitesse
+            result = model.transcribe(tmp_path, language='en')
+            return result.get('text', '').strip()
+        except ImportError:
+            pass   # Whisper non installé → essayer SpeechRecognition
+ 
+        # ── Tentative 2 : SpeechRecognition (Google Web Speech) ───────
+        try:
+            import speech_recognition as sr
+ 
+            recognizer = sr.Recognizer()
+ 
+            # Si le fichier est WebM/OGG, le convertir en WAV via pydub
+            wav_path = _convert_to_wav_if_needed(tmp_path, suffix)
+ 
+            with sr.AudioFile(wav_path) as source:
+                audio_data = recognizer.record(source)
+ 
+            text = recognizer.recognize_google(audio_data, language='en-US')
+            return text.strip()
+ 
+        except ImportError:
+            pass   # SpeechRecognition non installé
+ 
+        except Exception as sr_err:
+            print(f'SpeechRecognition error: {sr_err}')
+ 
+        # ── Aucun STT disponible ──────────────────────────────────────
+        return ''
+ 
+    finally:
+        # Nettoyer les fichiers temporaires
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+ 
+ 
+def _get_audio_suffix(filename: str) -> str:
+    """Retourne l'extension du fichier audio (.webm, .wav, .mp3…)."""
+    _, ext = os.path.splitext(filename or '')
+    return ext.lower() or '.webm'
+ 
+ 
+def _convert_to_wav_if_needed(file_path: str, suffix: str) -> str:
+    """
+    Convertit WebM/OGG/MP3 en WAV si nécessaire (pour SpeechRecognition).
+    Nécessite pydub + ffmpeg.
+    Retourne le chemin du fichier WAV (ou le chemin original si déjà WAV).
+    """
+    if suffix in ('.wav',):
+        return file_path
+ 
+    try:
+        from pydub import AudioSegment
+        import tempfile
+ 
+        audio    = AudioSegment.from_file(file_path)
+        wav_path = file_path.replace(suffix, '.wav')
+        audio.export(wav_path, format='wav')
+        return wav_path
+    except Exception as e:
+        print(f'Conversion audio échouée : {e}')
+        return file_path   # Retourner l'original et laisser SpeechRecognition gérer l'erreur
+ 
+ 
+# ──────────────────────────────────────────────────────────────────────
+# VUE 4 — GET /api/check-speaking-result/?subunit_id=X&learner_id=Y
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def check_speaking_result_api(request):
+    """
+    Vérifie si un learner a déjà fait un exercice de speaking.
+    Utilisé par exercise-menu.js pour afficher le badge de score.
+ 
+    Query params :
+        subunit_id  (requis)
+        learner_id  (requis)
+ 
+    Réponse :
+    {
+        "success": true,
+        "has_result": true,
+        "accuracy_score": 82,
+        "feedback": "very_good",
+        "attempt_number": 2,
+        "word_results": [...],
+        "transcript": "...",
+        "submitted_at": "2025-04-10T..."
+    }
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    subunit_id = request.GET.get('subunit_id')
+    learner_id = request.GET.get('learner_id')
+ 
+    if not learner_id:
+        return JsonResponse({'success': False, 'error': 'learner_id requis'}, status=400)
+    if not subunit_id:
+        return JsonResponse({'success': False, 'error': 'subunit_id requis'}, status=400)
+ 
+    try:
+        learner  = Learner.objects.get(learner_id=learner_id)
+        exercise = SpeakingExercise.objects.filter(sub_unit_id=subunit_id).first()
+ 
+        if not exercise:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+        # Dernière tentative
+        result = SpeakingExerciseResult.objects.filter(
+            learner=learner,
+            speaking_exercise=exercise
+        ).order_by('-submitted_at').first()
+ 
+        if result:
+            return JsonResponse({
+                'success':        True,
+                'has_result':     True,
+                'accuracy_score': result.accuracy_score,
+                'correct_words':  result.correct_words,
+                'total_words':    result.total_words,
+                'feedback':       result.feedback,
+                'attempt_number': result.attempt_number,
+                'word_results':   result.word_results,
+                'transcript':     result.learner_transcript,
+                'submitted_at':   result.submitted_at.isoformat(),
+                'reference_audio_url': f'/api/speaking-audio/{exercise.id}/stream/',
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+#----- GAI Speaking ---------
+@csrf_exempt
+def check_generated_speaking_exists_api(request):
+    """
+    GET /api/check-generated-speaking-exists/?exercise_id=X&learner_id=Y
+    
+    Vérifie si un learner a déjà généré un exercice speaking pour un exercice original.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    exercise_id = request.GET.get('exercise_id')
+    learner_id = request.GET.get('learner_id')
+
+    if not exercise_id or not learner_id:
+        return JsonResponse({'success': False, 'error': 'exercise_id et learner_id requis'}, status=400)
+
+    try:
+        learner = Learner.objects.get(learner_id=learner_id)
+        original = SpeakingExercise.objects.get(id=exercise_id)
+        
+        existing = GeneratedSpeakingExercise.objects.filter(
+            original_exercise=original,
+            learner=learner
+        ).first()
+        
+        return JsonResponse({
+            'success': True,
+            'has_generated': existing is not None,
+            'generated_exercise_id': existing.id if existing else None,
+        })
+        
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner introuvable'}, status=404)
+    except SpeakingExercise.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Exercice introuvable'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+# VUE 5
+@csrf_exempt
+def generate_speaking_exercise_api(request):
+    """
+    Génère une nouvelle phrase de speaking via Ollama.
+    LIMITÉ À 1 SEUL EXERCICE GÉNÉRÉ PAR LEARNER × EXERCICE ORIGINAL.
+    
+    Si déjà généré → retourne l'exercice existant (comme "Exercise Completed!").
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        body        = json.loads(request.body)
+        exercise_id = body.get('exercise_id')
+        learner_id  = body.get('learner_id')
+
+        if not exercise_id:
+            return JsonResponse({'success': False, 'error': 'exercise_id manquant'}, status=400)
+
+        # ── Récupérer l'exercice original ──────────────────────────
+        original = get_object_or_404(SpeakingExercise, id=exercise_id)
+
+        # ── Récupérer le learner (optionnel) ───────────────────────
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+
+        # ✅ VÉRIFICATION : Déjà généré pour ce learner ?
+        if learner:
+            existing = GeneratedSpeakingExercise.objects.filter(
+                original_exercise=original,
+                learner=learner
+            ).first()
+            
+            if existing:
+                # ← RETOURNER L'EXISTANT (pas de nouvelle génération)
+                return JsonResponse({
+                    'success': True,
+                    'already_generated': True,  # ← FLAG pour le frontend
+                    'generated_exercise': {
+                        'id':            existing.id,
+                        'sentence':      existing.sentence,
+                        'sentence_words': existing.sentence_words,
+                        'theme':         existing.theme,
+                        'level':         existing.level,
+                        'instructions':  existing.instructions,
+                        'reference_audio_url': f'/api/speaking-audio-generated/{existing.id}/stream/',
+                    }
+                })
+
+        # ── Construire le prompt Ollama ────────────────────────────
+        original_sentence = original.sentence
+        theme             = original.theme
+        level             = original.level
+
+        prompt = f"""You are an English language teacher creating speaking practice exercises for {level} level students.
+
+The theme is: "{theme}"
+The original sentence is: "{original_sentence}"
+
+Generate ONE new simple English sentence on the SAME theme, suitable for {level} level.
+
+Rules:
+- The sentence must be different from the original
+- Keep the same difficulty level ({level})
+- Use simple, everyday vocabulary
+- The sentence should be 8-15 words long
+- Do NOT add any explanation, punctuation guide, or numbering
+- Reply with ONLY the sentence, nothing else
+
+Sentence:"""
+
+        # ── Appel Ollama ───────────────────────────────────────────
+        generated_sentence = _call_ollama_for_sentence(prompt)
+
+        if not generated_sentence:
+            return JsonResponse({
+                'success': False,
+                'error':   'La génération de la phrase a échoué. Veuillez réessayer.'
+            }, status=500)
+
+        # ── Sauvegarder l'exercice généré ──────────────────────────
+        gen_exercise = GeneratedSpeakingExercise(
+            original_exercise = original,
+            learner           = learner,
+            theme             = theme,
+            level             = level,
+            sentence          = generated_sentence,
+            instructions      = original.instructions,
+        )
+        gen_exercise.save()   # sentence_words + audio auto-remplis via save()
+
+        return JsonResponse({
+            'success': True,
+            'already_generated': False,  # ← Nouveau généré
+            'generated_exercise': {
+                'id':            gen_exercise.id,
+                'sentence':      gen_exercise.sentence,
+                'sentence_words': gen_exercise.sentence_words,
+                'theme':         gen_exercise.theme,
+                'level':         gen_exercise.level,
+                'instructions':  gen_exercise.instructions,
+                'reference_audio_url': f'/api/speaking-audio-generated/{gen_exercise.id}/stream/',
+            }
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+def _call_ollama_for_sentence(prompt: str) -> str:
+    """
+    Envoie le prompt à Ollama et retourne la phrase générée (nettoyée).
+    Retourne une chaîne vide en cas d'erreur.
+    """
+    import requests as req
+ 
+    try:
+        response = req.post(
+            f"{settings.OLLAMA_URL}/api/generate",
+            json={
+                'model':  settings.OLLAMA_MODEL,
+                'prompt': prompt,
+                'stream': False,
+                'options': {
+                    'temperature': 0.7,
+                    'num_predict': 60,   # 60 tokens max = suffisant pour une phrase
+                    'stop': ['\n', '.', '!', '?'],   # Stopper après la 1ère phrase
+                }
+            },
+            timeout=30
+        )
+        response.raise_for_status()
+        data = response.json()
+ 
+        raw = data.get('response', '').strip()
+ 
+        # ── Nettoyage de la réponse ────────────────────────────────
+        # Supprimer les préfixes courants ("Sentence:", "Here is:", etc.)
+        import re
+        raw = re.sub(r'^(sentence\s*:?\s*|here\s+is\s*:?\s*|new\s+sentence\s*:?\s*)', '', raw, flags=re.IGNORECASE)
+ 
+        # Supprimer les guillemets autour de la phrase
+        raw = raw.strip('"\'')
+ 
+        # Garder seulement la première ligne non vide
+        for line in raw.split('\n'):
+            line = line.strip().strip('"\'')
+            if line:
+                # S'assurer que la phrase se termine proprement
+                if not line[-1] in '.!?':
+                    line += '.'
+                return line
+ 
+        return ''
+ 
+    except Exception as e:
+        print(f'[Ollama] Erreur génération speaking : {e}')
+        return ''
+
+# VUE 6
+@csrf_exempt
+def get_generated_speaking_exercise_api(request):
+    """
+    Retourne les données d'un GeneratedSpeakingExercise existant.
+ 
+    Appelé par generate_speaking.js au DOMContentLoaded pour récupérer
+    les données de la phrase générée (sentence, sentence_words, theme…).
+ 
+    Query params :
+        gen_exercise_id  (requis) ← ID du GeneratedSpeakingExercise
+ 
+    Réponse succès :
+        {
+            "success": true,
+            "exercise": {
+                "id": 42,
+                "sentence": "She always brushes her teeth before going to bed.",
+                "sentence_words": ["She", "always", ...],
+                "theme": "Morning Customs",
+                "level": "A1",
+                "instructions": "Read the following sentence aloud...",
+                "reference_audio_url": "/api/speaking-audio/3/stream/"
+            }
+        }
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    gen_exercise_id = request.GET.get('gen_exercise_id')
+ 
+    if not gen_exercise_id:
+        return JsonResponse({'success': False, 'error': 'gen_exercise_id manquant'}, status=400)
+ 
+    try:
+        gen_exercise = get_object_or_404(GeneratedSpeakingExercise, id=gen_exercise_id)
+ 
+        return JsonResponse({
+            'success': True,
+            'exercise': {
+                'id':                  gen_exercise.id,
+                'sentence':            gen_exercise.sentence,
+                'sentence_words':      gen_exercise.sentence_words,
+                'theme':               gen_exercise.theme,
+                'level':               gen_exercise.level,
+                'instructions':        gen_exercise.instructions,
+                # L'audio de référence = celui de l'exercice ORIGINAL
+                'reference_audio_url': f'/api/speaking-audio-generated/{gen_exercise.id}/stream/',
+            }
+        })
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+# ──────────────────────────────────────────────────────────────────────
+# VUE 7 — POST /api/submit-generated-speaking/
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def submit_generated_speaking_api(request):
+    """
+    Reçoit l'enregistrement vocal de l'apprenant pour une phrase GÉNÉRÉE.
+    Transcrit via STT, compare mot à mot, sauvegarde et retourne le résultat.
+ 
+    FormData POST :
+        generated_exercise_id   ← ID du GeneratedSpeakingExercise
+        audio                   ← fichier audio (WebM/WAV/OGG)
+        learner_id              ← (optionnel)
+ 
+    Réponse succès :
+        {
+            "success": true,
+            "transcript": "she always brushes her teeth...",
+            "word_results": [...],
+            "correct_words": 8,
+            "total_words": 10,
+            "accuracy_score": 80,
+            "feedback": "very_good",
+            "reference_audio_url": "/api/speaking-audio/3/stream/"
+        }
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    try:
+        gen_exercise_id = request.POST.get('generated_exercise_id')
+        learner_id      = request.POST.get('learner_id')
+        audio_file      = request.FILES.get('audio')
+ 
+        if not gen_exercise_id:
+            return JsonResponse({'success': False, 'error': 'generated_exercise_id manquant'}, status=400)
+        if not audio_file:
+            return JsonResponse({'success': False, 'error': 'Fichier audio manquant'}, status=400)
+ 
+        gen_exercise = get_object_or_404(GeneratedSpeakingExercise, id=gen_exercise_id)
+ 
+        # ── Récupérer le learner ──────────────────────────────────
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+ 
+        # ── Transcription STT (réutilise la fonction existante) ───
+        transcript = _transcribe_audio(audio_file)
+ 
+        # ── Comparaison mot à mot ─────────────────────────────────
+        reference_words = gen_exercise.sentence_words or re.findall(r'\S+', gen_exercise.sentence)
+        comparison      = _compare_words(reference_words, transcript)
+ 
+        word_results  = comparison['word_results']
+        correct_words = comparison['correct_words']
+        total_words   = comparison['total_words']
+        accuracy      = int((correct_words / total_words) * 100) if total_words > 0 else 0
+ 
+        # ── Sauvegarder le résultat ──────────────────────────────
+        result = None
+        if learner:
+            result = GeneratedSpeakingResult(
+                learner             = learner,
+                generated_exercise  = gen_exercise,
+                learner_transcript  = transcript,
+                word_results        = word_results,
+            )
+            result.save()   # calculate_scores() + generate_feedback() dans save()
+ 
+        feedback = result.feedback if result else _quick_feedback(accuracy)
+ 
+        return JsonResponse({
+            'success':             True,
+            'transcript':          transcript,
+            'word_results':        word_results,
+            'correct_words':       correct_words,
+            'total_words':         total_words,
+            'accuracy_score':      accuracy,
+            'feedback':            feedback,
+            # Référence audio = celle de l'exercice ORIGINAL
+            'reference_audio_url': f'/api/speaking-audio-generated/{gen_exercise.id}/stream/',
+        })
+ 
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ──────────────────────────────────────────────────────────────────────
+# VUE 7 — GET /api/check-generated-speaking-result/?gen_exercise_id=X&learner_id=Y
+# ──────────────────────────────────────────────────────────────────────
+@csrf_exempt
+def check_generated_speaking_result_api(request):
+    """
+    Vérifie si un learner a déjà soumis un résultat pour un exercice généré.
+ 
+    Query params :
+        gen_exercise_id  (requis)
+        learner_id       (requis)
+ 
+    Réponse :
+        {
+            "success": true,
+            "has_result": true | false,
+            "accuracy_score": 80,
+            "feedback": "very_good",
+            "word_results": [...],
+            "transcript": "...",
+            "submitted_at": "2025-04-28T..."
+        }
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+ 
+    gen_exercise_id = request.GET.get('gen_exercise_id')
+    learner_id      = request.GET.get('learner_id')
+ 
+    if not gen_exercise_id:
+        return JsonResponse({'success': False, 'error': 'gen_exercise_id requis'}, status=400)
+    if not learner_id:
+        return JsonResponse({'success': False, 'error': 'learner_id requis'}, status=400)
+ 
+    try:
+        learner      = Learner.objects.get(learner_id=learner_id)
+        gen_exercise = get_object_or_404(GeneratedSpeakingExercise, id=gen_exercise_id)
+ 
+        result = GeneratedSpeakingResult.objects.filter(
+            learner            = learner,
+            generated_exercise = gen_exercise,
+        ).order_by('-submitted_at').first()
+ 
+        if result:
+            return JsonResponse({
+                'success':        True,
+                'has_result':     True,
+                'accuracy_score': result.accuracy_score,
+                'correct_words':  result.correct_words,
+                'total_words':    result.total_words,
+                'feedback':       result.feedback,
+                'word_results':   result.word_results,
+                'transcript':     result.learner_transcript,
+                'submitted_at':   result.submitted_at.isoformat(),
+               'reference_audio_url': f'/api/speaking-audio-generated/{gen_exercise.id}/stream/',
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner introuvable'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@csrf_exempt
+def serve_generated_speaking_audio(request, gen_exercise_id):
+    import mimetypes
+    
+    try:
+        gen_exercise = get_object_or_404(GeneratedSpeakingExercise, id=gen_exercise_id)
+        
+        if not gen_exercise.audio_path:
+            return JsonResponse(
+                {'success': False, 'error': 'Aucun audio généré'},
+                status=404
+            )
+        
+        # Chemins possibles
+        paths_to_try = [
+            gen_exercise.audio_path.replace('\\', '/'),
+            os.path.join(settings.BASE_DIR, gen_exercise.audio_path),
+            os.path.join(settings.BASE_DIR, 'data', 'speaking', 'audio_generated', 'generated', gen_exercise.audio_filename),
+        ]
+        
+        file_path = None
+        for p in paths_to_try:
+            if os.path.isabs(p) and os.path.exists(p):
+                file_path = p
+                break
+            elif os.path.exists(os.path.join(settings.BASE_DIR, p)):
+                file_path = os.path.join(settings.BASE_DIR, p)
+                break
+        
+        if not file_path or not os.path.exists(file_path):
+            return JsonResponse(
+                {'success': False, 'error': f'Fichier introuvable : {gen_exercise.audio_filename}'},
+                status=404
+            )
+        
+        content_type, _ = mimetypes.guess_type(file_path)
+        response = FileResponse(
+            open(file_path, 'rb'),
+            content_type=content_type or 'audio/mpeg',
+            as_attachment=False
+        )
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Length'] = os.path.getsize(file_path)
+        return response
+        
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+      
+# ============================================================
+#  GRAMMAR
+# ============================================================
+ 
+@csrf_exempt
+def get_grammar_course_api(request):
+    """
+    GET /api/grammar-course/?course_id=grammar_a1_sentence_construction&learner_id=1
+ 
+    Retourne le cours complet (toutes ses sections) + le resultat
+    eventuel de l'apprenant si deja soumis.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Methode non autorisee'}, status=405)
+ 
+    try:
+        course_id  = request.GET.get('course_id')
+        learner_id = request.GET.get('learner_id')
+ 
+        if not course_id:
+            return JsonResponse({'success': False, 'error': 'course_id manquant'}, status=400)
+        if not learner_id:
+            return JsonResponse({'success': False, 'error': 'learner_id manquant'}, status=400)
+ 
+        # Recuperer le learner
+        try:
+            learner = Learner.objects.get(learner_id=learner_id)
+        except Learner.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Utilisateur introuvable'}, status=404)
+ 
+        # Recuperer le cours
+        try:
+            course = GrammarCourse.objects.get(course_id=course_id, is_active=True)
+        except GrammarCourse.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Cours introuvable'}, status=404)
+ 
+        # Recuperer toutes les sections ordonnees
+        sections = []
+        for sec in course.sections.all():
+            sections.append({
+                'section_id'  : sec.section_id,
+                'section_type': sec.section_type,
+                'title'       : sec.title,
+                'order'       : sec.order,
+                'content'     : sec.content,
+            })
+ 
+        # Resultat existant de l apprenant
+        result = GrammarExerciseResult.objects.filter(
+            learner=learner, course=course
+        ).first()
+ 
+        return JsonResponse({
+            'success'     : True,
+            'course_id'   : course.course_id,
+            'title'       : course.title,
+            'subtitle'    : course.subtitle,
+            'level'       : course.level,
+            'sections'    : sections,
+            'already_done': result is not None,
+            'score'       : result.score        if result else None,
+            'total'       : result.total        if result else None,
+            'feedback'    : result.feedback     if result else None,
+            'results'     : result.results_json if result else None,
+        })
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+@csrf_exempt
+def submit_grammar_exercise_api(request):
+    """
+    POST /api/submit-grammar/
+    Body JSON :
+    {
+        "learner_id" : "1",
+        "course_id"  : "grammar_a1_sentence_construction",
+        "answers"    : { "1": "She is very tired...", "2": "..." }
+    }
+    Corrige les reponses, sauvegarde dans GrammarExerciseResult.
+    Si deja soumis -> retourne le resultat initial.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Methode non autorisee'}, status=405)
+ 
+    try:
+        body       = json.loads(request.body)
+        learner_id = body.get('learner_id')
+        course_id  = body.get('course_id')
+        answers    = body.get('answers', {})
+ 
+        if not learner_id:
+            return JsonResponse({'success': False, 'error': 'learner_id manquant'}, status=400)
+        if not course_id:
+            return JsonResponse({'success': False, 'error': 'course_id manquant'}, status=400)
+ 
+        # Recuperer le learner
+        try:
+            learner = Learner.objects.get(learner_id=learner_id)
+        except Learner.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Utilisateur introuvable'}, status=404)
+ 
+        # Recuperer le cours
+        try:
+            course = GrammarCourse.objects.get(course_id=course_id, is_active=True)
+        except GrammarCourse.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Cours introuvable'}, status=404)
+ 
+        # Deja soumis -> retourner le resultat existant
+        existing = GrammarExerciseResult.objects.filter(
+            learner=learner, course=course
+        ).first()
+ 
+        if existing:
+            return JsonResponse({
+                'success'     : True,
+                'already_done': True,
+                'score'       : existing.score,
+                'total'       : existing.total,
+                'feedback'    : existing.feedback,
+                'results'     : existing.results_json,
+            })
+ 
+        # Lire les exercices depuis la section exercise
+        try:
+            ex_section = course.sections.get(section_type='exercise')
+        except GrammarSection.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Section exercice introuvable'}, status=404)
+ 
+        questions = ex_section.content.get('exercises', [])
+ 
+        # Correction
+        results_json = []
+        score        = 0
+ 
+        for q in questions:
+            qid      = str(q.get('exercise_id', ''))
+            given    = answers.get(qid, '').strip().lower()
+            accepted = [
+                a.strip().lower()
+                for a in q.get('acceptable_answers', [q.get('correct_answer', '')])
+            ]
+            correct = given in accepted
+            if correct:
+                score += 1
+ 
+            results_json.append({
+                'id'            : qid,
+                'correct'       : correct,
+                'given'         : answers.get(qid, '').strip(),
+                'correct_answer': q.get('correct_answer', ''),
+                'explanation'   : q.get('explanation', ''),
+            })
+ 
+        total = len(questions)
+ 
+        # Sauvegarder le resultat
+        result = GrammarExerciseResult.objects.create(
+            learner      = learner,
+            course       = course,
+            score        = score,
+            total        = total,
+            results_json = results_json,
+        )
+ 
+        return JsonResponse({
+            'success'     : True,
+            'already_done': False,
+            'score'       : result.score,
+            'total'       : result.total,
+            'feedback'    : result.feedback,
+            'results'     : result.results_json,
+        })
+ 
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+@csrf_exempt
+def check_grammar_result_api(request):
+    """
+    GET /api/check-grammar-result/?learner_id=1&course_id=grammar_a1_sentence_construction
+ 
+    Verifie si l apprenant a deja un resultat pour ce cours.
+    Utilise au chargement de course_1.html pour pre-afficher le score.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Methode non autorisee'}, status=405)
+ 
+    try:
+        learner_id = request.GET.get('learner_id')
+        course_id  = request.GET.get('course_id')
+ 
+        if not learner_id or not course_id:
+            return JsonResponse({'success': False, 'error': 'learner_id et course_id requis'}, status=400)
+ 
+        learner = Learner.objects.get(learner_id=learner_id)
+        course  = GrammarCourse.objects.get(course_id=course_id, is_active=True)
+        result  = GrammarExerciseResult.objects.filter(learner=learner, course=course).first()
+ 
+        if result:
+            return JsonResponse({
+                'success'   : True,
+                'has_result': True,
+                'score'     : result.score,
+                'total'     : result.total,
+                'feedback'  : result.feedback,
+                'results'   : result.results_json,
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Utilisateur introuvable'}, status=404)
+    except GrammarCourse.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Cours introuvable'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+
+
+# ============================================================
+#  TEST D'ÉVALUATION 
+# ============================================================
+
+from .models import EvaluationTest, EvaluationQuestion, EvaluationAttempt, EvaluationAnswer
+
+@csrf_exempt
+def serve_evaluation_audio(request, filename):
+    """Stream un fichier audio du test d'évaluation."""
+    import mimetypes
+    import os
+    import urllib.parse
+    
+    safe_filename = urllib.parse.unquote(filename)
+    safe_filename = safe_filename.rstrip('/')
+    safe_filename = os.path.basename(safe_filename)
+    
+    # Your audio files are in the A1 subdirectory
+    audio_dir = r"C:\Users\HP\Desktop\PFE Master Document\DATASets\data_moi\audio\output_ljspeech_filtered\audio\A1"
+    
+    file_path = os.path.join(audio_dir, safe_filename)
+    
+    if not os.path.exists(file_path):
+        return JsonResponse({
+            'success': False, 
+            'error': f'Fichier introuvable : {safe_filename}'
+        }, status=404)
+    
+    content_type, _ = mimetypes.guess_type(file_path)
+    response = FileResponse(
+        open(file_path, 'rb'), 
+        content_type=content_type or 'audio/mpeg',
+        as_attachment=False
+    )
+    response['Accept-Ranges'] = 'bytes'
+    return response
+@csrf_exempt
+def serve_evaluation_image(request, filename):
+    """Stream un fichier image du test d'évaluation."""
+    import mimetypes
+    import os
+    import urllib.parse
+    
+    safe_filename = urllib.parse.unquote(filename)
+    safe_filename = safe_filename.rstrip('/')
+    safe_filename = os.path.basename(safe_filename)
+    
+    # Vos images sont ici
+    image_dir = r"C:\Users\HP\Desktop\PFE Master Document\DATASets\data_moi\image"
+    
+    file_path = os.path.join(image_dir, safe_filename)
+    
+    if not os.path.exists(file_path):
+        return JsonResponse({
+            'success': False, 
+            'error': f'Image introuvable : {safe_filename}'
+        }, status=404)
+    
+    content_type, _ = mimetypes.guess_type(file_path)
+    response = FileResponse(
+        open(file_path, 'rb'), 
+        content_type=content_type or 'image/jpeg',
+        as_attachment=False
+    )
+    return response  
+@csrf_exempt
+def get_evaluation_test_api(request):
+    """
+    GET /api/evaluation-test/?level=A1
+    
+    Retourne le test + questions SANS les réponses correctes.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    level = request.GET.get('level', 'A1')
+    
+    try:
+        test = EvaluationTest.objects.get(level=level, is_active=True)
+    except EvaluationTest.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': f'Test {level} non trouvé ou inactif'
+        }, status=404)
+
+    questions = EvaluationQuestion.objects.filter(test=test).order_by('order')
+    
+    # ── NOUVEAU : Fonction helper pour nettoyer le chemin audio ──
+    def get_audio_url(audio_path):
+        """
+        Convertit un chemin absolu Windows en URL relative.
+        Ex: 'C:/Users/.../audio/A1/LJ023-0016.wav' → '/api/evaluation-audio/LJ023-0016.wav'
+        """
+        if not audio_path:
+            return None
+        
+        import os
+        import urllib.parse
+        
+        # Extraire juste le nom du fichier (LJ023-0016.wav)
+        filename = os.path.basename(audio_path)
+        
+        # Encoder pour l'URL (espaces → %20, etc.)
+        safe_filename = urllib.parse.quote(filename)
+        
+        return f'/api/evaluation-audio/{safe_filename}'
+    
+    def get_image_url(image_path):
+        if not image_path:
+            return None
+        import os
+        import urllib.parse
+        filename = os.path.basename(image_path)
+        safe_filename = urllib.parse.quote(filename)
+        return f'/api/evaluation-image/{safe_filename}'
+
+    return JsonResponse({
+        'success': True,
+        'test': {
+            'level': test.level,
+            'title': test.title,
+            'description': test.description,
+            'time_limit_minutes': test.time_limit_minutes,
+            'total_questions': test.total_questions,
+            'passing_score': test.passing_score,
+        },
+        'questions': [{
+            'id': q.question_id,
+            'section': q.section,
+            'type': q.type,
+            'text': q.question_text,
+            'options': q.options,
+            'audio': get_audio_url(q.audio_path),  # ← MODIFIÉ : utilise le helper
+            'image': get_image_url(q.image_path),
+            'reading': q.reading_text,
+            'points': q.points,
+        } for q in questions]
+    })
+
+
+@csrf_exempt
+def start_evaluation_api(request):
+    """
+    POST /api/evaluation-start/
+    Body: {"level": "A1", "learner_id": 42}
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        level = data.get('level', 'A1')
+        learner_id = data.get('learner_id')
+
+        test = EvaluationTest.objects.get(level=level, is_active=True)
+        
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Learner non trouvé'
+                }, status=404)
+
+        # Vérifier si déjà une tentative en cours
+        if learner:
+            existing = EvaluationAttempt.objects.filter(
+                learner=learner,
+                test=test,
+                status='in_progress'
+            ).first()
+            
+            if existing:
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Tentative déjà en cours',
+                    'attempt_id': str(existing.id),
+                    'started_at': existing.started_at.isoformat(),
+                    'is_new': False,
+                })
+
+        attempt = EvaluationAttempt.objects.create(learner=learner, test=test)
+
+        return JsonResponse({
+            'success': True,
+            'attempt_id': str(attempt.id),
+            'time_limit_minutes': test.time_limit_minutes,
+            'total_questions': test.total_questions,
+            'is_new': True,
+        })
+
+    except EvaluationTest.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Test non trouvé'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+
+
+@csrf_exempt
+def submit_evaluation_answer_api(request):
+    """
+    POST /api/evaluation-answer/
+    Body: {"attempt_id": "uuid", "question_id": "A1_Q001", "answer": "True", "learner_id": 42}
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        attempt_id = data.get('attempt_id')
+        question_id = data.get('question_id')
+        given_answer = data.get('answer', '').strip()
+        learner_id = data.get('learner_id')
+
+        if not attempt_id or not question_id:
+            return JsonResponse({
+                'success': False,
+                'error': 'attempt_id et question_id requis'
+            }, status=400)
+
+        # Vérifier la tentative
+        try:
+            attempt = EvaluationAttempt.objects.get(id=attempt_id)
+        except EvaluationAttempt.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Tentative non trouvée'
+            }, status=404)
+
+        # Vérifier que la tentative appartient au learner
+        if learner_id and attempt.learner:
+            if str(attempt.learner.learner_id) != str(learner_id):
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Cette tentative ne vous appartient pas'
+                }, status=403)
+
+        # Vérifier que la tentative est en cours
+        if attempt.status != 'in_progress':
+            return JsonResponse({
+                'success': False,
+                'error': 'Tentative déjà terminée ou abandonnée'
+            }, status=400)
+
+        # Vérifier la question
+        try:
+            question = EvaluationQuestion.objects.get(question_id=question_id)
+        except EvaluationQuestion.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Question non trouvée'
+            }, status=404)
+
+        # Vérifier que la question appartient au test
+        if question.test != attempt.test:
+            return JsonResponse({
+                'success': False,
+                'error': 'Question invalide pour ce test'
+            }, status=400)
+
+        # Créer ou mettre à jour la réponse
+        answer, created = EvaluationAnswer.objects.update_or_create(
+            attempt=attempt,
+            question=question,
+            defaults={'given_answer': given_answer}
+        )
+
+        return JsonResponse({
+            'success': True,
+            'question_id': question_id,
+            'is_correct': answer.is_correct,
+            'points_earned': answer.points_earned,
+            'saved': True,
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+
+
+@csrf_exempt
+def finish_evaluation_api(request):
+    """
+    POST /api/evaluation-finish/
+    Body: {"attempt_id": "uuid", "learner_id": 42}
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        attempt_id = data.get('attempt_id')
+        learner_id = data.get('learner_id')
+
+        if not attempt_id:
+            return JsonResponse({
+                'success': False,
+                'error': 'attempt_id requis'
+            }, status=400)
+
+        try:
+            attempt = EvaluationAttempt.objects.select_related('test', 'learner').get(id=attempt_id)
+        except EvaluationAttempt.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Tentative non trouvée'
+            }, status=404)
+
+        # Vérifier que la tentative appartient au learner
+        if learner_id and attempt.learner:
+            if str(attempt.learner.learner_id) != str(learner_id):
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Cette tentative ne vous appartient pas'
+                }, status=403)
+
+        if attempt.status != 'in_progress':
+            return JsonResponse({
+                'success': False,
+                'error': 'Tentative déjà terminée'
+            }, status=400)
+
+        # Calculer les résultats
+        attempt.calculate_results()
+
+        # ============================================================
+        # CORRECTION : Initialiser TOUTES les sections du test
+        # ============================================================
+        
+        # Récupérer toutes les questions du test pour connaître les sections
+        all_questions = EvaluationQuestion.objects.filter(test=attempt.test)
+        
+        # Initialiser section_results avec TOUTES les sections présentes dans le test
+        # Même celles qui n'ont pas encore de réponses enregistrées
+        section_results = {}
+        for q in all_questions.values('section').distinct():
+            section = q['section']
+            section_results[section] = {'correct': 0, 'total': 0, 'points': 0}
+        
+        # Ajouter aussi les sections manquantes (grammar, vocabulary, etc.)
+        # au cas où elles ne seraient pas dans les questions
+        all_possible_sections = ['listening', 'reading', 'visual', 'grammar', 'vocabulary']
+        for section in all_possible_sections:
+            if section not in section_results:
+                section_results[section] = {'correct': 0, 'total': 0, 'points': 0}
+
+        # Compter les réponses existantes
+        answers = attempt.answers.select_related('question')
+        for ans in answers:
+            section = ans.question.section
+            if section in section_results:
+                section_results[section]['total'] += 1
+                section_results[section]['points'] += ans.points_earned
+                if ans.is_correct:
+                    section_results[section]['correct'] += 1
+
+        # ============================================================
+        # CORRECTION : Ajouter les questions sans réponse au total
+        # ============================================================
+        
+        for q in all_questions:
+            has_answer = attempt.answers.filter(question=q).exists()
+            if not has_answer:
+                # Cette question n'a pas de réponse enregistrée
+                # On l'ajoute quand même au total de sa section
+                if q.section in section_results:
+                    section_results[q.section]['total'] += 1
+                # points reste à 0, correct reste à 0
+
+        return JsonResponse({
+            'success': True,
+            'attempt_id': str(attempt.id),
+            'level': attempt.test.level,
+            'score': attempt.score,
+            'total_points': attempt.total_points,
+            'percentage': attempt.percentage,
+            'passed': attempt.passed,
+            'passing_score': attempt.test.passing_score,
+            'completed_at': attempt.completed_at.isoformat() if attempt.completed_at else None,
+            'section_results': section_results,
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON invalide'}, status=400)
+
+# GAI Listening
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  HELPERS INTERNES — pipeline de génération
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+def _generate_transcript_ollama(theme: str, transcript_original: str, cefr_level: str) -> str:
+    """
+    Appelle Ollama (llama3) pour générer une nouvelle transcription parlée
+    sur le même thème que l'audio original.
+ 
+    → Retourne la transcription (texte brut, ~100-150 mots).
+    → Lève une exception si Ollama est inaccessible ou répond vide.
+    """
+    import requests as _req
+ 
+    prompt = (
+        f"You are an English language teaching assistant.\n"
+        f"Generate a short spoken English transcript (about 100-150 words) on the same theme as the example below.\n"
+        f"The text must match CEFR level {cefr_level} and use simple, natural spoken language.\n"
+        f"Do NOT copy sentences from the original. Create a fresh, original text.\n"
+        f"Only return the transcript text itself — no titles, no explanations, no labels.\n\n"
+        f"Theme: {theme}\n\n"
+        f"Original transcript (for reference only — do not copy):\n"
+        f"\"\"\"{transcript_original[:400]}\"\"\"\n\n"
+        f"New transcript:"
+    )
+ 
+    resp = _req.post(
+        "http://localhost:11434/api/generate",
+        json={
+            "model": "llama3",          # ← adapter si modèle différent (mistral, phi3…)
+            "prompt": prompt,
+            "stream": False,
+            "options": {"temperature": 0.8, "num_predict": 350}
+        },
+        timeout=180        # Ollama peut être lent sur CPU → 3 min max
+    )
+    resp.raise_for_status()
+    result = resp.json().get("response", "").strip()
+ 
+    if not result or len(result) < 50:
+        raise ValueError("Ollama returned an empty or too-short transcript.")
+ 
+    return result
+ 
+ 
+def _generate_questions_groq(transcript: str, cefr_level: str, theme: str) -> list:
+    """
+    Appelle l'API Groq (llama-3.3-70b-versatile) pour générer 10 questions
+    de compréhension orale sur la transcription fournie.
+ 
+    Retourne une liste de dicts :
+    [
+      {
+        "order": 1,
+        "type": "true_false",
+        "question": "...",
+        "choices": null,
+        "correct_answer": "True",
+        "target_word": "",
+        "correct_order": null,
+        "explanation": "..."
+      },
+      ...
+    ]
+    """
+    import os, json as _json
+    from groq import Groq
+ 
+    client = Groq(api_key=os.environ.get("GROQ_Gen_Lis", ""))
+ 
+    system_prompt = (
+        "You are an expert English language exercise designer.\n"
+        "Generate exactly 10 listening comprehension questions for the given transcript.\n"
+        "Return ONLY a valid JSON array with exactly 10 objects. No extra text, no markdown.\n\n"
+        "Each object must follow this schema:\n"
+        "{\n"
+        '  "order": <1-10>,\n'
+        '  "type": <"true_false"|"mcq"|"fill_blank"|"word_order"|"synonym"|"grammar"|"vocabulary">,\n'
+        '  "question": "<question text>",\n'
+        '  "choices": <array of 4 strings for mcq/fill_blank/grammar/vocabulary, or null>,\n'
+        '  "correct_answer": "<correct answer>",\n'
+        '  "target_word": "<word for synonym/vocabulary questions, or empty string>",\n'
+        '  "correct_order": <array of strings for word_order, or null>,\n'
+        '  "explanation": "<brief 1-sentence explanation>"\n'
+        "}\n\n"
+        "Distribution of 10 questions:\n"
+        "  - 2 × true_false   : statement about the transcript, answer = 'True' or 'False'\n"
+        "  - 2 × mcq          : 4 choices (A/B/C/D format), correct_answer = letter (A/B/C/D)\n"
+        "  - 1 × fill_blank   : sentence with a gap, 4 choices, correct_answer = missing word\n"
+        "  - 1 × word_order   : correct_order = array of words in correct order\n"
+        "  - 1 × synonym      : target_word = word from transcript, correct_answer = its synonym\n"
+        "  - 2 × grammar      : mcq-style testing grammar point from transcript (4 choices, letter answer)\n"
+        "  - 1 × vocabulary   : target_word = word from transcript, mcq-style (4 choices, letter answer)\n\n"
+        f"Match difficulty to CEFR level: {cefr_level}\n"
+        "All questions must be answerable from the transcript.\n"
+        "Return ONLY the JSON array, nothing else."
+    )
+ 
+    user_prompt = (
+        f"Transcript:\n\"\"\"{transcript}\"\"\"\n\n"
+        f"Theme: {theme}\n\n"
+        "Generate 10 questions as a JSON array:"
+    )
+ 
+    completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user",   "content": user_prompt}
+        ],
+        temperature=0.4,
+        max_tokens=3500,
+    )
+ 
+    raw = completion.choices[0].message.content.strip()
+ 
+    # Nettoyer si Groq encadre dans ```json ... ```
+    raw = _re_listen.sub(r'^```json\s*', '', raw)
+    raw = _re_listen.sub(r'^```\s*',     '', raw)
+    raw = _re_listen.sub(r'\s*```$',     '', raw)
+    raw = raw.strip()
+ 
+    # Extraire le tableau JSON si du texte parasite précède
+    bracket_start = raw.find('[')
+    if bracket_start > 0:
+        raw = raw[bracket_start:]
+ 
+    questions_data = _json.loads(raw)
+ 
+    if not isinstance(questions_data, list) or len(questions_data) == 0:
+        raise ValueError(f"Groq did not return a valid questions list. Raw: {raw[:300]}")
+ 
+    return questions_data
+ 
+ 
+def _generate_audio_gtts(text: str, output_path: str) -> bool:
+    """
+    Convertit `text` en fichier MP3 via gTTS (Google Text-to-Speech).
+    Retourne True si succès, False sinon (l'exercice reste utilisable sans audio).
+ 
+    Installer : pip install gtts
+    """
+    try:
+        from gtts import gTTS
+        tts = gTTS(text=text, lang='en', slow=False)
+        tts.save(output_path)
+        print(f"[gTTS] ✅ Audio saved to {output_path}")
+        return True
+    except Exception as e:
+        print(f"[gTTS] ❌ Error generating audio: {e}")
+        return False
+ 
+ 
+def _run_generation_pipeline(gen_exercise_id: int):
+    """
+    Pipeline de génération exécuté dans un thread séparé.
+ 
+    Étapes :
+      1. Génère la transcription via Ollama
+      2. Convertit la transcription en MP3 via gTTS
+      3. Génère 10 questions via Groq
+      4. Sauvegarde tout et passe le statut à 'ready'
+ 
+    En cas d'erreur → statut = 'error' + error_message enregistré.
+    """
+    import os
+    from django.conf import settings
+ 
+    try:
+        gen = GeneratedListeningExercise.objects.get(id=gen_exercise_id)
+        gen.status = 'generating'
+        gen.save(update_fields=['status'])
+ 
+        original_audio = gen.original_audio
+ 
+        # ── Étape 1 : Transcription via Ollama ────────────────────────────
+        print(f"[GenListening] 🔄 Step 1: Generating transcript via Ollama for exercise {gen_exercise_id}...")
+        transcript = _generate_transcript_ollama(
+            theme=gen.theme,
+            transcript_original=original_audio.transcript,
+            cefr_level=gen.cefr_level
+        )
+        gen.transcript = transcript
+        gen.save(update_fields=['transcript'])
+        print(f"[GenListening] ✅ Step 1 done. Transcript length: {len(transcript)} chars.")
+ 
+        # ── Étape 2 : Audio MP3 via gTTS ─────────────────────────────────
+        print(f"[GenListening] 🔄 Step 2: Converting transcript to MP3 via gTTS...")
+        audio_dir = os.path.join(
+            settings.BASE_DIR,
+            'data', 'listening', 'audio_generated'
+        )
+        os.makedirs(audio_dir, exist_ok=True)
+ 
+        audio_filename = f"gen_listening_{gen_exercise_id}.mp3"
+        audio_filepath = os.path.join(audio_dir, audio_filename)
+ 
+        audio_ok = _generate_audio_gtts(transcript, audio_filepath)
+        if audio_ok:
+            gen.audio_filename = audio_filename
+            gen.audio_path     = audio_filepath
+            gen.save(update_fields=['audio_filename', 'audio_path'])
+            print(f"[GenListening] ✅ Step 2 done. Audio: {audio_filename}")
+        else:
+            print(f"[GenListening] ⚠️  Step 2 failed — exercise will be usable without audio.")
+ 
+        # ── Étape 3 : Questions via Groq ──────────────────────────────────
+        print(f"[GenListening] 🔄 Step 3: Generating 10 questions via Groq...")
+        questions_data = _generate_questions_groq(
+            transcript=transcript,
+            cefr_level=gen.cefr_level,
+            theme=gen.theme
+        )
+        print(f"[GenListening] ✅ Step 3 done. {len(questions_data)} questions generated.")
+ 
+        # ── Étape 4 : Sauvegarde des questions ────────────────────────────
+        GeneratedListeningQuestion.objects.filter(generated_exercise=gen).delete()
+ 
+        for q in questions_data:
+            GeneratedListeningQuestion.objects.create(
+                generated_exercise=gen,
+                question_order=int(q.get('order', 0)),
+                question_type=q.get('type', 'mcq'),
+                question_text=q.get('question', ''),
+                choices=q.get('choices'),
+                correct_answer=str(q.get('correct_answer', '')),
+                target_word=str(q.get('target_word', '')),
+                correct_order=q.get('correct_order'),
+                explanation=str(q.get('explanation', '')),
+                points=1
+            )
+ 
+        gen.status = 'ready'
+        gen.save(update_fields=['status'])
+        print(f"[GenListening] ✅ Exercise {gen_exercise_id} fully ready!")
+ 
+    except Exception as e:
+        import traceback
+        print(f"[GenListening] ❌ Error for exercise {gen_exercise_id}: {e}")
+        traceback.print_exc()
+        try:
+            gen = GeneratedListeningExercise.objects.get(id=gen_exercise_id)
+            gen.status        = 'error'
+            gen.error_message = str(e)
+            gen.save(update_fields=['status', 'error_message'])
+        except Exception:
+            pass
+ 
+ 
+# ═════════════════════════════════════════════════════════════════════════════
+#  API 1 — POST /api/generate-listening-exercise/
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+@csrf_exempt
+def generate_listening_exercise_api(request):
+    """
+    POST /api/generate-listening-exercise/
+    Body JSON : { "audio_id": "LJ020-0093", "learner_id": 42 }
+ 
+    Logique :
+      A) Si un exercice généré existe déjà pour (audio × learner) :
+         → retourne already_exists=True + statut + has_result
+         → le frontend redirige vers generate_listening.html
+           qui affiche la modal "Well done!" si has_result=True.
+ 
+      B) Sinon :
+         → Crée GeneratedListeningExercise (statut pending)
+         → Lance _run_generation_pipeline en thread daemon
+         → retourne exercise_id pour que le frontend puisse faire du polling
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'POST only'}, status=405)
+ 
+    try:
+        data       = json.loads(request.body)
+        audio_id   = data.get('audio_id')
+        learner_id = data.get('learner_id')
+ 
+        if not audio_id:
+            return JsonResponse({'success': False, 'error': 'audio_id requis'}, status=400)
+ 
+        audio = get_object_or_404(ListeningAudio, audio_id=audio_id)
+ 
+        # Résoudre le learner (optionnel, mais nécessaire pour unique_together)
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+ 
+        # ── Cas A : exercice déjà existant ────────────────────────────────
+        existing = GeneratedListeningExercise.objects.filter(
+            original_audio=audio,
+            learner=learner
+        ).first()
+ 
+        if existing:
+            has_result = False
+            if learner:
+                has_result = GeneratedListeningResult.objects.filter(
+                    learner=learner,
+                    generated_exercise=existing
+                ).exists()
+ 
+            return JsonResponse({
+                'success':        True,
+                'already_exists': True,
+                'exercise_id':    existing.id,
+                'status':         existing.status,
+                'has_result':     has_result,
+            })
+ 
+        # ── Cas B : nouvelle génération ───────────────────────────────────
+        theme = audio.subunit_title or audio.unit_title or 'General English'
+ 
+        gen = GeneratedListeningExercise.objects.create(
+            original_audio=audio,
+            learner=learner,
+            theme=theme,
+            cefr_level=audio.cefr_level,
+            status='pending'
+        )
+ 
+        # Lancer le pipeline en arrière-plan (thread daemon → s'arrête avec le serveur)
+        t = threading.Thread(
+            target=_run_generation_pipeline,
+            args=(gen.id,),
+            daemon=True
+        )
+        t.start()
+ 
+        return JsonResponse({
+            'success':     True,
+            'generating':  True,
+            'exercise_id': gen.id,
+        })
+ 
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ═════════════════════════════════════════════════════════════════════════════
+#  API 2 — GET /api/check-generated-listening-status/
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+def check_generated_listening_status_api(request):
+    """
+    GET /api/check-generated-listening-status/?exercise_id=X&learner_id=Y
+ 
+    Polling utilisé par generate_listening.js pour suivre l'avancement.
+ 
+    Réponses possibles :
+      { status: "pending" | "generating" }   → continuer le polling
+      { status: "error",  error: "..." }      → afficher l'erreur
+      { status: "ready",  exercise_id, theme, cefr_level, transcript,
+        audio_url, questions: [...], has_result, result: {...}|null }
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'GET only'}, status=405)
+ 
+    exercise_id = request.GET.get('exercise_id')
+    learner_id  = request.GET.get('learner_id')
+ 
+    if not exercise_id:
+        return JsonResponse({'success': False, 'error': 'exercise_id requis'}, status=400)
+ 
+    try:
+        gen = GeneratedListeningExercise.objects.get(id=exercise_id)
+ 
+        # Statut non final → retourner juste le statut
+        if gen.status in ('pending', 'generating'):
+            return JsonResponse({'success': True, 'status': gen.status})
+ 
+        if gen.status == 'error':
+            return JsonResponse({
+                'success': True,
+                'status':  'error',
+                'error':   gen.error_message or 'Unknown generation error'
+            })
+ 
+        # ── Statut 'ready' → retourner les données complètes ──────────────
+        questions = GeneratedListeningQuestion.objects.filter(
+            generated_exercise=gen
+        ).order_by('question_order')
+ 
+        questions_data = []
+        for q in questions:
+            questions_data.append({
+                'id':            q.id,
+                'order':         q.question_order,
+                'type':          q.question_type,
+                'question':      q.question_text,
+                'choices':       q.choices,
+                'target_word':   q.target_word,
+                'correct_order': q.correct_order,
+            })
+ 
+        # Vérifier résultat existant pour ce learner
+        learner     = None
+        has_result  = False
+        result_data = None
+ 
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+                result  = GeneratedListeningResult.objects.filter(
+                    learner=learner,
+                    generated_exercise=gen
+                ).first()
+                if result:
+                    has_result  = True
+                    result_data = {
+                        'score':         result.score,
+                        'correct_count': result.correct_count,
+                        'total':         result.total,
+                        'feedback':      result.feedback,
+                        'results':       result.results_json,
+                    }
+            except Learner.DoesNotExist:
+                pass
+ 
+        return JsonResponse({
+            'success':     True,
+            'status':      'ready',
+            'exercise_id': gen.id,
+            'theme':       gen.theme,
+            'cefr_level':  gen.cefr_level,
+            'transcript':  gen.transcript,
+            'audio_url':   f'/api/generated-listening-audio/{gen.id}/stream/',
+            'questions':   questions_data,
+            'has_result':  has_result,
+            'result':      result_data,
+        })
+ 
+    except GeneratedListeningExercise.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Exercise not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ═════════════════════════════════════════════════════════════════════════════
+#  API 3 — GET /api/generated-listening-audio/<id>/stream/
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+@csrf_exempt
+def serve_generated_listening_audio(request, exercise_id):
+    """
+    GET /api/generated-listening-audio/<exercise_id>/stream/
+    Stream le fichier MP3 généré par gTTS.
+    """
+    import mimetypes
+ 
+    try:
+        gen = get_object_or_404(GeneratedListeningExercise, id=exercise_id)
+ 
+        if not gen.audio_path or not os.path.exists(gen.audio_path):
+            return JsonResponse(
+                {'success': False, 'error': f'Audio file not found: {gen.audio_path}'},
+                status=404
+            )
+ 
+        content_type, _ = mimetypes.guess_type(gen.audio_path)
+        content_type = content_type or 'audio/mpeg'
+ 
+        response = FileResponse(
+            open(gen.audio_path, 'rb'),
+            content_type=content_type,
+            as_attachment=False
+        )
+        response['Accept-Ranges']  = 'bytes'
+        response['Content-Length'] = os.path.getsize(gen.audio_path)
+        return response
+ 
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ═════════════════════════════════════════════════════════════════════════════
+#  API 4 — POST /api/submit-generated-listening/
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+@csrf_exempt
+def submit_generated_listening_api(request):
+    """
+    POST /api/submit-generated-listening/
+    Body JSON :
+    {
+        "exercise_id": 12,
+        "learner_id":  42,
+        "answers": {
+            "101": "True",
+            "102": "A",
+            "103": "run",
+            ...
+        }
+    }
+ 
+    Correction par type (même logique que submit_listening_exercise_api) :
+      - true_false  : comparaison insensible à la casse
+      - mcq/grammar/vocabulary : lettre unique (A/B/C/D)
+      - fill_blank  : comparaison insensible à la casse
+      - word_order  : phrase reconstituée vs correct_order
+      - synonym     : comparaison insensible à la casse
+ 
+    Si résultat déjà existant → retourne le résultat sans re-corriger.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'POST only'}, status=405)
+ 
+    try:
+        data        = json.loads(request.body)
+        exercise_id = data.get('exercise_id')
+        learner_id  = data.get('learner_id')
+        answers     = data.get('answers', {})
+ 
+        if not exercise_id:
+            return JsonResponse({'success': False, 'error': 'exercise_id requis'}, status=400)
+ 
+        gen = get_object_or_404(GeneratedListeningExercise, id=exercise_id)
+ 
+        if gen.status != 'ready':
+            return JsonResponse(
+                {'success': False, 'error': f'Exercise not ready (status: {gen.status})'},
+                status=400
+            )
+ 
+        # Résoudre le learner
+        learner = None
+        if learner_id:
+            try:
+                learner = Learner.objects.get(learner_id=learner_id)
+            except Learner.DoesNotExist:
+                pass
+ 
+        # ── Si résultat déjà existant → retourner sans re-corriger ────────
+        if learner:
+            existing_result = GeneratedListeningResult.objects.filter(
+                learner=learner,
+                generated_exercise=gen
+            ).first()
+            if existing_result:
+                return JsonResponse({
+                    'success':       True,
+                    'already_done':  True,
+                    'score':         existing_result.score,
+                    'correct_count': existing_result.correct_count,
+                    'total':         existing_result.total,
+                    'feedback':      existing_result.feedback,
+                    'results':       existing_result.results_json,
+                })
+ 
+        # ── Récupérer les questions + réponses correctes ──────────────────
+        questions = GeneratedListeningQuestion.objects.filter(
+            generated_exercise=gen
+        ).order_by('question_order')
+ 
+        if not questions.exists():
+            return JsonResponse({'success': False, 'error': 'No questions found'}, status=400)
+ 
+        # ── Correction question par question ──────────────────────────────
+        results       = {}
+        correct_count = 0
+        total         = questions.count()
+ 
+        for q in questions:
+            q_id    = str(q.id)
+            given   = str(answers.get(q_id, '')).strip()
+            correct = str(q.correct_answer).strip()
+            is_correct = False
+            qtype      = q.question_type
+ 
+            if qtype == 'true_false':
+                is_correct = given.lower() == correct.lower()
+ 
+            elif qtype in ('mcq', 'grammar', 'vocabulary'):
+                # Comparer les premières lettres (A/B/C/D)
+                given_l   = given.upper()[0]   if given   else ''
+                correct_l = correct.upper()[0] if correct else ''
+                is_correct = (given_l == correct_l)
+ 
+            elif qtype == 'fill_blank':
+                is_correct = given.lower().strip() == correct.lower().strip()
+ 
+            elif qtype == 'word_order':
+                # L'apprenant envoie les mots rejoints en phrase
+                given_sentence = ' '.join(given.lower().split())
+                if q.correct_order:
+                    correct_sentence = ' '.join(w.lower() for w in q.correct_order)
+                else:
+                    correct_sentence = ' '.join(correct.lower().split())
+                is_correct = (given_sentence == correct_sentence)
+ 
+            elif qtype == 'synonym':
+                is_correct = given.lower().strip() == correct.lower().strip()
+ 
+            else:
+                is_correct = given.lower() == correct.lower()
+ 
+            if is_correct:
+                correct_count += 1
+ 
+            results[q_id] = {
+                'user_answer':    given,
+                'correct_answer': correct,
+                'is_correct':     is_correct,
+                'question_type':  qtype,
+                'question_text':  q.question_text,
+                'explanation':    q.explanation,
+                'choices':        q.choices,
+                'target_word':    q.target_word,
+            }
+ 
+        score = int((correct_count / total) * 100) if total > 0 else 0
+ 
+        # ── Sauvegarder le résultat (si learner identifié) ────────────────
+        feedback = _gen_listening_feedback(score)
+ 
+        if learner:
+            result_obj = GeneratedListeningResult.objects.create(
+                learner=learner,
+                generated_exercise=gen,
+                score=score,
+                correct_count=correct_count,
+                total=total,
+                results_json=results,
+            )
+            feedback = result_obj.feedback  # auto-généré dans save()
+ 
+        return JsonResponse({
+            'success':       True,
+            'score':         score,
+            'correct_count': correct_count,
+            'total':         total,
+            'feedback':      feedback,
+            'results':       results,
+        })
+ 
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ═════════════════════════════════════════════════════════════════════════════
+#  API 5 — GET /api/check-generated-listening-result/
+# ═════════════════════════════════════════════════════════════════════════════
+ 
+def check_generated_listening_result_api(request):
+    """
+    GET /api/check-generated-listening-result/?exercise_id=X&learner_id=Y
+ 
+    Vérifie si un résultat existe déjà pour cet exercice généré.
+    Utilisé par generate_listening.js au chargement de la page.
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'GET only'}, status=405)
+ 
+    exercise_id = request.GET.get('exercise_id')
+    learner_id  = request.GET.get('learner_id')
+ 
+    if not exercise_id or not learner_id:
+        return JsonResponse(
+            {'success': False, 'error': 'exercise_id et learner_id sont requis'},
+            status=400
+        )
+ 
+    try:
+        gen     = GeneratedListeningExercise.objects.get(id=exercise_id)
+        learner = Learner.objects.get(learner_id=learner_id)
+ 
+        result = GeneratedListeningResult.objects.filter(
+            learner=learner,
+            generated_exercise=gen
+        ).first()
+ 
+        if result:
+            return JsonResponse({
+                'success':       True,
+                'has_result':    True,
+                'score':         result.score,
+                'correct_count': result.correct_count,
+                'total':         result.total,
+                'feedback':      result.feedback,
+                'results':       result.results_json,
+                'submitted_at':  result.submitted_at.isoformat(),
+            })
+        else:
+            return JsonResponse({'success': True, 'has_result': False})
+ 
+    except GeneratedListeningExercise.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Exercise not found'}, status=404)
+    except Learner.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Learner not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+ 
+ 
+# ── Helper feedback ────────────────────────────────────────────────────────
+ 
+def _gen_listening_feedback(score: int) -> str:
+    if score >= 90: return "Excellent work!"
+    if score >= 80: return "Very good!"
+    if score >= 70: return "Good job!"
+    if score >= 60: return "Well done!"
+    if score >= 50: return "Keep trying!"
+    if score >= 40: return "Need practice!"
+    return "Try more!"
+    
+
+

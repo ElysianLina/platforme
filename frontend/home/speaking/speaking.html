@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking Exercise</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Speaking CSS -->
+    <link rel="stylesheet" href="{% static 'speaking.css' %}">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SIDEBAR  (identique aux autres pages)
+══════════════════════════════════════════ -->
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+        <span class="logo-text">EnglishLearn</span>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="/" class="nav-item active">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-line"></i><span>Recommendations</span>
+        </a>
+
+         <a href="#" class="nav-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i><span>Settings</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-avatar" id="sidebar-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="user-info">
+            <span class="user-name" id="sidebar-name">Student</span>
+            <span class="user-level" id="sidebar-level">A1</span>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════ -->
+<div class="main-content">
+
+    <!-- Header -->
+    <div class="page-header">
+        <a class="back-btn" href="#"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header-info">
+            <span class="unit-badge" id="subunit-code">A1.1</span>
+            <h1 class="page-title" id="subunit-title">Speaking Exercise</h1>
+        </div>
+        <div class="header-level">
+            <span class="level-chip">🎤 Speaking</span>
+        </div>
+    </div>
+
+    <!-- ── LOADING STATE ── -->
+    <div class="card loading-card" id="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading exercise…</p>
+    </div>
+
+    <!-- ── ERROR STATE ── -->
+    <div class="card error-card hidden" id="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p id="error-message">Exercise not found for this sub-unit.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         STEP 1 — INSTRUCTION + PHRASE
+    ══════════════════════════════════════ -->
+    <div class="exercise-container hidden" id="exercise-container">
+
+        <div class="card completed-card hidden" id="completed-card">
+            <div class="completed-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>Exercise Completed!</h3>
+            <p>You have already completed this speaking exercise.</p>
+        </div>
+        <!-- Instructions card -->
+        <div class="card instruction-card">
+            <div class="instruction-icon"><i class="fas fa-info-circle"></i></div>
+            <p class="instruction-text" id="instruction-text">
+                Read the following sentence aloud. Practice your pronunciation.
+            </p>
+        </div>
+
+        <!-- Sentence card -->
+        <div class="card sentence-card">
+            <div class="sentence-label">
+                <i class="fas fa-quote-left"></i> Your sentence
+            </div>
+            <p class="sentence-text" id="sentence-display"></p>
+
+            <!-- Reference audio player (hidden until result shown) -->
+            <div class="ref-audio-section hidden" id="ref-audio-section">
+                <div class="ref-audio-label">
+                    <i class="fas fa-volume-up"></i> Reference pronunciation
+                </div>
+                <audio id="reference-audio" controls preload="none">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             STEP 2 — RECORDING
+        ══════════════════════════════════════ -->
+        <div class="card record-card" id="record-card">
+
+            <!-- Status indicator -->
+            <div class="record-status" id="record-status">
+                <div class="status-dot idle" id="status-dot"></div>
+                <span id="status-text">Press the button and read the sentence aloud</span>
+            </div>
+
+            <!-- Big mic button -->
+            <button class="mic-btn" id="mic-btn" title="Hold to record">
+                <i class="fas fa-microphone" id="mic-icon"></i>
+                <div class="mic-ripple" id="mic-ripple"></div>
+            </button>
+
+            <!-- Timer -->
+            <div class="record-timer hidden" id="record-timer">
+                <i class="fas fa-clock"></i>
+                <span id="timer-display">0:00</span>
+            </div>
+
+            <!-- Hint -->
+            <p class="record-hint" id="record-hint">Click to start recording</p>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             STEP 3 — RESULT (hidden until submit)
+        ══════════════════════════════════════ -->
+        <div class="card result-card hidden" id="result-card">
+
+            <!-- Score ring -->
+            <div class="score-section">
+                <div class="score-ring-wrapper">
+                    <svg class="score-ring" viewBox="0 0 120 120">
+                        <circle class="ring-bg"    cx="60" cy="60" r="52" />
+                        <circle class="ring-fill"  cx="60" cy="60" r="52"
+                                id="ring-fill"
+                                stroke-dasharray="327"
+                                stroke-dashoffset="327" />
+                    </svg>
+                    <div class="score-center">
+                        <span class="score-value" id="score-value">0</span>
+                        <span class="score-pct">%</span>
+                    </div>
+                </div>
+                <div class="score-meta">
+                    <div class="score-detail">
+                        <span class="score-num" id="correct-count">0</span>
+                        <span class="score-lbl">correct words</span>
+                    </div>
+                    <div class="score-divider">/</div>
+                    <div class="score-detail">
+                        <span class="score-num" id="total-count">0</span>
+                        <span class="score-lbl">total words</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback badge -->
+            <div class="feedback-badge" id="feedback-badge"></div>
+
+            <!-- What you said -->
+            <div class="transcript-section">
+                <div class="transcript-label">
+                    <i class="fas fa-comment-dots"></i> What you said
+                </div>
+                <p class="transcript-text" id="transcript-text"></p>
+            </div>
+
+            <!-- Word-by-word comparison -->
+            <div class="words-section">
+                <div class="words-label">
+                    <i class="fas fa-spell-check"></i> Word analysis
+                </div>
+                <div class="words-legend">
+                    <span class="legend-item correct"><i class="fas fa-check"></i> Correct</span>
+                    <span class="legend-item wrong"><i class="fas fa-times"></i> Wrong / missed</span>
+                    <span class="legend-item extra"><i class="fas fa-plus"></i> Extra</span>
+                </div>
+                <div class="words-display" id="words-display"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="result-actions">
+                
+                <button class="btn btn-primary" id="btn-listen">
+                    <i class="fas fa-volume-up"></i> Listen to reference
+                </button>
+
+                    <button class="btn btn-secondary " id="btn-add-exercise">
+        <i class="fas fa-plus"></i> Add another exercise
+    </button>
+    
+            </div>
+
+            <!-- Attempt counter -->
+            <p class="attempt-info" id="attempt-info"></p>
+        </div>
+
+    </div><!-- /exercise-container -->
+
+</div><!-- /main-content -->
+
+<script src="{% static 'speaking.js' %}"></script>
+</body>
+</html>

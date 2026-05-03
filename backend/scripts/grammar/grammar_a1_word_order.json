@@ -1,0 +1,631 @@
+{
+  "course_id": "grammar_a1_word_order",
+  "title": "Word Order in English",
+  "subtitle": "How to place nouns, verbs, adjectives, and complements in your sentences",
+  "level": "A1",
+  "language": "English",
+  "total_sections": 4,
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "The SVOMPT Rule — The Backbone of English Word Order",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "English word order follows a strict pattern called SVOMPT: Subject + Verb + Object + Manner + Place + Time. Unlike many other languages, English does not change word endings to show meaning — it uses POSITION instead. Moving a word to the wrong position completely changes the meaning of a sentence, or makes it wrong. The core SVO sequence (Subject-Verb-Object) is almost always obligatory in English declarative sentences.",
+        "formula": "Subject + Verb + Object + Manner + Place + Time",
+        "key_rules": [
+          "The Subject always comes BEFORE the verb in affirmative sentences.",
+          "The Object comes directly AFTER the verb.",
+          "Manner (how?) comes before Place (where?) and Time (when?).",
+          "Time expressions (yesterday, every day, at 6pm) usually go at the END of the sentence.",
+          "Never put a time or place expression between the verb and its object.",
+          "Short adverbs of frequency (always, often, never) go BEFORE the main verb, but AFTER 'to be'."
+        ],
+        "examples": [
+          {
+            "sentence": "She reads books every day.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "reads",
+              "object": "books",
+              "time": "every day"
+            },
+            "note": "Time expression 'every day' goes at the end — never between the verb and object."
+          },
+          {
+            "sentence": "He eats pizza at the restaurant on Fridays.",
+            "breakdown": {
+              "subject": "He",
+              "verb": "eats",
+              "object": "pizza",
+              "place": "at the restaurant",
+              "time": "on Fridays"
+            },
+            "note": "Manner → Place → Time. Place comes before Time."
+          },
+          {
+            "sentence": "They walked quickly to the park yesterday.",
+            "breakdown": {
+              "subject": "They",
+              "verb": "walked",
+              "manner": "quickly",
+              "place": "to the park",
+              "time": "yesterday"
+            },
+            "note": "Manner (quickly) comes before Place (to the park), which comes before Time (yesterday)."
+          },
+          {
+            "sentence": "I always drink coffee in the morning.",
+            "breakdown": {
+              "subject": "I",
+              "frequency": "always",
+              "verb": "drink",
+              "object": "coffee",
+              "time": "in the morning"
+            },
+            "note": "Frequency adverb 'always' goes BEFORE the main verb 'drink'."
+          }
+        ],
+        "did_you_know": "Word order is very important in English because it is so lightly inflected. The core SVO sequence is usually obligatory in declarative sentences — but the Manner, Place, and Time elements (called 'Adjuncts') can sometimes move to the front of the sentence for emphasis: 'Yesterday, I saw a movie' is also correct.",
+        "common_errors": [
+          {
+            "incorrect": "She served sandwiches on plates to her guests made of whole wheat.",
+            "correct": "She served sandwiches made of whole wheat on plates to her guests.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "I heard that there was a rumor floating around about the company's bankruptcy at the meeting.",
+            "correct": "At the meeting, I heard that there was a rumor floating around about the company's bankruptcy.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "He play guitar at the concert last night.",
+            "correct": "He played guitar at the concert last night.",
+            "error_type": "Sentence Structure Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "2",
+      "section_title": "Adjective Order — How to Place Describing Words",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "When you use more than one adjective before a noun, English has a fixed order. You cannot put them in any order you want. Native speakers follow this sequence automatically: Opinion → Size → Age → Shape → Color → Origin → Material → Purpose + NOUN. This order feels natural to English speakers, and breaking it sounds strange or incorrect.",
+        "formula": "Opinion → Size → Age → Shape → Color → Origin → Material → Purpose + NOUN",
+        "key_rules": [
+          "Opinion adjectives (beautiful, terrible, nice) always come FIRST.",
+          "Size adjectives (big, small, tall, long) come before age and color.",
+          "Color adjectives come near the end, just before origin and material.",
+          "Origin (French, Italian, wooden) and material (cotton, gold) come last before the noun.",
+          "You rarely use more than 3 adjectives in a row in natural English.",
+          "When only ONE adjective is used, it goes directly before the noun: 'a red car', 'a big house'."
+        ],
+        "examples": [
+          {
+            "sentence": "A beautiful big old wooden house.",
+            "breakdown": {
+              "opinion": "beautiful",
+              "size": "big",
+              "age": "old",
+              "material": "wooden",
+              "noun": "house"
+            },
+            "note": "Opinion (beautiful) → Size (big) → Age (old) → Material (wooden) → Noun (house)."
+          },
+          {
+            "sentence": "A lovely small round blue Italian glass table.",
+            "breakdown": {
+              "opinion": "lovely",
+              "size": "small",
+              "shape": "round",
+              "color": "blue",
+              "origin": "Italian",
+              "material": "glass",
+              "noun": "table"
+            },
+            "note": "Full order example: Opinion → Size → Shape → Color → Origin → Material → Noun."
+          },
+          {
+            "sentence": "She has long black hair.",
+            "breakdown": {
+              "size": "long",
+              "color": "black",
+              "noun": "hair"
+            },
+            "note": "Size (long) comes before Color (black). Most common everyday pattern."
+          },
+          {
+            "sentence": "He drives a nice old red car.",
+            "breakdown": {
+              "opinion": "nice",
+              "age": "old",
+              "color": "red",
+              "noun": "car"
+            },
+            "note": "Opinion (nice) → Age (old) → Color (red) → Noun (car)."
+          }
+        ],
+        "did_you_know": "How to properly position adjectives: there is some room for flexibility, but a typical order starts with adjectives describing feeling or opinion, followed by adjectives of size, age and color, and then those described as 'defining' — such as place of origin or the material the noun is made of. This is the pattern described in most English grammar references.",
+        "common_errors": [
+          {
+            "incorrect": "The broken teacher's window should be fixed.",
+            "correct": "The teacher's broken window should be fixed.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "I have a red big car.",
+            "correct": "I have a big red car.",
+            "error_type": "Adjective Order"
+          },
+          {
+            "incorrect": "She wore a cotton beautiful dress.",
+            "correct": "She wore a beautiful cotton dress.",
+            "error_type": "Adjective Order"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "3",
+      "section_title": "Adverb Placement — Where to Put Describing Words for Verbs",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "Adverbs describe verbs, adjectives, or other adverbs. In English, their position in the sentence depends on what type of adverb they are. There are three main positions: FRONT (before the subject), MID (before the main verb or after 'to be'), and END (at the end of the sentence). Getting adverb placement wrong is one of the most common word order mistakes.",
+        "formulas": [
+          {
+            "label": "Manner adverbs (how?) — END position",
+            "structure": "Subject + Verb + Object + MANNER"
+          },
+          {
+            "label": "Frequency adverbs (how often?) — MID position",
+            "structure": "Subject + FREQUENCY + Verb + Object"
+          },
+          {
+            "label": "Frequency adverbs after 'to be'",
+            "structure": "Subject + to be + FREQUENCY + Complement"
+          },
+          {
+            "label": "Time adverbs (when?) — END or FRONT position",
+            "structure": "Subject + Verb + Object + TIME  OR  TIME + Subject + Verb + Object"
+          }
+        ],
+        "key_rules": [
+          "Manner adverbs (quickly, slowly, well, badly) go AFTER the verb and object: 'She sings beautifully.'",
+          "NEVER put a manner adverb between the verb and its object: NOT 'She sings beautifully songs.' → 'She sings songs beautifully.'",
+          "Frequency adverbs (always, usually, often, sometimes, never) go BEFORE the main verb.",
+          "After the verb 'to be', frequency adverbs go AFTER the verb: 'She is always late.'",
+          "Time adverbs (yesterday, today, soon, now) usually go at the END: 'I went to the cinema yesterday.'",
+          "Time adverbs can go at the FRONT for emphasis: 'Yesterday, I went to the cinema.'"
+        ],
+        "examples": [
+          {
+            "sentence": "She speaks English fluently.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "speaks",
+              "object": "English",
+              "manner": "fluently"
+            },
+            "note": "Manner adverb 'fluently' goes AFTER the object 'English' — not between verb and object."
+          },
+          {
+            "sentence": "He always drinks coffee in the morning.",
+            "breakdown": {
+              "subject": "He",
+              "frequency": "always",
+              "verb": "drinks",
+              "object": "coffee",
+              "time": "in the morning"
+            },
+            "note": "Frequency adverb 'always' goes BEFORE the main verb 'drinks'."
+          },
+          {
+            "sentence": "She is never late for class.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "is",
+              "frequency": "never",
+              "complement": "late for class"
+            },
+            "note": "After 'to be', the frequency adverb 'never' comes AFTER the verb."
+          },
+          {
+            "sentence": "They visited Paris last year.",
+            "breakdown": {
+              "subject": "They",
+              "verb": "visited",
+              "object": "Paris",
+              "time": "last year"
+            },
+            "note": "Time adverb 'last year' goes at the END of the sentence."
+          }
+        ],
+        "did_you_know": "Adverb placement can change the meaning of a sentence. Compare: 'I only eat vegetables' (I do nothing else with vegetables but eat them) vs 'I eat only vegetables' (vegetables are the only thing I eat). The position of 'only' changes the meaning completely.",
+        "common_errors": [
+          {
+            "incorrect": "Walking incredibly, John finished the race.",
+            "correct": "John finished the race incredibly quickly.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "My cousin told me while eating a story about her vacation.",
+            "correct": "While eating, my cousin told me a story about her vacation.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "She always is tired after work.",
+            "correct": "She is always tired after work.",
+            "error_type": "Sentence Structure Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "4",
+      "section_title": "Complements and Objects — Completing the Sentence",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "A complement is a word or phrase that completes the meaning of the verb. There are two main types: the OBJECT (what receives the action) and the COMPLEMENT (what describes the subject or object after a linking verb). Understanding where to place these elements is essential for correct English word order. The most important rule: the object always comes DIRECTLY after the verb.",
+        "formulas": [
+          {
+            "label": "Direct Object — directly after the verb",
+            "structure": "Subject + Verb + DIRECT OBJECT"
+          },
+          {
+            "label": "Indirect Object — before the direct object",
+            "structure": "Subject + Verb + INDIRECT OBJECT + DIRECT OBJECT"
+          },
+          {
+            "label": "Subject Complement — after linking verb",
+            "structure": "Subject + Linking Verb (is/seems/looks) + COMPLEMENT"
+          },
+          {
+            "label": "With 'to' — indirect object can move to end",
+            "structure": "Subject + Verb + DIRECT OBJECT + to + INDIRECT OBJECT"
+          }
+        ],
+        "key_rules": [
+          "The direct object always comes directly after the verb: 'She reads BOOKS.'",
+          "When there are two objects (direct + indirect), the indirect object comes FIRST without 'to': 'She gave ME the book.'",
+          "With 'to' or 'for', the direct object comes first: 'She gave the book TO ME.'",
+          "Subject complements (adjectives or nouns) follow linking verbs: is, are, seem, look, feel, become.",
+          "Never place the object before the verb in a normal statement: NOT 'Books she reads.' → 'She reads books.'",
+          "Prepositional complements (on the table, at school) always follow the object they complete."
+        ],
+        "examples": [
+          {
+            "sentence": "She gave me a book.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "gave",
+              "indirect_object": "me",
+              "direct_object": "a book"
+            },
+            "note": "Indirect object (me) comes BEFORE the direct object (a book) when there is no 'to'."
+          },
+          {
+            "sentence": "She gave a book to me.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "gave",
+              "direct_object": "a book",
+              "to": "to",
+              "indirect_object": "me"
+            },
+            "note": "With 'to', the direct object (a book) comes FIRST, then 'to me'."
+          },
+          {
+            "sentence": "The soup smells delicious.",
+            "breakdown": {
+              "subject": "The soup",
+              "linking_verb": "smells",
+              "complement": "delicious"
+            },
+            "note": "'Smells' is a linking verb. 'Delicious' is the subject complement describing the soup."
+          },
+          {
+            "sentence": "He put the keys on the table.",
+            "breakdown": {
+              "subject": "He",
+              "verb": "put",
+              "object": "the keys",
+              "complement": "on the table"
+            },
+            "note": "The prepositional complement 'on the table' tells us WHERE the keys are — it must follow the object."
+          }
+        ],
+        "did_you_know": "Some verbs can NEVER be separated from their object. For example, 'put' always needs both an object AND a place: you cannot say 'He put the keys.' You must say 'He put the keys ON THE TABLE.' These verbs are called 'complex transitive verbs' and they always require a complement after the object.",
+        "common_errors": [
+          {
+            "incorrect": "The painting was admired by the visitors hanging on the wall.",
+            "correct": "The painting hanging on the wall was admired by the visitors.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "The car was parked by the man with a dent.",
+            "correct": "The car with a dent was parked by the man.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "He sent to me the letter.",
+            "correct": "He sent me the letter.",
+            "error_type": "Sentence Structure Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "5",
+      "section_title": "Common Mistakes to Avoid",
+      "section_type": "tips",
+      "content": {
+        "explanation": "Here are the most common word order mistakes beginners make in English. Pay close attention — these errors are very frequent and can make your sentences difficult to understand.",
+        "mistakes": [
+          {
+            "incorrect": "She served sandwiches on plates to her guests made of whole wheat.",
+            "correct": "She served sandwiches made of whole wheat on plates to her guests.",
+            "explanation": "The modifier 'made of whole wheat' must stay next to the noun it describes (sandwiches), not float to the end of the sentence.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "Walking incredibly, John finished the race.",
+            "correct": "Incredibly, John finished the race while walking.",
+            "explanation": "A dangling modifier must be placed directly next to the word it modifies. 'Incredibly' describes how, not walking.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "The broken teacher's window should be fixed.",
+            "correct": "The teacher's broken window should be fixed.",
+            "explanation": "'Broken' describes the window, not the teacher. The adjective must go next to the noun it modifies.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "I have a red big car.",
+            "correct": "I have a big red car.",
+            "explanation": "In English, Size (big) always comes before Color (red). Follow the adjective order: Opinion → Size → Age → Shape → Color → Origin → Material → Noun.",
+            "error_type": "Adjective Order"
+          },
+          {
+            "incorrect": "She wore a cotton beautiful dress.",
+            "correct": "She wore a beautiful cotton dress.",
+            "explanation": "Opinion adjectives (beautiful) always come BEFORE material adjectives (cotton).",
+            "error_type": "Adjective Order"
+          },
+          {
+            "incorrect": "She always is late for class.",
+            "correct": "She is always late for class.",
+            "explanation": "Frequency adverbs (always, never, often) go AFTER the verb 'to be', not before it.",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "He eats quickly lunch.",
+            "correct": "He eats lunch quickly.",
+            "explanation": "Never put a manner adverb between the verb and its object. The object (lunch) must come directly after the verb.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "My cousin told me while eating a story about her vacation.",
+            "correct": "While eating, my cousin told me a story about her vacation.",
+            "explanation": "The participial phrase 'while eating' must go at the front or directly next to the noun it modifies (my cousin), not in the middle of the sentence.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "The car was parked by the man with a dent.",
+            "correct": "The car with a dent was parked by the man.",
+            "explanation": "'With a dent' describes the car, not the man. Keep modifiers next to the nouns they describe.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "He sent to me the letter.",
+            "correct": "He sent me the letter.",
+            "explanation": "When there is no 'to', put the indirect object (me) BEFORE the direct object (the letter): 'He sent me the letter.' With 'to': 'He sent the letter to me.'",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "The documentary focused on environmental issues narrated by a famous actor.",
+            "correct": "The documentary narrated by a famous actor focused on environmental issues.",
+            "explanation": "The relative clause 'narrated by a famous actor' describes 'the documentary' and must come directly after it.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "I heard at the meeting a strange rumor about the company.",
+            "correct": "At the meeting, I heard a strange rumor about the company.",
+            "explanation": "Place expressions (at the meeting) should go at the beginning or end — never between the verb and its object.",
+            "error_type": "Modifiers Misplacement"
+          },
+          {
+            "incorrect": "The painting was admired by the visitors hanging on the wall.",
+            "correct": "The painting hanging on the wall was admired by the visitors.",
+            "explanation": "'Hanging on the wall' describes the painting, not the visitors. Relative clauses must stay next to the noun they modify.",
+            "error_type": "Modifiers Misplacement"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "6",
+      "section_title": "Exercise: Practice Word Order in English",
+      "section_type": "exercise",
+      "content": {
+        "instructions": "Complete the exercises below. Reorder the words or correct the word order mistake in each sentence.",
+        "exercises": [
+          {
+            "exercise_id": "1",
+            "type": "error_correction",
+            "instruction": "Find and correct the word order mistake.",
+            "question": "She served sandwiches on plates to her guests made of whole wheat.",
+            "correct_answer": "She served sandwiches made of whole wheat on plates to her guests.",
+            "acceptable_answers": [
+              "She served sandwiches made of whole wheat on plates to her guests."
+            ],
+            "explanation": "The modifier 'made of whole wheat' must stay next to 'sandwiches', the noun it describes.",
+            "source_error_type": "Modifiers Misplacement"
+          },
+          {
+            "exercise_id": "2",
+            "type": "error_correction",
+            "instruction": "Find and correct the word order mistake.",
+            "question": "The broken teacher's window should be fixed.",
+            "correct_answer": "The teacher's broken window should be fixed.",
+            "acceptable_answers": [
+              "The teacher's broken window should be fixed."
+            ],
+            "explanation": "'Broken' describes the window, not the teacher. Adjectives must go next to the noun they modify.",
+            "source_error_type": "Modifiers Misplacement"
+          },
+          {
+            "exercise_id": "3",
+            "type": "error_correction",
+            "instruction": "The adjective order is wrong. Correct it.",
+            "question": "I have a red big car.",
+            "correct_answer": "I have a big red car.",
+            "acceptable_answers": [
+              "I have a big red car."
+            ],
+            "explanation": "Size (big) always comes before Color (red) in English adjective order.",
+            "source_error_type": "Adjective Order"
+          },
+          {
+            "exercise_id": "4",
+            "type": "error_correction",
+            "instruction": "The adjective order is wrong. Correct it.",
+            "question": "She wore a cotton beautiful dress.",
+            "correct_answer": "She wore a beautiful cotton dress.",
+            "acceptable_answers": [
+              "She wore a beautiful cotton dress."
+            ],
+            "explanation": "Opinion adjectives (beautiful) always come before material adjectives (cotton).",
+            "source_error_type": "Adjective Order"
+          },
+          {
+            "exercise_id": "5",
+            "type": "error_correction",
+            "instruction": "Find and correct the adverb placement mistake.",
+            "question": "She always is late for class.",
+            "correct_answer": "She is always late for class.",
+            "acceptable_answers": [
+              "She is always late for class."
+            ],
+            "explanation": "After the verb 'to be', frequency adverbs (always) go AFTER the verb, not before it.",
+            "source_error_type": "Sentence Structure Errors"
+          },
+          {
+            "exercise_id": "6",
+            "type": "error_correction",
+            "instruction": "Find and correct the adverb placement mistake.",
+            "question": "He eats quickly lunch every day.",
+            "correct_answer": "He eats lunch quickly every day.",
+            "acceptable_answers": [
+              "He eats lunch quickly every day.",
+              "He eats lunch every day quickly."
+            ],
+            "explanation": "Never put a manner adverb (quickly) between the verb and its object (lunch). The object must come directly after the verb.",
+            "source_error_type": "Modifiers Misplacement"
+          },
+          {
+            "exercise_id": "7",
+            "type": "error_correction",
+            "instruction": "Find and correct the misplaced modifier.",
+            "question": "My cousin told me while eating a story about her vacation.",
+            "correct_answer": "While eating, my cousin told me a story about her vacation.",
+            "acceptable_answers": [
+              "While eating, my cousin told me a story about her vacation.",
+              "My cousin, while eating, told me a story about her vacation."
+            ],
+            "explanation": "The participial phrase 'while eating' must be placed next to the noun it modifies (my cousin).",
+            "source_error_type": "Modifiers Misplacement"
+          },
+          {
+            "exercise_id": "8",
+            "type": "error_correction",
+            "instruction": "Find and correct the word order mistake with objects.",
+            "question": "He sent to me the letter.",
+            "correct_answer": "He sent me the letter.",
+            "acceptable_answers": [
+              "He sent me the letter.",
+              "He sent the letter to me."
+            ],
+            "explanation": "Without 'to', the indirect object (me) goes BEFORE the direct object (the letter). With 'to': direct object first, then 'to me'.",
+            "source_error_type": "Sentence Structure Errors"
+          },
+          {
+            "exercise_id": "9",
+            "type": "sentence_building",
+            "instruction": "Put the words in the correct SVOMPT order.",
+            "question": "carefully / the letter / She / at her desk / read / yesterday",
+            "correct_answer": "She read the letter carefully at her desk yesterday.",
+            "acceptable_answers": [
+              "She read the letter carefully at her desk yesterday.",
+              "Yesterday, she read the letter carefully at her desk."
+            ],
+            "explanation": "Subject (She) + Verb (read) + Object (the letter) + Manner (carefully) + Place (at her desk) + Time (yesterday).",
+            "source_error_type": "Sentence Structure Errors"
+          },
+          {
+            "exercise_id": "10",
+            "type": "error_correction",
+            "instruction": "Find and correct the misplaced relative clause.",
+            "question": "The painting was admired by the visitors hanging on the wall.",
+            "correct_answer": "The painting hanging on the wall was admired by the visitors.",
+            "acceptable_answers": [
+              "The painting hanging on the wall was admired by the visitors."
+            ],
+            "explanation": "'Hanging on the wall' describes the painting, not the visitors. Relative clauses must stay directly after the noun they modify.",
+            "source_error_type": "Modifiers Misplacement"
+          }
+        ],
+        "scoring": {
+          "total_exercises": 10,
+          "points_per_exercise": 1,
+          "total_points": 10,
+          "passing_score": 7,
+          "feedback_messages": {
+            "excellent": "Excellent! You scored {score}/10. Great understanding of English word order!",
+            "good": "Good job! You scored {score}/10. Review the sections you got wrong and keep practicing.",
+            "needs_practice": "Keep practicing! You scored {score}/10. Review the lesson carefully and try again."
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "created_for": "English Learning Platform - Grammar Section",
+    "target_level": "A1 (Beginner)",
+    "topic": "Word Order: SVOMPT, Adjective Order, Adverb Placement, Complements",
+    "language": "English",
+    "includes": [
+      "lessons",
+      "examples",
+      "common mistakes",
+      "exercises"
+    ],
+    "total_exercises": 10
+  },
+  "enrichment_metadata": {
+    "enriched": true,
+    "sources_used": [
+      "Grammar_Correction.csv",
+      "grammar_dataset.json"
+    ],
+    "csv_error_types_used": [
+      "Modifiers Misplacement",
+      "Sentence Structure Errors",
+      "Subject-Verb Agreement",
+      "Verb Tense Errors",
+      "Adjective Order"
+    ],
+    "total_csv_examples_integrated": 22,
+    "total_qa_insights_used": 3,
+    "enriched_sections": [
+      "section_1",
+      "section_2",
+      "section_3",
+      "section_4",
+      "section_5",
+      "section_6"
+    ],
+    "total_exercises": 10,
+    "total_mistakes": 13
+  }
+}

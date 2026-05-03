@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Grammar Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'grammar/courses-menu.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+<div class="sidebar-brand">
+    <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+    <span class="brand-name">EnglishLearn</span>
+</div>
+            
+            <nav class="sidebar-nav">
+                <a href="{% url 'home' %}" class="nav-item" data-page="dashboard">
+                    <i class="fas fa-book-open"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item" data-page="activities">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="{% url 'configuration' %}" class="nav-item" data-page="Configuration">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuration</span>
+                
+                </a>
+                <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Evaluation Test</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="courses-view">
+                <!-- Header -->
+                <div class="courses-header">
+                    <div>
+                        <h2 class="page-title">Grammar Courses</h2>
+                        <p class="page-subtitle">Choose a course to start learning</p>
+                    </div>
+                    
+                    <div class="user-info">
+                        <span class="level-badge">CEFR Level: --</span>
+                        <div class="profile-container">
+                            <div class="user-avatar" id="profile-trigger">
+                                <img src="" alt="Profile" id="avatar-img" style="display: none;">
+                                <span id="avatar-initials">--</span>
+                            </div>
+                            <div class="profile-dropdown" id="profile-dropdown">
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-avatar">
+                                        <img src="" alt="Profile" id="dropdown-avatar-img" style="display: none;">
+                                        <span id="dropdown-avatar-initials">--</span>
+                                    </div>
+                                    <div class="dropdown-user-details">
+                                        <p class="dropdown-name" id="dropdown-name">--</p>
+                                        <p class="dropdown-email" id="dropdown-email">--</p>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-menu">
+                                    <a href="{% url 'profile' %}" class="dropdown-item">
+                                        <div class="dropdown-item-icon"><i class="fas fa-user-circle"></i></div>
+                                        <span>My Profile</span>
+                                    </a>
+                                    <a href="{% url 'configuration' %}" class="dropdown-item">
+                                        <div class="dropdown-item-icon"><i class="fas fa-cog"></i></div>
+                                        <span>Configuration</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item logout-item" data-action="logout">
+                                        <div class="dropdown-item-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                        <span>Sign out</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Grid -->
+                <div class="courses-grid">
+                    
+                    <!-- Course 1: Sentence Building -->
+                    <a href="#" class="course-card" data-course="1">
+                        <div class="course-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Building Sentences in English</h3>
+                            <p class="course-description">
+                                Learn to make affirmative, negative, and interrogative sentences correctly.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-level"><i class="fas fa-signal"></i> Beginner</span>
+                               
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% completed</span>
+                            </div>
+                        </div>
+                        <div class="course-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Course 2: Word Order -->
+                    <a href="#" class="course-card" data-course="2">
+                        <div class="course-icon orange">
+                            <i class="fas fa-sort-alpha-down"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Word Order in English</h3>
+                            <p class="course-description">
+                                How to place nouns, verbs, adjectives, and complements in your sentences.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-level"><i class="fas fa-signal"></i> Beginner</span>
+                               
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% completed</span>
+                            </div>
+                        </div>
+                        <div class="course-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Course 3: Possessive Adjectives -->
+                    <a href="#" class="course-card" data-course="3">
+                        <div class="course-icon purple">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Possessive Adjectives in English</h3>
+                            <p class="course-description">
+                                <em>my, your, his, her</em> and all the others explained easily, with an exercise to validate your knowledge.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-level"><i class="fas fa-signal"></i> Beginner</span>
+                               
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% completed</span>
+                            </div>
+                        </div>
+                        <div class="course-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Course 4: Demonstrative Determiners -->
+                    <a href="#" class="course-card" data-course="4">
+                        <div class="course-icon teal">
+                            <i class="fas fa-thumbtack"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Demonstrative Determiners in English</h3>
+                            <p class="course-description">
+                                <em>this, these, that, those</em> — learn how to use them and tell them apart in this lesson.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-level"><i class="fas fa-signal"></i> Beginner</span>
+                                
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% completed</span>
+                            </div>
+                        </div>
+                        <div class="course-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Course 5: Nouns -->
+                    <a href="#" class="course-card" data-course="5">
+                        <div class="course-icon red">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Nouns</h3>
+                            <p class="course-description">
+                                Discover everything about feminine, masculine, singular or plural, and compound, countable, and uncountable nouns.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-level"><i class="fas fa-signal"></i> Beginner</span>
+                               
+                            </div>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0% completed</span>
+                            </div>
+                        </div>
+                        <div class="course-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'grammar/courses-menu.js' %}"></script>
+</body>
+</html>

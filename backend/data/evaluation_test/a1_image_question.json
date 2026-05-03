@@ -1,0 +1,59 @@
+{
+  "test_id": "CEFR_A1_EVAL_001",
+  "level_start": "A1",
+  "questions": [
+    {
+      "question_id": "A1_Q001",
+      "type": "true_false",
+      "image": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\brush-teeth.jpg",
+      "question": "The woman is brushing her teeth.",
+      "correct_answer": true
+    },
+    {
+      "question_id": "A1_Q002",
+      "type": "fill_blank",
+      "image": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\cooking.jpg",
+      "question": "The mother and daughter are _______ a meal together in the kitchen.",
+      "answer": "preparing"
+    },
+    {
+      "question_id": "A1_Q003",
+      "type": "mcq",
+      "image": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\happya-family.jpg",
+      "question": "Where are these people and what are they doing?",
+      "options": [
+        {
+          "id": "A",
+          "text": "They are at a restaurant ordering food"
+        },
+        {
+          "id": "B",
+          "text": "They are at home having a family meal"
+        },
+        {
+          "id": "C",
+          "text": "They are at work in a meeting"
+        },
+        {
+          "id": "D",
+          "text": "They are at the cinema watching a movie"
+        }
+      ],
+      "correct_answer": "B"
+    },
+    {
+      "question_id": "A1_Q004",
+      "type": "true_false",
+      "image": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\home-work.jpg",
+      "question": "The student is reading a history book.",
+      "correct_answer": false
+    },
+    {
+      "question_id": "A1_Q005",
+      "type": "fill_blank",
+      "image": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\working.jpg",
+      "question": "The woman is working on her _______ at the kitchen table.",
+      "answer": "laptop"
+    }
+  ]
+}

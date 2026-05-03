@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-
+from dotenv import load_dotenv 
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_DIR        = PLATFORM/backend/
 # BASE_DIR.parent = PLATFORM/
@@ -44,10 +45,18 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             BASE_DIR.parent / 'frontend' / 'home', 
             BASE_DIR.parent / 'frontend' / 'home'/ 'listening', 
+            BASE_DIR.parent / 'frontend' / 'home'/ 'writing',
+            BASE_DIR.parent / 'frontend' / 'home' / 'speaking',
+            BASE_DIR.parent / 'frontend' / 'home' / 'configuration',
+            BASE_DIR.parent / 'frontend' / 'home' / 'profile',
+            BASE_DIR.parent / 'frontend' / 'home' / 'grammar',
+            BASE_DIR.parent / 'frontend' / 'home' / 'grammar' / 'course_2',
+            BASE_DIR.parent / 'frontend' / 'home' / 'evaluation_test',
             BASE_DIR.parent / 'frontend' / 'leveltest',        # startlevel.html, test-cefr.html
             BASE_DIR.parent / 'frontend' / 'authentification', # login.html
             BASE_DIR.parent / 'frontend' / 'preferences',
             BASE_DIR.parent / 'frontend' / 'reset-password',
+            
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,10 +100,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR.parent / 'frontend' / 'home',
     BASE_DIR.parent / 'frontend' / 'home'/ 'listening',
+    BASE_DIR.parent / 'frontend' / 'home'/ 'writing',
+    BASE_DIR.parent / 'frontend' / 'home' / 'speaking',
+    BASE_DIR.parent / 'frontend' / 'home' / 'configuration',
+    BASE_DIR.parent / 'frontend' / 'home' / 'profile',
+    BASE_DIR.parent / 'frontend' / 'home' / 'grammar',
+    BASE_DIR.parent / 'frontend' / 'home' / 'grammar' / 'course_2',
+    BASE_DIR.parent / 'frontend' / 'home' / 'evaluation_test',
     BASE_DIR.parent / 'frontend' / 'leveltest',        # startlevel.css/js, test-cefr.css/js
     BASE_DIR.parent / 'frontend' / 'authentification', # login.css/js
     BASE_DIR.parent / 'frontend' / 'preferences', 
     BASE_DIR.parent / 'frontend' / 'reset-password', 
+    
 ]
 
 # AJOUT : Fichiers media (audio MP3 pour le test CEFR)
@@ -102,5 +119,8 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Configuration Ollama
+OLLAMA_URL = 'http://localhost:11434'
+OLLAMA_MODEL = 'llama3.2:3b'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

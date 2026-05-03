@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile — EnglishLearn</title>
+    <link rel="stylesheet" href="{% static 'profile.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="layout">
+
+        <!-- ── Sidebar ── -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+                <span class="brand-name">EnglishLearn</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item"><i class="fas fa-book-open"></i><span>Home</span></a>
+                 <a href="{% url 'courses_menu' %}" class="nav-item" data-page="grammar">
+                    <i class="fas fa-spell-check"></i>
+                    <span>Grammar</span>
+                </a>
+                <a href="#" class="nav-item"><i class="fas fa-bullseye"></i><span>Recommendations</span></a>
+                
+                <a href="{% url 'configuration' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuration</span></a>
+                                <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Evaluation Test</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ── Main ── -->
+        <main class="main">
+
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-identity">
+                    <div class="avatar-wrap">
+                        <img src="" alt="" id="avatar-img" style="display:none;">
+                        <span id="avatar-initials">--</span>
+                        <div class="flag-badge" id="flag-badge">
+                            <img src="https://flagcdn.com/w40/dz.png" alt="Algeria" id="country-flag">
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name" id="profile-name">Loading...</h1>
+                        <p class="profile-location" id="profile-location">
+                            <i class="fas fa-map-marker-alt"></i> <span id="location-text">--</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabs -->
+            <nav class="profile-tabs">
+                <button class="tab-btn active" data-tab="progress">Progress</button>
+                <button class="tab-btn" data-tab="corrections">Photo</button>
+            </nav>
+
+            <!-- Progress Tab Content -->
+            <div class="tab-content active" id="tab-progress">
+                <div class="stats-grid">
+                    <!-- Mastery Card -->
+                    <div class="stat-card mastery-card">
+                        <h3 class="card-title">Mastery</h3>
+                        <div class="mastery-chart">
+                            <svg viewBox="0 0 120 120" class="circular-chart">
+                                <circle class="circle-bg" cx="60" cy="60" r="54" fill="none" stroke="#e0e7ff" stroke-width="8"/>
+                                <circle class="circle-progress" cx="60" cy="60" r="54" fill="none" stroke="#2563eb" stroke-width="8" 
+                                    stroke-dasharray="339.292" stroke-dashoffset="237.505" stroke-linecap="round"
+                                    transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="mastery-percentage">
+                                <span class="pct-value" id="mastery-value">30</span><span class="pct-sign">%</span>
+                            </div>
+                        </div>
+                        <p class="mastery-label">mastery in <img src="https://flagcdn.com/w20/gb.png" alt="English" class="inline-flag"> English</p>
+                    </div>
+
+                    <!-- Right Column Cards -->
+                    <div class="stats-column">
+                        <div class="stat-card achievement-card">
+                            <div class="achievement-header">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="achievement-title">Complete basic activities</span>
+                            </div>
+                            <div class="confetti-decoration">
+                                <span class="confetti-dot red"></span>
+                                <span class="confetti-dot green"></span>
+                                <span class="confetti-dot orange"></span>
+                                <span class="confetti-dot blue"></span>
+                                <span class="confetti-shape orange"></span>
+                                <span class="confetti-shape green"></span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card achievement-card">
+                            <div class="achievement-header">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span class="achievement-title">practice with additional exercise</span>
+                            </div>
+                            <div class="confetti-decoration">
+                                <span class="confetti-dot red"></span>
+                                <span class="confetti-dot green"></span>
+                                <span class="confetti-dot orange"></span>
+                                <span class="confetti-dot blue"></span>
+                                <span class="confetti-shape orange"></span>
+                                <span class="confetti-shape green"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corrections Tab Content -->
+            <div class="tab-content" id="tab-corrections">
+                <div class="corrections-placeholder">
+                    <i class="fas fa-comments"></i>
+                    <p>Your corrections will appear here</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="{% static 'profile.js' %}"></script>
+</body>
+</html>

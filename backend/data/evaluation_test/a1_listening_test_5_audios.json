@@ -1,0 +1,47 @@
+[
+  {
+    "test_item_number": 1,
+    "audio_id": "LJ023-0016",
+    "text": "In nineteen thirty-three you and I knew that we must never let our economic system get completely out of joint again",
+    "text_raw": "In 1933 you and I knew that we must never let our economic system get completely out of joint again",
+    "cefr": "A1",
+    "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0016.wav",
+    "character_length": 116
+  },
+  {
+    "test_item_number": 2,
+    "audio_id": "LJ016-0330",
+    "text": "It was read for the first time in March eighteen sixty-six, but did not become law till eighteen sixty-eight.",
+    "text_raw": "It was read for the first time in March 1866, but did not become law till 1868.",
+    "cefr": "A1",
+    "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ016-0330.wav",
+    "character_length": 109
+  },
+  {
+    "test_item_number": 3,
+    "audio_id": "LJ028-0472",
+    "text": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+    "text_raw": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+    "cefr": "A1",
+    "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ028-0472.wav",
+    "character_length": 102
+  },
+  {
+    "test_item_number": 4,
+    "audio_id": "LJ023-0007",
+    "text": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+    "text_raw": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+    "cefr": "A1",
+    "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0007.wav",
+    "character_length": 97
+  },
+  {
+    "test_item_number": 5,
+    "audio_id": "LJ046-0068",
+    "text": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+    "text_raw": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+    "cefr": "A1",
+    "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ046-0068.wav",
+    "character_length": 94
+  }
+]

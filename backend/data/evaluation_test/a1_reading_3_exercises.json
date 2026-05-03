@@ -1,0 +1,74 @@
+{
+  "level": "A1",
+  "questions": [
+    {
+      "exercise_id": "A1_READ_01",
+      "text_id": "custom_post_office_01",
+      "level": "A1",
+      "question_number": 1,
+      "text": "I am at the post office with my uncle. I have a white envelope in my hand. Then I put it on a desk. I talk to a woman. When I turn, the envelope is not there. I look behind a chair and near the door. A man says, \"Is this your envelope?\" I say, \"Yes! Thank you very much.\"",
+      "question_type": "multiple_choice",
+      "instructions": "Read the text. Then choose the correct answer.",
+      "question": "What happens to the boy's envelope?",
+      "options": [
+        {
+          "letter": "A",
+          "text": "He puts it in his pocket and forgets it."
+        },
+        {
+          "letter": "B",
+          "text": "He loses it, then a man finds it and gives it back."
+        },
+        {
+          "letter": "C",
+          "text": "He gives it to a woman at the desk."
+        },
+        {
+          "letter": "D",
+          "text": "He leaves it behind the door."
+        }
+      ],
+      "correct_answer": "B"
+    },
+    {
+      "exercise_id": "A1_READ_02",
+      "text_id": "custom_package_delivery_02",
+      "level": "A1",
+      "question_number": 2,
+      "text": "It is Tuesday morning. My mother says, \"A box comes today.\" I sit near the window. I look at the street. I see a big truck. The driver stops in front of our house. He has a brown box. He knocks on the door. I open it. I take the box. It is heavy. Inside, there is a new blue clock.",
+      "question_type": "multiple_choice",
+      "instructions": "Read the text. Then choose the correct answer.",
+      "question": "Why does the narrator sit near the window?",
+      "options": [
+        {
+          "letter": "A",
+          "text": "Because the box is heavy."
+        },
+        {
+          "letter": "B",
+          "text": "Because he wants to see the truck arrive."
+        },
+        {
+          "letter": "C",
+          "text": "Because he likes looking at the street."
+        },
+        {
+          "letter": "D",
+          "text": "Because his mother tells him to open the door."
+        }
+      ],
+      "correct_answer": "B"
+    },
+    {
+      "exercise_id": "A1_READ_03",
+      "text_id": "custom_dialogue_park_03",
+      "level": "A1",
+      "question_number": 3,
+      "text": "Sophie : \"Hello, Paul! Where are you?\"\nPaul : \"I am at the bank with my father.\"\nSophie : \"Oh. I am at the park. There is a dog and two babies here.\"\nPaul : \"OK. I come in ten minutes.\"\nSophie : \"Perfect! Bring water, please. It is hot.\"\nPaul : \"Yes. Bye!\"",
+      "question_type": "true_false",
+      "instructions": "Read the dialogue. Then decide if the statement is TRUE or FALSE.",
+      "statement": "Paul agrees to meet Sophie at the park and bring her water.",
+      "correct_answer": "TRUE"
+    }
+  ]
+}

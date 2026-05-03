@@ -1,0 +1,400 @@
+{
+  "test_id": "CEFR_A1_EVAL_001",
+  "title": "CEFR A1 Level Evaluation Test - English",
+  "description": "Comprehensive A1 (CEFR) level evaluation test covering listening, reading, visual comprehension, grammar, and vocabulary skills.",
+  "level": "A1",
+  "time_limit_minutes": 15,
+  "total_questions": 20,
+  "passing_score": 60,
+  "sections": [
+    {
+      "section_id": "SEC_01_LISTENING",
+      "section_title": "Listening Comprehension",
+      "instructions": "Listen to the audio clips and answer the questions. You can play each audio twice.",
+      "time_estimate_minutes": 4,
+      "total_questions": 5,
+      "questions": [
+        {
+          "question_id": "LST_001",
+          "audio_id": "LJ023-0016",
+          "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0016.wav",
+          "transcription": "In nineteen thirty-three you and I knew that we must never let our economic system get completely out of joint again",
+          "transcription_raw": "In 1933 you and I knew that we must never let our economic system get completely out of joint again",
+          "type": "fill_blank",
+          "instruction": "Listen to the audio and complete the missing word(s).",
+          "points": 1,
+          "question": "In nineteen thirty-three you and I knew that we must never let our economic system get completely ________ again.",
+          "blanks": [
+            {
+              "blank_id": 1,
+              "correct_answer": "out of joint",
+              "hint": "two words meaning 'not working properly'"
+            }
+          ]
+        },
+        {
+          "question_id": "LST_002",
+          "audio_id": "LJ016-0330",
+          "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ016-0330.wav",
+          "transcription": "It was read for the first time in March eighteen sixty-six, but did not become law till eighteen sixty-eight.",
+          "transcription_raw": "It was read for the first time in March 1866, but did not become law till 1868.",
+          "type": "mcq",
+          "instruction": "Listen to the audio and choose the correct answer.",
+          "points": 1,
+          "question": "How many years passed between when it was first read and when it became law?",
+          "options": [
+            {
+              "id": "A",
+              "text": "One year",
+              "is_correct": false
+            },
+            {
+              "id": "B",
+              "text": "Two years",
+              "is_correct": true
+            },
+            {
+              "id": "C",
+              "text": "Three years",
+              "is_correct": false
+            },
+            {
+              "id": "D",
+              "text": "Four years",
+              "is_correct": false
+            }
+          ],
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "LST_003",
+          "audio_id": "LJ028-0472",
+          "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ028-0472.wav",
+          "transcription": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+          "transcription_raw": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+          "type": "fill_blank",
+          "instruction": "Listen to the audio and complete the missing words.",
+          "points": 1,
+          "question": "Its outer part, about ________ feet in width, was protected with towers at intervals of ________ feet.",
+          "blanks": [
+            {
+              "blank_id": 1,
+              "correct_answer": "twelve",
+              "hint": "the number 12"
+            },
+            {
+              "blank_id": 2,
+              "correct_answer": "sixty-five",
+              "hint": "the number 65"
+            }
+          ]
+        },
+        {
+          "question_id": "LST_004",
+          "audio_id": "LJ023-0007",
+          "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0007.wav",
+          "transcription": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+          "transcription_raw": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+          "type": "mcq",
+          "instruction": "Listen to the audio and choose the correct answer.",
+          "points": 1,
+          "question": "When did the speaker make his first radio report?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Last year",
+              "is_correct": false
+            },
+            {
+              "id": "B",
+              "text": "Two years ago",
+              "is_correct": false
+            },
+            {
+              "id": "C",
+              "text": "Four years ago",
+              "is_correct": true
+            },
+            {
+              "id": "D",
+              "text": "Five years ago",
+              "is_correct": false
+            }
+          ],
+          "correct_answer": "C"
+        },
+        {
+          "question_id": "LST_005",
+          "audio_id": "LJ046-0068",
+          "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ046-0068.wav",
+          "transcription": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+          "transcription_raw": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+          "type": "true_false",
+          "instruction": "Listen to the audio and decide if the statement is true or false.",
+          "points": 1,
+          "statement": "The person returned to his job with new ideas about many things.",
+          "correct_answer": true
+        }
+      ]
+    },
+    {
+      "section_id": "SEC_02_READING",
+      "section_title": "Reading Comprehension",
+      "instructions": "Read the texts carefully and choose the correct answer.",
+      "time_estimate_minutes": 3,
+      "total_questions": 3,
+      "questions": [
+        {
+          "question_id": "A1_READ_01",
+          "text_id": "custom_post_office_01",
+          "type": "multiple_choice",
+          "text": "I am at the post office with my uncle. I have a white envelope in my hand. Then I put it on a desk. I talk to a woman. When I turn, the envelope is not there. I look behind a chair and near the door. A man says, \"Is this your envelope?\" I say, \"Yes! Thank you very much.\"",
+          "instruction": "Read the text. Then choose the correct answer.",
+          "points": 1,
+          "question": "What happens to the boy's envelope?",
+          "options": [
+            {
+              "letter": "A",
+              "text": "He puts it in his pocket and forgets it."
+            },
+            {
+              "letter": "B",
+              "text": "He loses it, then a man finds it and gives it back."
+            },
+            {
+              "letter": "C",
+              "text": "He gives it to a woman at the desk."
+            },
+            {
+              "letter": "D",
+              "text": "He leaves it behind the door."
+            }
+          ],
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "A1_READ_02",
+          "text_id": "custom_package_delivery_02",
+          "type": "multiple_choice",
+          "text": "It is Tuesday morning. My mother says, \"A box comes today.\" I sit near the window. I look at the street. I see a big truck. The driver stops in front of our house. He has a brown box. He knocks on the door. I open it. I take the box. It is heavy. Inside, there is a new blue clock.",
+          "instruction": "Read the text. Then choose the correct answer.",
+          "points": 1,
+          "question": "Why does the narrator sit near the window?",
+          "options": [
+            {
+              "letter": "A",
+              "text": "Because the box is heavy."
+            },
+            {
+              "letter": "B",
+              "text": "Because he wants to see the truck arrive."
+            },
+            {
+              "letter": "C",
+              "text": "Because he likes looking at the street."
+            },
+            {
+              "letter": "D",
+              "text": "Because his mother tells him to open the door."
+            }
+          ],
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "A1_READ_03",
+          "text_id": "custom_dialogue_park_03",
+          "type": "true_false",
+          "text": "Sophie : \"Hello, Paul! Where are you?\"\nPaul : \"I am at the bank with my father.\"\nSophie : \"Oh. I am at the park. There is a dog and two babies here.\"\nPaul : \"OK. I come in ten minutes.\"\nSophie : \"Perfect! Bring water, please. It is hot.\"\nPaul : \"Yes. Bye!\"",
+          "instruction": "Read the dialogue. Then decide if the statement is TRUE or FALSE.",
+          "points": 1,
+          "statement": "Paul agrees to meet Sophie at the park and bring her water.",
+          "correct_answer": "TRUE"
+        }
+      ]
+    },
+    {
+      "section_id": "SEC_03_IMAGES",
+      "section_title": "Visual Comprehension",
+      "instructions": "Look at the images and answer the questions about what you see.",
+      "time_estimate_minutes": 3,
+      "total_questions": 5,
+      "questions": [
+        {
+          "question_id": "A1_Q001",
+          "type": "true_false",
+          "image_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\brush-teeth.jpg",
+          "question": "The woman is brushing her teeth.",
+          "points": 1,
+          "correct_answer": true
+        },
+        {
+          "question_id": "A1_Q002",
+          "type": "fill_blank",
+          "image_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\cooking.jpg",
+          "question": "The mother and daughter are _______ a meal together in the kitchen.",
+          "points": 1,
+          "correct_answer": "preparing"
+        },
+        {
+          "question_id": "A1_Q003",
+          "type": "mcq",
+          "image_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\happya-family.jpg",
+          "question": "Where are these people and what are they doing?",
+          "points": 1,
+          "options": [
+            {
+              "id": "A",
+              "text": "They are at a restaurant ordering food"
+            },
+            {
+              "id": "B",
+              "text": "They are at home having a family meal"
+            },
+            {
+              "id": "C",
+              "text": "They are at work in a meeting"
+            },
+            {
+              "id": "D",
+              "text": "They are at the cinema watching a movie"
+            }
+          ],
+          "correct_answer": "B"
+        },
+        {
+          "question_id": "A1_Q004",
+          "type": "true_false",
+          "image_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\home-work.jpg",
+          "question": "The student is reading a history book.",
+          "points": 1,
+          "correct_answer": false
+        },
+        {
+          "question_id": "A1_Q005",
+          "type": "fill_blank",
+          "image_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\image\\working.jpg",
+          "question": "The woman is working on her _______ at the kitchen table.",
+          "points": 1,
+          "correct_answer": "laptop"
+        }
+      ]
+    },
+    {
+      "section_id": "SEC_04_GRAMMAR",
+      "section_title": "Grammar",
+      "instructions": "Choose the correct form of the verb to complete each sentence.",
+      "time_estimate_minutes": 3,
+      "total_questions": 5,
+      "questions": [
+        {
+          "question_id": "GRM_001",
+          "type": "mcq",
+          "question": "She ___ to swim when it is hot.",
+          "options": [
+            "love",
+            "loves",
+            "loved",
+            "loving"
+          ],
+          "correct_answer": "loves",
+          "explanation": "Present simple - 3rd person singular adds -s",
+          "points": 1
+        },
+        {
+          "question_id": "GRM_002",
+          "type": "mcq",
+          "question": "It ___ in the winter.",
+          "options": [
+            "snow",
+            "snowing",
+            "had snowed",
+            "snows"
+          ],
+          "correct_answer": "snows",
+          "explanation": "Present simple for general truth",
+          "points": 1
+        },
+        {
+          "question_id": "GRM_003",
+          "type": "mcq",
+          "question": "John ___ his bicycle every day.",
+          "options": [
+            "ride",
+            "ridden",
+            "rides",
+            "to ride"
+          ],
+          "correct_answer": "rides",
+          "explanation": "Present simple - 3rd person singular adds -s",
+          "points": 1
+        },
+        {
+          "question_id": "GRM_004",
+          "type": "mcq",
+          "question": "There ___ a race next week.",
+          "options": [
+            "to be",
+            "was",
+            "will be",
+            "are"
+          ],
+          "correct_answer": "will be",
+          "explanation": "Future simple with will + base verb",
+          "points": 1
+        },
+        {
+          "question_id": "GRM_005",
+          "type": "mcq",
+          "question": "The bridesmaids ___ beautiful dresses at the wedding last Saturday.",
+          "options": [
+            "wears",
+            "wore",
+            "wear"
+          ],
+          "correct_answer": "wore",
+          "explanation": "Past simple of irregular verb wear → wore",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "section_id": "SEC_05_VOCABULARY",
+      "section_title": "Vocabulary",
+      "instructions": "Choose the correct word to complete each sentence.",
+      "time_estimate_minutes": 2,
+      "total_questions": 2,
+      "questions": [
+        {
+          "question_id": "VOC_001",
+          "type": "mcq",
+          "question": "The weather is ___ today. Let's stay inside.",
+          "options": [
+            "simple",
+            "awful",
+            "rich",
+            "close"
+          ],
+          "correct_answer": "awful",
+          "explanation": "Adjectif décrivant un temps très mauvais",
+          "source": "English-Vocabulary-Test A2 Q2",
+          "points": 1
+        },
+        {
+          "question_id": "VOC_002",
+          "type": "mcq",
+          "question": "Every year, many ___ travel to Paris to visit its famous sights.",
+          "options": [
+            "schedules",
+            "churches",
+            "instructions",
+            "tourists"
+          ],
+          "correct_answer": "tourists",
+          "explanation": "Nom désignant les personnes qui visitent un lieu",
+          "source": "English-Vocabulary-Test A2 Q4",
+          "points": 1
+        }
+      ]
+    }
+  ]
+}

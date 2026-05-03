@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Test - EnglishLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'evaluation_test.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+                <span class="brand-name">EnglishLearn</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item"><i class="fas fa-book-open"></i><span>Home</span></a>
+                <a href="{% url 'courses_menu' %}" class="nav-item"><i class="fas fa-spell-check"></i><span>Grammar</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-bullseye"></i><span>Recommendations</span></a>
+                <a href="{% url 'profile' %}" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+                <a href="{% url 'configuration' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuration</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Start Screen -->
+            <div class="test-container" id="start-screen">
+                <div class="test-header">
+                    <div class="level-badge" id="level-badge">A1</div>
+                    <h1 class="test-title">Evaluation Test</h1>
+                    <p class="test-subtitle">Test your English skills to advance to the next level</p>
+                </div>
+
+                <div class="test-info-cards">
+                    <div class="info-card">
+                        <i class="fas fa-clock"></i>
+                        <span class="info-value" id="time-limit">15 min</span>
+                        <span class="info-label">Time Limit</span>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-list-ol"></i>
+                        <span class="info-value" id="total-questions">20</span>
+                        <span class="info-label">Questions</span>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-percentage"></i>
+                        <span class="info-value" id="passing-score">60%</span>
+                        <span class="info-label">To Pass</span>
+                    </div>
+                </div>
+
+                <div class="test-sections-info">
+                    <h3><i class="fas fa-info-circle"></i> Test Sections</h3>
+                    <div class="sections-list">
+                        <div class="section-item">
+                            <i class="fas fa-headphones"></i>
+                            <span>Listening Comprehension</span>
+                        </div>
+                        <div class="section-item">
+                            <i class="fas fa-book-reader"></i>
+                            <span>Reading Comprehension</span>
+                        </div>
+                        <div class="section-item">
+                            <i class="fas fa-eye"></i>
+                            <span>Visual Comprehension</span>
+                        </div>
+                        <div class="section-item">
+                            <i class="fas fa-spell-check"></i>
+                            <span>Grammar</span>
+                        </div>
+                        <div class="section-item">
+                            <i class="fas fa-font"></i>
+                            <span>Vocabulary</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-button" id="start-btn">
+                    <i class="fas fa-play"></i>
+                    Start Test
+                </button>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div class="test-container hidden" id="quiz-screen">
+                <div class="quiz-header">
+                    <div class="quiz-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="quiz-progress-bar"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">Question 1 / 20</span>
+                    </div>
+                    <div class="quiz-timer" id="timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="timer-display">15:00</span>
+                    </div>
+                </div>
+
+                <div class="question-container" id="question-container">
+                    <!-- Question content injected by JS -->
+                </div>
+
+                <div class="quiz-navigation">
+                    <button class="nav-btn prev-btn" id="prev-btn" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button class="nav-btn next-btn" id="next-btn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="nav-btn finish-btn hidden" id="finish-btn">
+                        <i class="fas fa-check-circle"></i> Finish Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div class="test-container hidden" id="results-screen">
+                <div class="results-header">
+                    <div class="result-icon" id="result-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h1 class="results-title" id="results-title">Test Completed!</h1>
+                    <p class="results-subtitle" id="results-subtitle">Here are your results</p>
+                </div>
+
+                <div class="score-circle">
+                    <svg viewBox="0 0 120 120">
+                        <circle class="score-circle-bg" cx="60" cy="60" r="54"></circle>
+                        <circle class="score-circle-progress" id="score-circle-progress" cx="60" cy="60" r="54"></circle>
+                    </svg>
+                    <div class="score-text">
+                        <span class="score-percentage" id="score-percentage">0%</span>
+                        <span class="score-label">Score</span>
+                    </div>
+                </div>
+
+                <div class="result-status" id="result-status">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Congratulations! You passed!</span>
+                </div>
+
+                <div class="section-results" id="section-results">
+                    <!-- Section results injected by JS -->
+                </div>
+
+                <div class="results-actions">
+                    <button class="action-btn primary" id="retry-btn">
+                        <i class="fas fa-redo"></i> Retry Test
+                    </button>
+                    <button class="action-btn secondary" id="home-btn">
+                        <i class="fas fa-home"></i> Back to Home
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay hidden" id="loading-overlay">
+                <div class="loading-spinner"></div>
+                <p>Loading test...</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'evaluation_test.js' %}"></script>
+</body>
+</html>

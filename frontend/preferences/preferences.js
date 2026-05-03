@@ -399,7 +399,7 @@ async function saveAllPreferences() {
     const payload = {
         learner_id:     state.learnerId,
         cefr_level:     state.cefrLevel,
-        progress:       10,
+        
         reason:         state.reason,
         interests:      interestsToSave,  //  ["autre"] si custom
         other_interest: state.otherInterest.trim(),  // Texte séparé

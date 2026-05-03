@@ -252,9 +252,6 @@ function getLearnerId() {
 }
 
 async function fetchLearnerData() {
-    // ✅ FIX BUG 3 : supprimé le guard "if (userState.name) return"
-    // qui affichait les données d'un ancien apprenant depuis le cache localStorage
-    // On fait TOUJOURS l'appel API pour avoir les données fraîches du bon apprenant
     if (!userState.learnerId) return;
     
     try {
@@ -262,10 +259,17 @@ async function fetchLearnerData() {
         const result = await response.json();
         
         if (result.success) {
-            userState.name      = result.learner.name;
-            userState.email     = result.learner.email;
-            userState.cefrLevel = result.learner.cefr_level;
-            userState.progress  = result.learner.progress;
+            const learner = result.learner;
+            
+            userState.name      = learner.name;
+            userState.email     = learner.email;
+            userState.cefrLevel = learner.cefr_level;
+            userState.progress  = learner.progress;
+            
+            // ✅ AJOUT : stocker la photo pour usage futur
+            if (learner.picture) {
+                localStorage.setItem('learner_picture', learner.picture);
+            }
             
             localStorage.setItem('learner_name',       userState.name);
             localStorage.setItem('learner_email',      userState.email);
@@ -301,26 +305,43 @@ function updateDashboard() {
         progressValue.textContent = userState.progress + '%';
     }
     
+    // ✅ AJOUT : Gestion avatar avec photo Google
+    const avatarImg = document.getElementById('avatar-img');
     const avatarInitials = document.getElementById('avatar-initials');
-    if (avatarInitials && userState.name) {
+    const picture = localStorage.getItem('learner_picture') || '';
+    
+    if (picture && avatarImg) {
+        avatarImg.src = picture;
+        avatarImg.style.display = 'block';
+        if (avatarInitials) avatarInitials.style.display = 'none';
+    } else if (avatarInitials && userState.name) {
         const initials = userState.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         avatarInitials.textContent = initials;
+        if (avatarImg) avatarImg.style.display = 'none';
     }
 }
 
 function updateDropdown() {
+    const dropdownAvatarImg = document.getElementById('dropdown-avatar-img');
     const dropdownAvatarInitials = document.getElementById('dropdown-avatar-initials');
     const dropdownName  = document.getElementById('dropdown-name');
     const dropdownEmail = document.getElementById('dropdown-email');
     
-    if (userState.name) {
+    // ✅ AJOUT : Gestion photo dans le dropdown
+    const picture = localStorage.getItem('learner_picture') || '';
+    
+    if (picture && dropdownAvatarImg) {
+        dropdownAvatarImg.src = picture;
+        dropdownAvatarImg.style.display = 'block';
+        if (dropdownAvatarInitials) dropdownAvatarInitials.style.display = 'none';
+    } else if (userState.name) {
         const initials = userState.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         if (dropdownAvatarInitials) dropdownAvatarInitials.textContent = initials;
-        if (dropdownName) dropdownName.textContent = userState.name;
+        if (dropdownAvatarImg) dropdownAvatarImg.style.display = 'none';
     }
-    if (userState.email) {
-        if (dropdownEmail) dropdownEmail.textContent = userState.email;
-    }
+    
+    if (dropdownName) dropdownName.textContent = userState.name || '--';
+    if (dropdownEmail) dropdownEmail.textContent = userState.email || '--';
 }
 
 // ============================================

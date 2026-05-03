@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Assessment Test</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assessment.css' %}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header with progress -->
+        <header class="test-header">
+            <div class="logo">CEFR Test</div>
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span id="current-question">1</span> / <span id="total-questions">30</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="timer" id="timer">00:00</div>
+            </div>
+            <button class="btn-abandon" id="btn-abandon">✕</button>
+        </header>
+
+        <!-- Loading screen -->
+        <section class="screen" id="screen-loading">
+            <div class="loading-spinner"></div>
+            <p>Loading your test...</p>
+        </section>
+
+        <!-- Question screen -->
+        <section class="screen hidden" id="screen-question">
+            <div class="question-container">
+                <div class="question-header">
+                    <span class="badge" id="question-category">Grammar</span>
+                    <span class="badge badge-level" id="question-level">A1</span>
+                </div>
+
+                <div class="audio-player hidden" id="audio-section">
+                    <button class="btn-audio" id="btn-play-audio">
+                        <span class="play-icon" id="play-icon">▶️</span>
+                        <span class="audio-text" id="audio-text">Play audio</span>
+                    </button>
+                    <div class="audio-progress" id="audio-progress">
+                        <div class="audio-progress-bar" id="audio-progress-bar"></div>
+                    </div>
+                    <audio id="audio-element" preload="none"></audio>
+                </div>
+
+                <div class="question-text" id="question-text">Loading question...</div>
+
+                <div class="answers-container" id="answers-container"></div>
+
+                <div class="question-actions">
+                    <button class="btn-secondary" id="btn-prev" disabled>← Back</button>
+                    <button class="btn-primary" id="btn-next" disabled>Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results screen -->
+        <section class="screen hidden" id="screen-results">
+            <div class="results-content">
+                <h1>Test Completed!</h1>
+                <div class="level-card" id="level-card">
+                    <div class="level-badge" id="final-level">B1</div>
+                    <div class="level-name" id="level-name">Intermediate</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-score">75%</div>
+                        <div class="stat-label">Overall Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-correct">22/30</div>
+                        <div class="stat-label">Correct Answers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-time">12:45</div>
+                        <div class="stat-label">Total Time</div>
+                    </div>
+                </div>
+                <div class="levels-breakdown">
+                    <h3>Breakdown by Level</h3>
+                    <div class="breakdown-bars" id="breakdown-bars"></div>
+                </div>
+                <div class="result-actions">
+                    <!-- ✅ Texte différent : retour configuration -->
+                    <button class="btn-primary btn-start-learning" id="btn-start-learning">
+                        ← Start learning
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quit modal -->
+        <div class="modal hidden" id="modal-abandon">
+            <div class="modal-content">
+                <button class="btn-close-modal" id="btn-close-modal" title="Return to test">✕</button>
+                <h3>Quit the test?</h3>
+                <p>Your progress will be lost. You will have to start over from the beginning.</p>
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="btn-restart-test">Restart test</button>
+                    <button class="btn-danger" id="btn-quit-test">Quit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Script dédié, pas test-cefr.js -->
+    <script src="{% static 'assessment.js' %}"></script>
+</body>
+</html>

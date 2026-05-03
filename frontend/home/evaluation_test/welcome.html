@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Test - EnglishLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'welcome.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+        <span class="brand-name">EnglishLearn</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/" class="nav-item"><i class="fas fa-book-open"></i><span>Home</span></a>
+        <a href="{% url 'courses_menu' %}" class="nav-item"><i class="fas fa-spell-check"></i><span>Grammar</span></a>
+        <a href="#" class="nav-item"><i class="fas fa-bullseye"></i><span>Recommendations</span></a>
+        <a href="{% url 'profile' %}" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a href="{% url 'configuration' %}" class="nav-item"><i class="fas fa-cog"></i><span>Configuration</span></a>
+
+    </nav>
+</aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="welcome-container">
+                <!-- Lock Icon -->
+                <div class="lock-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+
+                <!-- Title -->
+                <h1 class="welcome-title">Evaluation Test</h1>
+
+                <!-- Message -->
+                <p class="welcome-message">
+                    Reach <span class="highlight">80%</span> to unlock the evaluation test required to advance to the next level.
+                </p>
+
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Current Progress</span>
+                        <span class="progress-value" id="progress-text">--%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <p class="progress-hint" id="progress-hint">Complete more activities to unlock this test.</p>
+                </div>
+
+               
+
+                <!-- CTA Button (disabled by default) -->
+                <button class="cta-button" id="cta-button" disabled>
+                    <i class="fas fa-play"></i>
+                    Start Evaluation Test
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'welcome.js' %}"></script>
+</body>
+</html>

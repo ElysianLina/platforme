@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Exercise: Word Order</title>
+    <link rel="stylesheet" href="{% static 'grammar/course_2/exercise_2.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="logo">EnglishLearn</h1>
+            <p class="tagline">Learning Platform</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{% url 'home' %}" class="nav-item">
+                <i class="fas fa-book-open"></i><span>Home</span>
+            </a>
+            <a href="{% url 'grammar_courses_menu' %}" class="nav-item active">
+                <i class="fas fa-spell-check"></i><span>Grammar</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-bullseye"></i><span>Recommendations</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </a>
+            <a href="{% url 'configuration' %}" class="nav-item">
+                <i class="fas fa-cog"></i><span>Configuration</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <div class="breadcrumb">
+                <a href="{% url 'grammar_course_2' %}">
+                    <i class="fas fa-arrow-left"></i> Back to Lesson
+                </a>
+                <span class="sep">/</span>
+                <span>Exercise</span>
+            </div>
+            <div class="user-info">
+                <span class="level-badge" id="level-badge">CEFR Level: --</span>
+                <div class="profile-container">
+                    <div class="user-avatar" id="profile-trigger">
+                        <img src="" alt="" id="avatar-img" style="display:none">
+                        <span id="avatar-initials">--</span>
+                    </div>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar">
+                                <img src="" alt="" id="dropdown-avatar-img" style="display:none">
+                                <span id="dropdown-avatar-initials">--</span>
+                            </div>
+                            <div class="dropdown-user-details">
+                                <p class="dropdown-name"  id="dropdown-name">--</p>
+                                <p class="dropdown-email" id="dropdown-email">--</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu-items">
+                            <a href="{% url 'profile' %}" class="dropdown-item">
+                                <i class="fas fa-user-circle"></i><span>My Profile</span>
+                            </a>
+                            <a href="{% url 'configuration' %}" class="dropdown-item">
+                                <i class="fas fa-cog"></i><span>Configuration</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item logout-item" data-action="logout">
+                                <i class="fas fa-sign-out-alt"></i><span>Sign out</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-state" id="loading-state">
+            <div class="spinner"></div>
+            <p>Loading exercise…</p>
+        </div>
+
+        <div class="exercise-wrapper" id="exercise-wrapper" style="display:none">
+
+            <div class="ex-header">
+                <div class="ex-header-left">
+                    <div class="ex-icon"><i class="fas fa-pen-to-square"></i></div>
+                    <div>
+                        <p class="ex-label">Exercise · Word Order in English</p>
+                        <h1 class="ex-title">Practice Time!</h1>
+                    </div>
+                </div>
+                <div class="ex-progress-wrap">
+                    <div class="ex-progress-bar">
+                        <div class="ex-progress-fill" id="progress-fill" style="width:0%"></div>
+                    </div>
+                    <span class="ex-progress-text" id="progress-text">0 / 10 answered</span>
+                </div>
+            </div>
+
+            <div id="questions-body"></div>
+
+            <div class="submit-area" id="submit-area">
+                <button class="btn-submit" id="btn-submit" disabled>
+                    <i class="fas fa-check-circle"></i> Submit My Answers
+                </button>
+                <p class="submit-hint">Answer all questions before submitting.</p>
+            </div>
+
+            <div class="results-panel" id="results-panel" style="display:none">
+                <div class="score-circle-wrap">
+                    <div class="score-circle" id="score-circle">
+                        <span id="score-num">0</span>
+                        <span class="score-denom" id="score-denom">/10</span>
+                    </div>
+                </div>
+                <h2 class="results-title" id="results-title">Well done!</h2>
+                <p  class="results-msg"   id="results-msg"></p>
+                <div id="results-detail"></div>
+                <div class="results-actions">
+                    <a href="{% url 'grammar_course_2' %}" class="btn-back-lesson">
+                        <i class="fas fa-book-open"></i> Back to Lesson
+                    </a>
+                    <a href="{% url 'grammar_courses_menu' %}" class="btn-menu">
+                        <i class="fas fa-list"></i> All Courses
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script src="{% static 'grammar/course_2/exercise_2.js' %}"></script>
+</body>
+</html>

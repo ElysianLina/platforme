@@ -1,0 +1,778 @@
+{
+  "course_id": "grammar_a1_sentence_construction",
+  "title": "Building Sentences in English",
+  "subtitle": "How to make affirmative, negative, and interrogative sentences correctly",
+  "level": "A1",
+  "language": "English",
+  "total_sections": 4,
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "The Basic Sentence Structure (SVO)",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "Every English sentence needs a subject and a verb. The most common word order in English is SVO: Subject + Verb + Object. The subject tells us WHO or WHAT the sentence is about. The verb tells us the ACTION. The object tells us WHO or WHAT receives the action.",
+        "formula": "Subject + Verb + (Object)",
+        "key_rules": [
+          "English sentences always start with a capital letter and end with a period (.), question mark (?), or exclamation mark (!).",
+          "The subject comes BEFORE the verb in affirmative sentences.",
+          "In simple present tense, add 's' or 'es' to the verb when the subject is he, she, or it (third person singular).",
+          "Use 'do' or 'does' to form questions and negatives in the simple present.",
+          "Use 'did' to form questions and negatives in the simple past."
+        ],
+        "examples": [
+          {
+            "sentence": "I play football.",
+            "breakdown": {
+              "subject": "I",
+              "verb": "play",
+              "object": "football"
+            }
+          },
+          {
+            "sentence": "She reads books.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "reads",
+              "object": "books"
+            },
+            "note": "Notice the 's' on 'reads' because the subject is 'she' (3rd person singular)."
+          },
+          {
+            "sentence": "They live in Paris.",
+            "breakdown": {
+              "subject": "They",
+              "verb": "live",
+              "object": "in Paris"
+            }
+          },
+          {
+            "sentence": "My brother watches TV.",
+            "breakdown": {
+              "subject": "My brother",
+              "verb": "watches",
+              "object": "TV"
+            },
+            "note": "Notice the 'es' on 'watches' because the verb ends in 'ch' and the subject is 'he' (3rd person singular)."
+          }
+        ],
+        "did_you_know": "Word order is very important in English because the language uses little inflection. The Subject-Verb-Object sequence is obligatory in declarative sentences — unlike many other languages, you cannot freely move words around.",
+        "common_errors": [
+          {
+            "incorrect": "I be going to the store to buy groceries.",
+            "correct": "I am going to the store to buy groceries.",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "I goes to the store everyday.",
+            "correct": "I go to the store everyday.",
+            "error_type": "Verb Tense Errors"
+          },
+          {
+            "incorrect": "He the best teacher.",
+            "correct": "He is the best teacher.",
+            "error_type": "Sentence Fragments"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "2",
+      "section_title": "Affirmative Sentences",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "An affirmative sentence (also called a positive sentence) states a fact or describes something. It tells us what someone DOES. In English, affirmative sentences follow the SVO order and do NOT use 'not'.",
+        "formula": "Subject + Verb (+ Object / Complement)",
+        "key_rules": [
+          "For 'he', 'she', 'it' in simple present: add -s, -es, or -ies to the verb.",
+          "For 'I', 'you', 'we', 'they': use the base form of the verb in simple present.",
+          "In simple past, use the past form of the verb for ALL subjects (regular: +ed / irregular: special forms).",
+          "Use 'am', 'is', or 'are' to describe states, feelings, or locations (to be).",
+          "Use 'have' or 'has' to show possession (to have)."
+        ],
+        "examples": [
+          {
+            "sentence": "I am a student.",
+            "breakdown": {
+              "subject": "I",
+              "verb": "am",
+              "complement": "a student"
+            },
+            "note": "Using the verb 'to be' to describe identity."
+          },
+          {
+            "sentence": "She has a cat.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "has",
+              "object": "a cat"
+            },
+            "note": "Using 'has' (to have) to show possession. 'She' needs 'has', not 'have'."
+          },
+          {
+            "sentence": "We study English every day.",
+            "breakdown": {
+              "subject": "We",
+              "verb": "study",
+              "object": "English",
+              "time_expression": "every day"
+            },
+            "note": "Base form 'study' because the subject is 'we'."
+          },
+          {
+            "sentence": "He works in a hospital.",
+            "breakdown": {
+              "subject": "He",
+              "verb": "works",
+              "complement": "in a hospital"
+            },
+            "note": "'Works' with 's' because the subject is 'he'."
+          },
+          {
+            "sentence": "They visited London last summer.",
+            "breakdown": {
+              "subject": "They",
+              "verb": "visited",
+              "object": "London",
+              "time_expression": "last summer"
+            },
+            "note": "Simple past: 'visited' (regular verb +ed) for all subjects."
+          },
+          {
+            "sentence": "The children are happy.",
+            "breakdown": {
+              "subject": "The children",
+              "verb": "are",
+              "adjective": "happy"
+            },
+            "note": "Using 'to be' + adjective to describe a feeling."
+          }
+        ],
+        "did_you_know": "Did you know that 'do' CAN appear in affirmative sentences for emphasis? For example: 'I did go home!' stresses that you really went. Use this only for emphasis — not in every affirmative sentence.",
+        "common_errors": [
+          {
+            "incorrect": "They was playing soccer last night.",
+            "correct": "They were playing soccer last night.",
+            "error_type": "Verb Tense Errors"
+          },
+          {
+            "incorrect": "She go to the library every Tuesday.",
+            "correct": "She goes to the library every Tuesday.",
+            "error_type": "Subject-Verb Agreement"
+          },
+          {
+            "incorrect": "He play guitar at the concert last night.",
+            "correct": "He played guitar at the concert last night.",
+            "error_type": "Sentence Structure Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "3",
+      "section_title": "Negative Sentences",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "A negative sentence tells us what someone does NOT do or what is NOT true. To make a sentence negative, we add 'not' to the sentence. The way we do this depends on the verb we are using.",
+        "formulas": {
+          "with_to_be": "Subject + am/is/are + NOT + (complement)",
+          "with_to_have": "Subject + have/has + NOT + (object)",
+          "with_modal_verbs": "Subject + modal + NOT + base verb + (object)",
+          "simple_present": "Subject + do/does + NOT + base verb + (object)",
+          "simple_past": "Subject + did + NOT + base verb + (object)"
+        },
+        "contractions": {
+          "am_not": "I'm not",
+          "is_not": "isn't",
+          "are_not": "aren't",
+          "have_not": "haven't",
+          "has_not": "hasn't",
+          "do_not": "don't",
+          "does_not": "doesn't",
+          "did_not": "didn't",
+          "will_not": "won't",
+          "can_not": "can't"
+        },
+        "key_rules": [
+          "With 'to be': simply add 'not' after am/is/are.",
+          "With 'to have': add 'not' after have/has.",
+          "With other verbs in simple present: use 'do not' (don't) or 'does not' (doesn't) + base verb. NEVER add -s to the main verb.",
+          "With other verbs in simple past: use 'did not' (didn't) + base verb. NEVER use the past form of the main verb.",
+          "With modal verbs (can, will, must, etc.): add 'not' after the modal + base verb."
+        ],
+        "examples": [
+          {
+            "sentence": "I am not tired.",
+            "contraction": "I'm not tired.",
+            "breakdown": {
+              "subject": "I",
+              "verb": "am",
+              "negation": "not",
+              "complement": "tired"
+            },
+            "note": "With 'to be': add 'not' directly after the verb."
+          },
+          {
+            "sentence": "She is not at home.",
+            "contraction": "She isn't at home.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "is",
+              "negation": "not",
+              "complement": "at home"
+            }
+          },
+          {
+            "sentence": "They do not like coffee.",
+            "contraction": "They don't like coffee.",
+            "breakdown": {
+              "subject": "They",
+              "auxiliary": "do",
+              "negation": "not",
+              "base_verb": "like",
+              "object": "coffee"
+            },
+            "note": "With other verbs: use 'do not' + base verb. 'Like' stays in base form."
+          },
+          {
+            "sentence": "He does not play tennis.",
+            "contraction": "He doesn't play tennis.",
+            "breakdown": {
+              "subject": "He",
+              "auxiliary": "does",
+              "negation": "not",
+              "base_verb": "play",
+              "object": "tennis"
+            },
+            "note": "'He' needs 'does not'. The main verb 'play' has NO 's'. NEVER say 'He doesn't plays'."
+          },
+          {
+            "sentence": "We did not watch the movie.",
+            "contraction": "We didn't watch the movie.",
+            "breakdown": {
+              "subject": "We",
+              "auxiliary": "did",
+              "negation": "not",
+              "base_verb": "watch",
+              "object": "the movie"
+            },
+            "note": "In past tense: 'did not' + base verb. 'Watch' is base form, NOT 'watched'."
+          },
+          {
+            "sentence": "I cannot swim.",
+            "contraction": "I can't swim.",
+            "breakdown": {
+              "subject": "I",
+              "modal": "can",
+              "negation": "not",
+              "base_verb": "swim"
+            },
+            "note": "With modal 'can': add 'not' after the modal."
+          },
+          {
+            "sentence": "She has not finished her homework.",
+            "contraction": "She hasn't finished her homework.",
+            "breakdown": {
+              "subject": "She",
+              "verb": "has",
+              "negation": "not",
+              "past_participle": "finished",
+              "object": "her homework"
+            },
+            "note": "With 'to have' as auxiliary (present perfect): 'has not' + past participle."
+          }
+        ],
+        "did_you_know": "Double negatives (e.g., 'I don't know nothing') are incorrect in Standard English — two negatives cancel each other and create a positive meaning. Always use 'I don't know anything' instead.",
+        "common_errors": [
+          {
+            "incorrect": "I don't know nothing about cars.",
+            "correct": "I don't know anything about cars.",
+            "error_type": "Negation Errors"
+          },
+          {
+            "incorrect": "She didn't never visit the museum.",
+            "correct": "She never visited the museum.",
+            "error_type": "Negation Errors"
+          },
+          {
+            "incorrect": "I am not can swim in the pool.",
+            "correct": "I cannot swim in the pool.",
+            "error_type": "Incorrect Auxiliaries"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "4",
+      "section_title": "Interrogative Sentences (Questions)",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "An interrogative sentence asks for information. In English, questions usually start with an auxiliary verb (do, does, did, am, is, are, can, will, etc.) or a question word (what, where, when, why, who, how). The word order changes: the auxiliary verb comes BEFORE the subject.",
+        "formulas": {
+          "yes_no_with_to_be": "Am/Is/Are + Subject + (complement)?",
+          "yes_no_with_to_have": "Have/Has + Subject + (object/complement)?",
+          "yes_no_simple_present": "Do/Does + Subject + base verb + (object)?",
+          "yes_no_simple_past": "Did + Subject + base verb + (object)?",
+          "yes_no_with_modal": "Modal + Subject + base verb + (object)?",
+          "wh_questions_with_to_be": "Wh-word + am/is/are + Subject + (complement)?",
+          "wh_questions_simple_present": "Wh-word + do/does + Subject + base verb + (object)?",
+          "wh_questions_simple_past": "Wh-word + did + Subject + base verb + (object)?",
+          "wh_questions_with_modal": "Wh-word + modal + Subject + base verb + (object)?"
+        },
+        "question_words": {
+          "what": "asks about a thing or action",
+          "where": "asks about a place",
+          "when": "asks about time",
+          "why": "asks for a reason",
+          "who": "asks about a person",
+          "how": "asks about manner or condition",
+          "how_much": "asks about quantity (uncountable)",
+          "how_many": "asks about quantity (countable)",
+          "how_old": "asks about age",
+          "how_often": "asks about frequency"
+        },
+        "key_rules": [
+          "In Yes/No questions: the auxiliary verb comes BEFORE the subject.",
+          "In WH- questions: the question word comes first, then the auxiliary, then the subject.",
+          "With 'to be' questions: invert the subject and the verb (am/is/are + subject).",
+          "With other verbs in simple present: use 'Do' or 'Does' at the beginning + base verb.",
+          "With other verbs in simple past: use 'Did' at the beginning + base verb. NEVER use the past form of the main verb.",
+          "With modal verbs: put the modal at the beginning + base verb.",
+          "Short answers: Yes/No + subject + auxiliary verb (e.g., Yes, I do. / No, she isn't.)",
+          "When answering questions with 'to be' or modals, repeat the same verb in the answer."
+        ],
+        "examples": [
+          {
+            "type": "Yes/No question with 'to be'",
+            "question": "Are you a teacher?",
+            "breakdown": {
+              "auxiliary": "Are",
+              "subject": "you",
+              "complement": "a teacher"
+            },
+            "short_answers": {
+              "positive": "Yes, I am.",
+              "negative": "No, I'm not."
+            }
+          },
+          {
+            "type": "Yes/No question with 'to be'",
+            "question": "Is she happy?",
+            "breakdown": {
+              "auxiliary": "Is",
+              "subject": "she",
+              "adjective": "happy"
+            },
+            "short_answers": {
+              "positive": "Yes, she is.",
+              "negative": "No, she isn't."
+            }
+          },
+          {
+            "type": "Yes/No question simple present",
+            "question": "Do they speak French?",
+            "breakdown": {
+              "auxiliary": "Do",
+              "subject": "they",
+              "base_verb": "speak",
+              "object": "French"
+            },
+            "short_answers": {
+              "positive": "Yes, they do.",
+              "negative": "No, they don't."
+            },
+            "note": "'They' uses 'Do'. The main verb 'speak' is in base form."
+          },
+          {
+            "type": "Yes/No question simple present",
+            "question": "Does he eat meat?",
+            "breakdown": {
+              "auxiliary": "Does",
+              "subject": "he",
+              "base_verb": "eat",
+              "object": "meat"
+            },
+            "short_answers": {
+              "positive": "Yes, he does.",
+              "negative": "No, he doesn't."
+            },
+            "note": "'He' uses 'Does'. The main verb 'eat' has NO 's'. NEVER say 'Does he eats?'."
+          },
+          {
+            "type": "Yes/No question simple past",
+            "question": "Did you see the film?",
+            "breakdown": {
+              "auxiliary": "Did",
+              "subject": "you",
+              "base_verb": "see",
+              "object": "the film"
+            },
+            "short_answers": {
+              "positive": "Yes, I did.",
+              "negative": "No, I didn't."
+            },
+            "note": "'Did' for all subjects in past. 'See' is base form, NOT 'saw'."
+          },
+          {
+            "type": "WH- question with 'to be'",
+            "question": "Where is your house?",
+            "breakdown": {
+              "wh_word": "Where",
+              "auxiliary": "is",
+              "subject": "your house"
+            },
+            "answer_example": "My house is near the park."
+          },
+          {
+            "type": "WH- question simple present",
+            "question": "What do you do?",
+            "breakdown": {
+              "wh_word": "What",
+              "auxiliary": "do",
+              "subject": "you",
+              "base_verb": "do"
+            },
+            "answer_example": "I am a doctor. / I work in a school."
+          },
+          {
+            "type": "WH- question simple present",
+            "question": "Why does she cry?",
+            "breakdown": {
+              "wh_word": "Why",
+              "auxiliary": "does",
+              "subject": "she",
+              "base_verb": "cry"
+            },
+            "answer_example": "She cries because she is sad.",
+            "note": "'Does' with 'she'. 'Cry' stays in base form."
+          },
+          {
+            "type": "WH- question simple past",
+            "question": "When did they arrive?",
+            "breakdown": {
+              "wh_word": "When",
+              "auxiliary": "did",
+              "subject": "they",
+              "base_verb": "arrive"
+            },
+            "answer_example": "They arrived at 8 o'clock.",
+            "note": "'Did' + base verb 'arrive'. In the answer, we CAN use past form."
+          },
+          {
+            "type": "WH- question with modal",
+            "question": "How can I help you?",
+            "breakdown": {
+              "wh_word": "How",
+              "modal": "can",
+              "subject": "I",
+              "base_verb": "help",
+              "object": "you"
+            },
+            "answer_example": "You can help me with my homework."
+          },
+          {
+            "type": "Subject question (Who/What as subject)",
+            "question": "Who broke the window?",
+            "breakdown": {
+              "wh_word": "Who",
+              "verb": "broke",
+              "object": "the window"
+            },
+            "note": "When 'Who' or 'What' is the subject, we do NOT use an auxiliary verb. The word order is like an affirmative sentence.",
+            "answer_example": "Tom broke the window."
+          }
+        ],
+        "did_you_know": "A declarative sentence can become a question just by raising intonation in speech (e.g., 'The book is on the table?') — but this expresses surprise, not a neutral question. For neutral questions, always use proper inversion with an auxiliary verb.",
+        "common_errors": [
+          {
+            "incorrect": "How you is doing today?",
+            "correct": "How are you doing today?",
+            "error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "incorrect": "Does he has a new car?",
+            "correct": "Does he have a new car?",
+            "error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "incorrect": "He no likes pineapple on his pizza.",
+            "correct": "He doesn't like pineapple on his pizza.",
+            "error_type": "Sentence Structure Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "5",
+      "section_title": "Common Mistakes to Avoid",
+      "section_type": "tips",
+      "content": {
+        "explanation": "Here are the most common mistakes beginners make when building sentences in English. Pay attention to these!",
+        "mistakes": [
+          {
+            "incorrect": "He don't like pizza.",
+            "correct": "He doesn't like pizza.",
+            "explanation": "'He' is third person singular, so use 'doesn't', not 'don't'.",
+            "error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "incorrect": "She doesn't likes coffee.",
+            "correct": "She doesn't like coffee.",
+            "explanation": "After 'doesn't' or 'does', the main verb must be in BASE form. Never add -s.",
+            "error_type": "Subject-Verb Agreement"
+          },
+          {
+            "incorrect": "Did you went to school?",
+            "correct": "Did you go to school?",
+            "explanation": "After 'Did', the main verb must be in BASE form. Never use past tense with 'did'.",
+            "error_type": "Verb Tense Errors"
+          },
+          {
+            "incorrect": "I am not agree.",
+            "correct": "I don't agree. / I do not agree.",
+            "explanation": "'Agree' is an action verb, not an adjective. Use 'do not agree', not 'am not agree'.",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "Where you live?",
+            "correct": "Where do you live?",
+            "explanation": "Questions need an auxiliary verb (do/does/did) before the subject.",
+            "error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "incorrect": "Why she is sad?",
+            "correct": "Why is she sad?",
+            "explanation": "In questions with 'to be', the verb comes BEFORE the subject: 'is she', not 'she is'.",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "I no understand.",
+            "correct": "I don't understand.",
+            "explanation": "Use 'do not' (don't) + base verb to make negatives. 'No' is not used this way.",
+            "error_type": "Negation Errors"
+          },
+          {
+            "incorrect": "Are you happy? Yes, I'm.",
+            "correct": "Are you happy? Yes, I am.",
+            "explanation": "In short answers with 'to be', we do NOT contract 'I am' at the end of a sentence. Say 'Yes, I am.', not 'Yes, I'm.'",
+            "error_type": "Sentence Structure Errors"
+          },
+          {
+            "incorrect": "He can't play no instruments.",
+            "correct": "He can't play any instruments.",
+            "explanation": "'Can't' is already negative. Adding 'no' creates a double negative. Use 'any': He can't play any instruments.",
+            "error_type": "Negation Errors"
+          },
+          {
+            "incorrect": "It are important to wash your hands regularly.",
+            "correct": "It is important to wash your hands regularly.",
+            "explanation": "'It' is singular — use 'is', not 'are'. Always match the verb to the subject.",
+            "error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "incorrect": "The results of the experiments was inconclusive.",
+            "correct": "The results of the experiments were inconclusive.",
+            "explanation": "The subject is 'results' (plural). The verb must be 'were', not 'was'.",
+            "error_type": "Subject-Verb Agreement"
+          },
+          {
+            "incorrect": "Eating an apple, hungry.",
+            "correct": "I was eating an apple because I was hungry.",
+            "explanation": "This is a sentence fragment — it has no subject or main verb. Every sentence needs both.",
+            "error_type": "Sentence Fragments"
+          },
+          {
+            "incorrect": "I went to the store I bought groceries.",
+            "correct": "I went to the store, and I bought groceries.",
+            "explanation": "Two independent clauses cannot be written together with no connector. Use a comma + 'and'.",
+            "error_type": "Run-on Sentences"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "6",
+      "section_title": "Exercise: Practice Building Sentences",
+      "section_type": "exercise",
+      "content": {
+        "instructions": "Complete the exercises below. Choose the correct answer or write the correct sentence.",
+        "exercises": [
+          {
+            "exercise_id": "1",
+            "type": "error_correction",
+            "instruction": "Find and correct the mistake.",
+            "question": "I be going to the store to buy groceries.",
+            "correct_answer": "I am going to the store to buy groceries.",
+            "acceptable_answers": [
+              "I am going to the store to buy groceries."
+            ],
+            "explanation": "The verb 'to be' is missing. Use 'am': I AM going to the store.",
+            "source_error_type": "Sentence Structure Errors"
+          },
+          {
+            "exercise_id": "2",
+            "type": "error_correction",
+            "instruction": "Find and correct the mistake.",
+            "question": "She very tired after the long day at work.",
+            "correct_answer": "She is very tired after the long day at work.",
+            "acceptable_answers": [
+              "She is very tired after the long day at work."
+            ],
+            "explanation": "'She very tired' is a fragment — the verb 'to be' is missing. Add 'is': She IS very tired.",
+            "source_error_type": "Sentence Structure Errors"
+          },
+          {
+            "exercise_id": "3",
+            "type": "error_correction",
+            "instruction": "Find and correct the double negative.",
+            "question": "I don't know nothing about cars.",
+            "correct_answer": "I don't know anything about cars.",
+            "acceptable_answers": [
+              "I don't know anything about cars."
+            ],
+            "explanation": "'Don't' is already negative. Use 'anything' instead of 'nothing': I don't know anything.",
+            "source_error_type": "Negation Errors"
+          },
+          {
+            "exercise_id": "4",
+            "type": "error_correction",
+            "instruction": "Find and correct the double negative.",
+            "question": "She didn't never visit the museum.",
+            "correct_answer": "She never visited the museum.",
+            "acceptable_answers": [
+              "She never visited the museum."
+            ],
+            "explanation": "'Didn't' + 'never' = double negative. Use only one: She never visited the museum.",
+            "source_error_type": "Negation Errors"
+          },
+          {
+            "exercise_id": "5",
+            "type": "error_correction",
+            "instruction": "Find and correct the auxiliary verb mistake.",
+            "question": "How you is doing today?",
+            "correct_answer": "How are you doing today?",
+            "acceptable_answers": [
+              "How are you doing today?"
+            ],
+            "explanation": "'You' uses 'are', not 'is'. The correct question form is: How ARE you doing?",
+            "source_error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "exercise_id": "6",
+            "type": "error_correction",
+            "instruction": "Find and correct the auxiliary verb mistake.",
+            "question": "She don't know the answer to the question.",
+            "correct_answer": "She doesn't know the answer to the question.",
+            "acceptable_answers": [
+              "She doesn't know the answer to the question."
+            ],
+            "explanation": "'She' is singular — use 'doesn't', not 'don't'. She DOESN'T know the answer.",
+            "source_error_type": "Incorrect Auxiliaries"
+          },
+          {
+            "exercise_id": "7",
+            "type": "error_correction",
+            "instruction": "Find and correct the subject-verb agreement mistake.",
+            "question": "The dogs runs quickly to the park.",
+            "correct_answer": "The dogs run quickly to the park.",
+            "acceptable_answers": [
+              "The dogs run quickly to the park."
+            ],
+            "explanation": "'Dogs' is plural — the verb must be 'run' (no -s). Add -s only for he/she/it.",
+            "source_error_type": "Subject-Verb Agreement"
+          },
+          {
+            "exercise_id": "8",
+            "type": "error_correction",
+            "instruction": "Find and correct the subject-verb agreement mistake.",
+            "question": "She go to the library every Tuesday.",
+            "correct_answer": "She goes to the library every Tuesday.",
+            "acceptable_answers": [
+              "She goes to the library every Tuesday."
+            ],
+            "explanation": "'She' is 3rd person singular — add -s to the verb: She GOES to the library.",
+            "source_error_type": "Subject-Verb Agreement"
+          },
+          {
+            "exercise_id": "9",
+            "type": "error_correction",
+            "instruction": "This sentence is a fragment. Rewrite it as a complete sentence.",
+            "question": "She late for meeting.",
+            "correct_answer": "She was late for the meeting.",
+            "acceptable_answers": [
+              "She was late for the meeting."
+            ],
+            "explanation": "'She late' has no verb. Add 'was': She WAS late for the meeting.",
+            "source_error_type": "Sentence Fragments"
+          },
+          {
+            "exercise_id": "10",
+            "type": "sentence_transformation",
+            "instruction": "This is a run-on sentence. Rewrite it correctly using 'and', 'so', or 'because'.",
+            "question": "He failed the test he didn't study enough.",
+            "correct_answer": "He failed the test because he didn't study enough.",
+            "acceptable_answers": [
+              "He failed the test because he didn't study enough.",
+              "He failed the test, and he didn't study enough.",
+              "He didn't study enough, so he failed the test."
+            ],
+            "explanation": "Two clauses need a conjunction or punctuation. Use 'because', 'so', or 'and' with a comma.",
+            "source_error_type": "Run-on Sentences"
+          }
+        ],
+        "scoring": {
+          "total_exercises": 10,
+          "points_per_exercise": 1,
+          "total_points": 10,
+          "passing_score": 7,
+          "feedback_messages": {
+            "excellent": "Excellent! You scored {score}/10. Great understanding of English sentence structure!",
+            "good": "Good job! You scored {score}/10. Review the sections you got wrong.",
+            "needs_practice": "Keep practicing! You scored {score}/10. Review the lesson carefully and try again."
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "created_for": "English Learning Platform - Grammar Section",
+    "target_level": "A1 (Beginner)",
+    "topic": "Sentence Construction: Affirmative, Negative, and Interrogative",
+    "language": "English",
+    "includes": [
+      "lessons",
+      "examples",
+      "common mistakes",
+      "exercises"
+    ],
+    "total_exercises": 20
+  },
+  "enrichment_metadata": {
+    "enriched": true,
+    "sources_used": [
+      "Grammar_Correction.csv",
+      "grammar_dataset.json"
+    ],
+    "csv_error_types_used": [
+      "Sentence Structure Errors",
+      "Negation Errors",
+      "Incorrect Auxiliaries",
+      "Subject-Verb Agreement",
+      "Verb Tense Errors",
+      "Run-on Sentences",
+      "Sentence Fragments"
+    ],
+    "total_csv_examples_integrated": 25,
+    "total_qa_insights_used": 4,
+    "enriched_sections": [
+      "section_1",
+      "section_2",
+      "section_3",
+      "section_4",
+      "section_5",
+      "section_6"
+    ],
+    "total_exercises": 10,
+    "total_mistakes": 13
+  }
+}

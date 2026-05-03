@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Preferences - Learn English</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'preferences.css' %}">
+<base target="_blank">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with back button and progress -->
+        <div class="header">
+            <button class="back-btn visible" id="backBtn" onclick="goBack()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+        </div>
+
+        <!-- Step 1: Why learn English -->
+        <div class="step active" id="step1">
+
+            <div class="question-header">
+                <h1>Hi <span class="highlight" id="userName">User</span>, why do you want to learn English?</h1>
+                <p class="subtitle">Update your learning preferences.</p>
+            </div>
+
+            <div class="options-grid">
+                <button class="option-card" onclick="selectReason('voyage')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12h20M2 12l5-5m-5 5l5 5M22 12l-5-5m5 5l-5 5"/>
+                            <path d="M12 2v20"/>
+                        </svg>
+                    </div>
+                    <span class="label">Travel</span>
+                </button>
+
+                <button class="option-card" onclick="selectReason('travail')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                        </svg>
+                    </div>
+                    <span class="label">Work</span>
+                </button>
+
+                <button class="option-card" onclick="selectReason('etudes')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                    </div>
+                    <span class="label">Studies</span>
+                </button>
+
+                <button class="option-card" onclick="selectReason('culture')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <span class="label">Culture</span>
+                </button>
+
+                <button class="option-card" onclick="selectReason('communication')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                    </div>
+                    <span class="label">Communication</span>
+                </button>
+                <button class="option-card" onclick="selectReason('Défi personnel')">
+                    <div class="icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                    </div>
+                    <span class="label">Personal challenge</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Step 2: Areas of interest -->
+        <div class="step" id="step2">
+            <div class="question-header">
+                <h1>Which topics interest you?</h1>
+                <p class="subtitle">Select all the topics that interest you.</p>
+            </div>
+
+            <div class="options-list" id="step2Container">
+                <button class="option-row" onclick="toggleInterest('voyage-tourisme', event)">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <span class="label">Travel and tourism</span>
+                    <div class="check-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="toggleInterest('business', event)">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                    </div>
+                    <span class="label">Business and economics</span>
+                    <div class="check-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="toggleInterest('cinema', event)">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                            <line x1="7" y1="2" x2="7" y2="22"/>
+                            <line x1="17" y1="2" x2="17" y2="22"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <line x1="2" y1="7" x2="7" y2="7"/>
+                            <line x1="2" y1="17" x2="7" y2="17"/>
+                            <line x1="17" y1="17" x2="22" y2="17"/>
+                            <line x1="17" y1="7" x2="22" y2="7"/>
+                        </svg>
+                    </div>
+                    <span class="label">Movies and TV shows</span>
+                    <div class="check-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="toggleInterest('musique', event)">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"/>
+                            <circle cx="6" cy="18" r="3"/>
+                            <circle cx="18" cy="16" r="3"/>
+                        </svg>
+                    </div>
+                    <span class="label">Music</span>
+                    <div class="check-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="toggleInterest('sport', event)">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                    </div>
+                    <span class="label">Sports</span>
+                    <div class="check-indicator"></div>
+                </button>
+
+                <!-- Other option with special handling -->
+                <div class="other-option-container" id="otherInterestContainer">
+                    <button class="option-row other-btn" id="otherInterestBtn" onclick="toggleOtherInterest(event)">
+                        <span class="label">Other</span>
+                    </button>
+                    <div class="other-input-wrapper hidden" id="otherInterestInput" onclick="event.stopPropagation()">
+                        <input type="text" 
+                               placeholder="Enter your interest" 
+                               id="otherInterestText" 
+                               oninput="updateOtherInterest(this.value)"
+                               onclick="event.stopPropagation()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Learning style -->
+        <div class="step" id="step3">
+            <div class="question-header">
+                <h1>How do you prefer to learn?</h1>
+                <p class="subtitle">Choose your preferred learning style.</p>
+            </div>
+
+            <div class="options-list" id="step3Container">
+                <button class="option-row" onclick="selectLearningStyle('video')">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                            <line x1="7" y1="2" x2="7" y2="22"/>
+                            <line x1="17" y1="2" x2="17" y2="22"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <line x1="2" y1="7" x2="7" y2="7"/>
+                            <line x1="2" y1="17" x2="7" y2="17"/>
+                            <line x1="17" y1="17" x2="22" y2="17"/>
+                            <line x1="17" y1="7" x2="22" y2="7"/>
+                        </svg>
+                    </div>
+                    <span class="label">Video</span>
+                    <div class="radio-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="selectLearningStyle('texte')">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <span class="label">Text</span>
+                    <div class="radio-indicator"></div>
+                </button>
+
+                <button class="option-row" onclick="selectLearningStyle('audio')">
+                    <div class="icon-wrapper small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                        </svg>
+                    </div>
+                    <span class="label">Audio</span>
+                    <div class="radio-indicator"></div>
+                </button>
+
+                <!-- Other option for style -->
+                <div class="other-option-container" id="otherStyleContainer">
+                    <button class="option-row other-btn" id="otherStyleBtn" onclick="toggleOtherStyle(event)">
+                        <span class="label">Other</span>
+                    </button>
+                    <div class="other-input-wrapper hidden" id="otherStyleInput" onclick="event.stopPropagation()">
+                        <input type="text" 
+                               placeholder="Enter your preference" 
+                               id="otherStyleText" 
+                               oninput="updateOtherStyle(this.value)"
+                               onclick="event.stopPropagation()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Daily goal -->
+        <div class="step" id="step4">
+            <div class="question-header">
+                <h1>Set a daily goal</h1>
+                <p class="subtitle">Update your daily learning habit.</p>
+            </div>
+
+            <div class="options-list goals">
+                <button class="option-row goal-card" onclick="selectDailyGoal('5min')">
+                    <div class="goal-info">
+                        <span class="goal-title">5 minutes per day</span>
+                        <span class="goal-subtitle">Casual user</span>
+                    </div>
+                </button>
+
+                <button class="option-row goal-card" onclick="selectDailyGoal('10min')">
+                    <div class="goal-info">
+                        <span class="goal-title">10 minutes per day</span>
+                        <span class="goal-subtitle">Regular</span>
+                    </div>
+                </button>
+
+                <button class="option-row goal-card" onclick="selectDailyGoal('15min')">
+                    <div class="goal-info">
+                        <span class="goal-title">15 minutes per day</span>
+                        <span class="goal-subtitle">Dedicated user</span>
+                    </div>
+                </button>
+
+                <button class="option-row goal-card" onclick="selectDailyGoal('25min')">
+                    <div class="goal-info">
+                        <span class="goal-title">25 minutes per day</span>
+                        <span class="goal-subtitle">Intensive</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="next-btn" id="nextBtn" onclick="handleNext()" disabled>
+                Continue
+            </button>
+            <div class="step-indicator">
+                Step <span id="currentStepDisplay">1</span> of <span id="totalStepsDisplay">4</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'update_preferences.js' %}"></script>
+</body>
+</html>

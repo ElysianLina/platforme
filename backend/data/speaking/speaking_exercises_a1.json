@@ -1,0 +1,968 @@
+[
+  {
+    "unit": "01",
+    "sub_unit": "A1.1",
+    "theme": "Morning Customs",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Every morning I wake up at seven o'clock and wash my face before breakfast.",
+    "vocabulary_categories": [
+      "time",
+      "verbs",
+      "home",
+      "feelings"
+    ]
+  },
+  {
+    "unit": "01",
+    "sub_unit": "A1.2",
+    "theme": "Wake-up Sequence",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "First I open my eyes and stretch my arms, then I get out of bed slowly.",
+    "vocabulary_categories": [
+      "verbs",
+      "time",
+      "home",
+      "body"
+    ]
+  },
+  {
+    "unit": "01",
+    "sub_unit": "A1.3",
+    "theme": "Home Day",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I spend my day at home reading books and watching television with my family.",
+    "vocabulary_categories": [
+      "home",
+      "furniture",
+      "verbs",
+      "time"
+    ]
+  },
+  {
+    "unit": "02",
+    "sub_unit": "A1.1",
+    "theme": "My Family",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My family lives in a big house with a beautiful garden near the park.",
+    "vocabulary_categories": [
+      "family",
+      "people",
+      "numbers"
+    ]
+  },
+  {
+    "unit": "02",
+    "sub_unit": "A1.2",
+    "theme": "Friends and Family",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My best friend comes to my house to play games with my sister every weekend.",
+    "vocabulary_categories": [
+      "family",
+      "people",
+      "feelings"
+    ]
+  },
+  {
+    "unit": "02",
+    "sub_unit": "A1.3",
+    "theme": "Family Tree",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My grandmother and grandfather have three children and five grandchildren in our family.",
+    "vocabulary_categories": [
+      "family",
+      "people",
+      "numbers"
+    ]
+  },
+  {
+    "unit": "03",
+    "sub_unit": "A1.1",
+    "theme": "Town Directions",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The bank is on Main Street next to the post office and the supermarket.",
+    "vocabulary_categories": [
+      "places",
+      "transport",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "03",
+    "sub_unit": "A1.2",
+    "theme": "Travel Plans",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I take the bus to the train station and buy a ticket to visit my grandmother.",
+    "vocabulary_categories": [
+      "transport",
+      "places",
+      "countries"
+    ]
+  },
+  {
+    "unit": "03",
+    "sub_unit": "A1.3",
+    "theme": "Simple Directions",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Turn left at the traffic light and walk straight to find the hospital near the park.",
+    "vocabulary_categories": [
+      "transport",
+      "places",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "03",
+    "sub_unit": "A1.4",
+    "theme": "Daily Transportation",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My father drives his car to work, but I walk to school with my friend.",
+    "vocabulary_categories": [
+      "transport",
+      "verbs",
+      "places"
+    ]
+  },
+  {
+    "unit": "03",
+    "sub_unit": "A1.5",
+    "theme": "Shopping Trip",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "We walk to the market and buy fresh fruit, vegetables, and bread for dinner.",
+    "vocabulary_categories": [
+      "transport",
+      "places",
+      "food"
+    ]
+  },
+  {
+    "unit": "04",
+    "sub_unit": "A1.1",
+    "theme": "My Free Time",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "In my free time I like to play the guitar and listen to music at home.",
+    "vocabulary_categories": [
+      "hobbies",
+      "verbs",
+      "time"
+    ]
+  },
+  {
+    "unit": "04",
+    "sub_unit": "A1.2",
+    "theme": "What I Do on Weekends",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "On Saturday morning I play soccer, and on Sunday I visit my grandmother.",
+    "vocabulary_categories": [
+      "hobbies",
+      "time",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "04",
+    "sub_unit": "A1.3",
+    "theme": "Toy Selection",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I have a red ball, a blue doll, and many games in my toy box.",
+    "vocabulary_categories": [
+      "kitchen_items",
+      "feelings",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "04",
+    "sub_unit": "A1.4",
+    "theme": "My Hobbies on the Weekend",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My hobby is hiking in the mountains, and I swim at the beach in summer.",
+    "vocabulary_categories": [
+      "hobbies",
+      "time",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.1",
+    "theme": "Clothing Shop",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I buy a new blue shirt and black pants at the clothing shop near my house.",
+    "vocabulary_categories": [
+      "clothes",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.2",
+    "theme": "My Clothing",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I wear a white shirt, blue jeans, and a red hat when I go to school.",
+    "vocabulary_categories": [
+      "clothes",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.3",
+    "theme": "Colorful Clothing",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The pink dress is beautiful, and the yellow shirt looks good with green pants.",
+    "vocabulary_categories": [
+      "clothes",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.4",
+    "theme": "Getting Dressed",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I put on my shoes and jacket, then I wash my face before I leave home.",
+    "vocabulary_categories": [
+      "clothes",
+      "verbs",
+      "body"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.5",
+    "theme": "Seasonal Clothing",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "In winter I wear a warm coat and boots, but in summer I wear light clothes.",
+    "vocabulary_categories": [
+      "clothes",
+      "weather",
+      "time"
+    ]
+  },
+  {
+    "unit": "05",
+    "sub_unit": "A1.6",
+    "theme": "Clothing Description",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "This sweater is expensive but beautiful, and these shoes are cheap and comfortable.",
+    "vocabulary_categories": [
+      "clothes",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.1",
+    "theme": "Today's Weather",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Today is sunny and hot, so I feel happy and want to go outside.",
+    "vocabulary_categories": [
+      "weather",
+      "time",
+      "feelings"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.2",
+    "theme": "Seasonal Wear",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "In summer it is hot, so I wear light clothes and drink cold water.",
+    "vocabulary_categories": [
+      "weather",
+      "clothes",
+      "time"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.3",
+    "theme": "Climate Details",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The sun is bright today, and white clouds are moving across the blue sky.",
+    "vocabulary_categories": [
+      "weather",
+      "adjectives",
+      "time"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.4",
+    "theme": "Seasons",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Spring is green with flowers, summer is hot, fall has red leaves, and winter is white.",
+    "vocabulary_categories": [
+      "weather",
+      "time",
+      "colors"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.5",
+    "theme": "Atmosphere Kinds",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Dark clouds mean rain is coming, and the cold wind blows from the north.",
+    "vocabulary_categories": [
+      "weather",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "06",
+    "sub_unit": "A1.6",
+    "theme": "Small Talk Sky",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Nice weather today, so we can go to the park and play together.",
+    "vocabulary_categories": [
+      "weather",
+      "greetings",
+      "feelings"
+    ]
+  },
+  {
+    "unit": "07",
+    "sub_unit": "A1.1",
+    "theme": "My Home",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I live in a house with three bedrooms, two bathrooms, and a big garden.",
+    "vocabulary_categories": [
+      "home",
+      "furniture",
+      "family"
+    ]
+  },
+  {
+    "unit": "07",
+    "sub_unit": "A1.2",
+    "theme": "My Room",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My room has a bed near the window, a desk, and a blue chair.",
+    "vocabulary_categories": [
+      "home",
+      "furniture",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "07",
+    "sub_unit": "A1.3",
+    "theme": "My Bedroom Details",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My bed is soft and comfortable, and my clothes are in the closet.",
+    "vocabulary_categories": [
+      "home",
+      "furniture",
+      "body"
+    ]
+  },
+  {
+    "unit": "07",
+    "sub_unit": "A1.4",
+    "theme": "Kitchen",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I cook food on the stove, and we eat dinner at the table in the kitchen.",
+    "vocabulary_categories": [
+      "home",
+      "kitchen_items",
+      "food"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.1",
+    "theme": "My Favorite Food",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My favorite food is pizza with cheese, but I also love chocolate cake.",
+    "vocabulary_categories": [
+      "food",
+      "feelings",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.2",
+    "theme": "Breakfast Food",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I eat eggs, toast with jam, and drink coffee for breakfast every morning.",
+    "vocabulary_categories": [
+      "food",
+      "time",
+      "kitchen_items"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.3",
+    "theme": "Food Preferences",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I like sweet food and fruit, but I do not like spicy vegetables.",
+    "vocabulary_categories": [
+      "food",
+      "feelings",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.4",
+    "theme": "Making Sandwich",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Put bread, cheese, and tomato on a plate, then cut the sandwich in half.",
+    "vocabulary_categories": [
+      "food",
+      "kitchen_items",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.5",
+    "theme": "Food and Drink",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I drink water and milk every day, and I eat salad for lunch.",
+    "vocabulary_categories": [
+      "food",
+      "kitchen_items",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.6",
+    "theme": "Lunch Food",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "For lunch I eat a sandwich, soup, and an apple with my friend at school.",
+    "vocabulary_categories": [
+      "food",
+      "time",
+      "kitchen_items"
+    ]
+  },
+  {
+    "unit": "08",
+    "sub_unit": "A1.7",
+    "theme": "Food Recipe",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "First wash the vegetables, then cut the potato and cook the meat in a pan.",
+    "vocabulary_categories": [
+      "food",
+      "kitchen_items",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "09",
+    "sub_unit": "A1.1",
+    "theme": "Zoo Animals",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The lion is big and strong, and elephants have long noses called trunks.",
+    "vocabulary_categories": [
+      "animals",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "09",
+    "sub_unit": "A1.2",
+    "theme": "Pet Companion",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My black cat sleeps on my bed, and I feed my dog every morning.",
+    "vocabulary_categories": [
+      "animals",
+      "feelings",
+      "family"
+    ]
+  },
+  {
+    "unit": "09",
+    "sub_unit": "A1.3",
+    "theme": "Animals",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Cows give us milk, sheep have white wool, and chickens lay eggs.",
+    "vocabulary_categories": [
+      "animals",
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.1",
+    "theme": "Town Places",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The bank is near the post office, and the hospital is behind the supermarket.",
+    "vocabulary_categories": [
+      "places",
+      "transport",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.2",
+    "theme": "City Places",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The city has tall buildings, museums, hotels, and busy streets with many cars.",
+    "vocabulary_categories": [
+      "places",
+      "transport",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.3",
+    "theme": "Park Visit",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "We play in the park on green grass, and I sit on a bench under the trees.",
+    "vocabulary_categories": [
+      "places",
+      "weather",
+      "hobbies"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.4",
+    "theme": "My Town",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My town is small and quiet, and I know all the people who live here.",
+    "vocabulary_categories": [
+      "places",
+      "family",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.5",
+    "theme": "My City",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Many people live and work in the city, and the buildings are very tall.",
+    "vocabulary_categories": [
+      "places",
+      "adjectives",
+      "transport"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.6",
+    "theme": "Town Transportation",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I walk in town, but my mother takes the bus to work every day.",
+    "vocabulary_categories": [
+      "transport",
+      "places",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.7",
+    "theme": "Basic Directions",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "Go straight ahead, turn right at the corner, and the shop is on your left.",
+    "vocabulary_categories": [
+      "places",
+      "prepositions",
+      "transport"
+    ]
+  },
+  {
+    "unit": "10",
+    "sub_unit": "A1.8",
+    "theme": "Park Location",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The park is behind the school, between two streets, near the river.",
+    "vocabulary_categories": [
+      "places",
+      "prepositions",
+      "weather"
+    ]
+  },
+  {
+    "unit": "11",
+    "sub_unit": "A1",
+    "theme": "My Skills",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I can speak English, and I study hard with my kind teacher every day.",
+    "vocabulary_categories": [
+      "education",
+      "verbs",
+      "feelings"
+    ]
+  },
+  {
+    "unit": "12",
+    "sub_unit": "A1.1",
+    "theme": "Object Description",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The ball is round and red, and this box is heavy because it is full.",
+    "vocabulary_categories": [
+      "kitchen_items",
+      "adjectives",
+      "colors"
+    ]
+  },
+  {
+    "unit": "12",
+    "sub_unit": "A1.2",
+    "theme": "My Things",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I have a blue bag, a black pen, and a small eraser in my desk.",
+    "vocabulary_categories": [
+      "kitchen_items",
+      "furniture",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "12",
+    "sub_unit": "A1.3",
+    "theme": "Book Location",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The book is on the table, and the notebook is under the desk near the window.",
+    "vocabulary_categories": [
+      "education",
+      "prepositions",
+      "furniture"
+    ]
+  },
+  {
+    "unit": "13",
+    "sub_unit": "A1.1",
+    "theme": "School Day",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I go to school at eight, class starts at nine, and lunch is at twelve.",
+    "vocabulary_categories": [
+      "education",
+      "time",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "13",
+    "sub_unit": "A1.2",
+    "theme": "Classroom Objects",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The board is on the wall, and chairs are near the desks in the classroom.",
+    "vocabulary_categories": [
+      "education",
+      "furniture",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "13",
+    "sub_unit": "A1.3",
+    "theme": "School Bag",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I pack my school bag with books, pens, and my homework every morning.",
+    "vocabulary_categories": [
+      "education",
+      "kitchen_items",
+      "verbs"
+    ]
+  },
+  {
+    "unit": "13",
+    "sub_unit": "A1.4",
+    "theme": "My Classroom",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "My classroom has twenty students, and the teacher writes on the board.",
+    "vocabulary_categories": [
+      "education",
+      "furniture",
+      "people"
+    ]
+  },
+  {
+    "unit": "13",
+    "sub_unit": "A1.5",
+    "theme": "School Objects",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I need a pen, pencil, and eraser for writing in my notebook at school.",
+    "vocabulary_categories": [
+      "education",
+      "adjectives",
+      "prepositions"
+    ]
+  },
+  {
+    "unit": "14",
+    "sub_unit": "A1",
+    "theme": "Simple Questions",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "What is your name, where do you live, and how old are you this year?",
+    "vocabulary_categories": [
+      "greetings",
+      "personal_info",
+      "questions"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.1",
+    "theme": "Counting Numbers",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I count from one to twenty, and my favorite number is fifteen.",
+    "vocabulary_categories": [
+      "numbers",
+      "colors"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.2",
+    "theme": "Colors",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The sky is blue, grass is green, and the sun is yellow in summer.",
+    "vocabulary_categories": [
+      "colors",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.3",
+    "theme": "Colorful Objects",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I have a red car, a blue dress, and yellow bananas in my kitchen.",
+    "vocabulary_categories": [
+      "colors",
+      "kitchen_items",
+      "clothes"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.4",
+    "theme": "Numbers and Ages",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I am ten years old, my brother is seven, and my mother is forty.",
+    "vocabulary_categories": [
+      "numbers",
+      "people",
+      "personal_info"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.5",
+    "theme": "Numbers and Prices",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The apple costs one dollar, and the shirt is twenty dollars at the shop.",
+    "vocabulary_categories": [
+      "numbers",
+      "food",
+      "adjectives"
+    ]
+  },
+  {
+    "unit": "15",
+    "sub_unit": "A1.6",
+    "theme": "Numbers and Colors",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I see three red cars, two blue pens, and five green apples on the table.",
+    "vocabulary_categories": [
+      "numbers",
+      "colors",
+      "clothes"
+    ]
+  },
+  {
+    "unit": "16",
+    "sub_unit": "A1.1",
+    "theme": "Going Shopping",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I go shopping on Saturday and buy new clothes at the shop near my house.",
+    "vocabulary_categories": [
+      "places",
+      "clothes",
+      "food"
+    ]
+  },
+  {
+    "unit": "16",
+    "sub_unit": "A1.2",
+    "theme": "Supermarket",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "The supermarket is big, and I buy milk, bread, and fresh vegetables there.",
+    "vocabulary_categories": [
+      "places",
+      "food",
+      "kitchen_items"
+    ]
+  },
+  {
+    "unit": "16",
+    "sub_unit": "A1.3",
+    "theme": "Shopping List",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "I need bread, milk, three apples, and two bottles of juice from the store.",
+    "vocabulary_categories": [
+      "food",
+      "kitchen_items",
+      "numbers"
+    ]
+  },
+  {
+    "unit": "17",
+    "sub_unit": "A1",
+    "theme": "Telling Time",
+    "level": "A1",
+    "exercise_type": "speaking_oral_reading",
+    "instructions": "Read the following sentence aloud. Practice your pronunciation.",
+    "sentence": "It is nine o'clock, school starts at eight, and lunch is at twelve every day.",
+    "vocabulary_categories": [
+      "time",
+      "numbers",
+      "verbs"
+    ]
+  }
+]

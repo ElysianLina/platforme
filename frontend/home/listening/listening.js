@@ -542,20 +542,8 @@ function setupNav() {
         }
     });
     document.getElementById('btn-submit').addEventListener('click', submitAnswers);
-    document.getElementById('btn-retry').addEventListener('click', () => {
-        state.answers      = {};
-        state.submitted    = false;
-        state.currentIndex = 0;
-        state.hasListened  = false;
-        state.isRetrying   = true;   // ← NOUVEAU : marquer qu'on est en retry
-        document.getElementById('result-panel').style.display      = 'none';
-        document.getElementById('questions-section').style.display = 'block';
-        document.getElementById('submit-section').style.display    = 'none';
-        document.getElementById('listen-hint').innerHTML =
-            '<i class="fas fa-info-circle"></i> Listen before answering';
-        renderCurrentQuestion();
-        buildDots();
-    });
+
+
 }
 
 function goToQuestion(index) {
@@ -662,10 +650,7 @@ function showResult(data) {
         // Mode: Déjà complété → cacher les détails initialement, afficher le message
         reviewEl.innerHTML = '<p class="already-done-msg"><i class="fas fa-info-circle"></i> You already completed this exercise.</p>';
         
-        // Afficher tous les boutons : Try Again, Show Result, Generate Exercise
-        if (retryBtn) {
-            retryBtn.style.display = 'inline-flex';
-        }
+       
         
         if (showResultBtn) {
             showResultBtn.style.display = 'inline-flex';
@@ -824,10 +809,7 @@ function showAlreadyDonePanel() {
         };
     }
     
-    // S'assurer que "Try Again" est visible
-    if (retryBtn) {
-        retryBtn.style.display = 'inline-flex';
-    }
+
     
     // ⭐ Afficher le bouton Generate Exercise
     if (generateBtn) {

@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Configuration</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'configuration.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+<div class="sidebar-brand">
+    <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+    <span class="brand-name">EnglishLearn</span>
+</div>
+
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item" data-page="dashboard">
+                    <i class="fas fa-book-open"></i>
+                    <span>Home</span>
+                </a>
+                 <a href="{% url 'courses_menu' %}" class="nav-item" data-page="grammar">
+                    <i class="fas fa-spell-check"></i>
+                    <span>Grammar</span>
+                </a>
+                <a href="#" class="nav-item" data-page="activities">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                               <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Evaluation Test</span>
+                </a>
+            </nav>
+
+           
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h2 class="page-title">Configuration</h2>
+                </div>
+
+                <div class="user-info">
+                    <span class="level-badge">CEFR Level: --</span>
+
+                    <div class="profile-container">
+                        <div class="user-avatar" id="profile-trigger">
+                            <img src="" alt="Profile" id="avatar-img" style="display: none;">
+                            <span id="avatar-initials">--</span>
+                        </div>
+
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <div class="dropdown-user-info">
+                                <div class="dropdown-avatar">
+                                    <img src="" alt="Profile" id="dropdown-avatar-img" style="display: none;">
+                                    <span id="dropdown-avatar-initials">--</span>
+                                </div>
+                                <div class="dropdown-user-details">
+                                    <p class="dropdown-name" id="dropdown-name">--</p>
+                                    <p class="dropdown-email" id="dropdown-email">--</p>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" data-action="profile">
+                                    <div class="dropdown-item-icon">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <span>My Profile</span>
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a href="#" class="dropdown-item logout-item" data-action="logout">
+                                    <div class="dropdown-item-icon">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </div>
+                                    <span>Sign out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="nav-tabs">
+                <a href="#" class="nav-tab active" data-tab="account">Account</a>
+               
+            </nav>
+
+            <!-- Account Section -->
+            <section class="account-section" id="account-tab">
+                <h2 class="section-title">Account</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Account Information</h3>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" value="Lina">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" value="linagousmi03@gmail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="phone-input">
+                            <select id="country-code" name="country-code">
+                                <option value="">Country Code</option>
+                                <option value="+213">+213 (DZ)</option>
+                                <option value="+1">+1 (US/CA)</option>
+                                <option value="+44">+44 (UK)</option>
+                                <option value="+33">+33 (FR)</option>
+                                <option value="+49">+49 (DE)</option>
+                                <option value="+39">+39 (IT)</option>
+                                <option value="+34">+34 (ES)</option>
+                                <option value="+81">+81 (JP)</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Change Password</h3>
+
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <div class="password-input">
+                            <input type="password" id="current-password" name="current-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('current-password')">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                       
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <div class="password-input">
+                            <input type="password" id="new-password" name="new-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('new-password')">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="password-input">
+                            <input type="password" id="confirm-password" name="confirm-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirm-password')">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-save" onclick="saveAccount()">Save</button>
+            </section>
+
+            <!-- Assessment Test Section -->
+            <section class="assessment-section">
+                <div class="assessment-content">
+                    <p class="assessment-text">Discover where to start your English course by taking the Assessment Test.</p>
+                    <button type="button" class="btn-assessment" onclick="startAssessment()">Take Assessment Test</button>
+                </div>
+
+               
+            </section>
+             <section class="assessment-section"  style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                <div class="assessment-content">
+                     <p class="assessment-text">Update your learning preferences and daily goals.</p>
+                    <button type="button" class="btn-assessment" onclick="updatePreferences()" style="background: #6b7280;">Update Preferences</button>
+                </div>
+
+               
+            </section>
+            <!-- Terms Section -->
+            <section class="terms-section">
+                <a href="#" class="terms-link">Terms and Conditions</a>
+            </section>
+
+            <!-- Delete Account Section -->
+            <section class="delete-section">
+                <button type="button" class="btn-delete" onclick="deleteAccount()">Delete My Account</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="{% static 'configuration.js' %}"></script>
+</body>
+</html>

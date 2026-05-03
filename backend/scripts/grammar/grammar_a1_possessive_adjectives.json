@@ -1,0 +1,545 @@
+{
+  "course_id": "grammar_a1_possessive_adjectives",
+  "title": "Possessive Adjectives in English",
+  "subtitle": "my, your, his, her, its, our, their — explained easily with exercises",
+  "level": "A1",
+  "language": "English",
+  "total_sections": 6,
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "What Are Possessive Adjectives?",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "Possessive adjectives are words we use to show that something belongs to someone or something. In English, they replace the article (a, an, the) and go directly BEFORE the noun they describe. They agree with the OWNER, not with the thing owned. This is very different from French or Arabic — in English, the noun after the possessive adjective does NOT change.",
+        "formula": "Possessive Adjective + Noun",
+        "key_rules": [
+          "Possessive adjectives ALWAYS go before the noun: 'my book', 'her car', 'their house'.",
+          "They agree with the OWNER, not the thing owned: 'He has a cat. His cat is black.' (not 'her cat').",
+          "NEVER use an article (a, an, the) together with a possessive adjective: NOT 'the my book' → 'my book'.",
+          "The possessive adjective for things and animals is 'its' (no apostrophe): 'The dog wagged its tail.'",
+          "'Its' (possessive) is different from 'it's' (= it is): 'It's cold today.' vs 'The cat hurt its paw.'",
+          "Possessive adjectives do not change for singular or plural nouns: 'my book' / 'my books'."
+        ],
+        "examples": [
+          {
+            "sentence": "This is my book.",
+            "breakdown": {
+              "possessive": "my",
+              "owner": "I",
+              "noun": "book"
+            },
+            "note": "The owner is 'I', so the possessive adjective is 'my'."
+          },
+          {
+            "sentence": "She loves her dog.",
+            "breakdown": {
+              "possessive": "her",
+              "owner": "she",
+              "noun": "dog"
+            },
+            "note": "The owner is 'she', so the possessive adjective is 'her' — regardless of what is owned."
+          },
+          {
+            "sentence": "The cat hurt its paw.",
+            "breakdown": {
+              "possessive": "its",
+              "owner": "the cat",
+              "noun": "paw"
+            },
+            "note": "'Its' (no apostrophe) is the possessive for things and animals. 'It's' = 'it is'."
+          },
+          {
+            "sentence": "We forgot our tickets.",
+            "breakdown": {
+              "possessive": "our",
+              "owner": "we",
+              "noun": "tickets"
+            },
+            "note": "'Our' is used for multiple owners (we). The noun can be singular or plural."
+          }
+        ],
+        "did_you_know": "In English, the possessive adjective depends entirely on the GENDER and NUMBER of the OWNER — not on the noun. So 'his book', 'his car', 'his house' all use 'his' because the owner is male, no matter what is owned. This is the opposite of languages like French where the adjective agrees with the noun.",
+        "common_errors": [
+          {
+            "incorrect": "The dog chased it's tail.",
+            "correct": "The dog chased its tail.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "When you see Sarah, give them this letter.",
+            "correct": "When you see Sarah, give her this letter.",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "They're house is beautiful.",
+            "correct": "Their house is beautiful.",
+            "error_type": "Pronoun Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "2",
+      "section_title": "The Full Table — All 7 Possessive Adjectives",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "English has exactly 7 possessive adjectives. Each one corresponds to a subject pronoun. Learning this table is essential — once you know who the owner is (I, you, he, she, it, we, they), you automatically know which possessive adjective to use. The table never changes, no matter what noun follows.",
+        "formula": "Subject Pronoun → Possessive Adjective + Noun",
+        "key_rules": [
+          "I → my: 'I lost my keys.'",
+          "You → your: 'Is this your bag?'",
+          "He → his: 'Tom forgot his phone.'",
+          "She → her: 'Mary loves her cat.'",
+          "It → its: 'The bird built its nest.'",
+          "We → our: 'We painted our house.'",
+          "They → their: 'The students left their books.'"
+        ],
+        "examples": [
+          {
+            "sentence": "I love my job.",
+            "breakdown": {
+              "subject": "I",
+              "possessive": "my",
+              "noun": "job"
+            },
+            "note": "I → my. 'My' shows the job belongs to the speaker."
+          },
+          {
+            "sentence": "He lost his wallet.",
+            "breakdown": {
+              "subject": "He",
+              "possessive": "his",
+              "noun": "wallet"
+            },
+            "note": "He → his. The wallet belongs to a male person."
+          },
+          {
+            "sentence": "They invited us to their party.",
+            "breakdown": {
+              "subject": "They",
+              "possessive": "their",
+              "noun": "party"
+            },
+            "note": "They → their. Multiple owners → their."
+          },
+          {
+            "sentence": "The bird built its nest in the tree.",
+            "breakdown": {
+              "subject": "It",
+              "possessive": "its",
+              "noun": "nest"
+            },
+            "note": "It → its. Used for animals and objects. No apostrophe!"
+          }
+        ],
+        "did_you_know": "Using 'the wife' instead of 'my wife' is possible in informal spoken English — it creates a slight social distance. For example: 'It's the wife on the phone' sounds slightly more detached than 'It's my wife on the phone.' However, at A1 level, always use the correct possessive adjective.",
+        "common_errors": [
+          {
+            "incorrect": "She's phone is out of battery.",
+            "correct": "Her phone is out of battery.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "He's a doctor, but he's patients don't like him.",
+            "correct": "He's a doctor, but his patients don't like him.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "The company wants to ensure they're customers are satisfied.",
+            "correct": "The company wants to ensure their customers are satisfied.",
+            "error_type": "Pronoun Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "3",
+      "section_title": "its vs it's — The Most Common Mistake",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "The single most common possessive adjective mistake in English is confusing 'its' and 'it's'. They sound identical but mean completely different things. 'Its' (no apostrophe) is a possessive adjective — it shows that something belongs to an animal or thing. 'It's' (with apostrophe) is a contraction of 'it is' or 'it has'. The simple test: replace 'it's/its' with 'it is'. If the sentence still makes sense, use 'it's'. If not, use 'its'.",
+        "formula": "its = possessive (no apostrophe) | it's = it is / it has (contraction)",
+        "key_rules": [
+          "'Its' (no apostrophe) = possessive adjective for things and animals: 'The dog wagged its tail.'",
+          "'It's' (with apostrophe) = 'it is' or 'it has': 'It's cold today.' = 'It is cold today.'",
+          "TEST: Replace with 'it is'. If the sentence is correct → use 'it's'. If wrong → use 'its'.",
+          "'It's raining.' → 'It is raining.' ✓ → use 'it's'.",
+          "'The cat hurt its paw.' → 'The cat hurt it is paw.' ✗ → use 'its'.",
+          "Unlike other possessive adjectives, 'its' NEVER has an apostrophe."
+        ],
+        "examples": [
+          {
+            "sentence": "It's cold outside.",
+            "breakdown": {
+              "contraction": "it's = it is",
+              "type": "contraction"
+            },
+            "note": "Replace 'it's' with 'it is': 'It is cold outside.' ✓ → correct use of 'it's'."
+          },
+          {
+            "sentence": "The company is known for its innovations.",
+            "breakdown": {
+              "possessive": "its",
+              "owner": "the company",
+              "noun": "innovations"
+            },
+            "note": "Test: 'The company is known for it is innovations.' ✗ → use 'its' (no apostrophe)."
+          },
+          {
+            "sentence": "The cat hurt its paw while climbing the tree.",
+            "breakdown": {
+              "possessive": "its",
+              "owner": "the cat",
+              "noun": "paw"
+            },
+            "note": "'Its' (no apostrophe) — the paw belongs to the cat."
+          },
+          {
+            "sentence": "It's not easy to find a parking spot.",
+            "breakdown": {
+              "contraction": "it's = it is",
+              "type": "contraction"
+            },
+            "note": "'It is not easy to find a parking spot.' ✓ → correct use of 'it's'."
+          }
+        ],
+        "did_you_know": "A useful memory trick: possessive adjectives in English (my, your, his, her, its, our, their) NEVER use an apostrophe. Apostrophes in pronouns always signal a contraction: it's = it is, you're = you are, they're = they are, he's = he is. So if you see an apostrophe, think contraction — not possession.",
+        "common_errors": [
+          {
+            "incorrect": "It's door is locked, we can't get in.",
+            "correct": "Its door is locked, we can't get in.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "The company is known for it's innovations.",
+            "correct": "The company is known for its innovations.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "I don't know where it's key is.",
+            "correct": "I don't know where its key is.",
+            "error_type": "Contractions Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "4",
+      "section_title": "their vs they're vs there — Three Common Confusions",
+      "section_type": "lesson",
+      "content": {
+        "explanation": "Three words sound similar but have completely different meanings: 'their' (possessive adjective), 'they're' (contraction of 'they are'), and 'there' (place or existence). Confusing these is one of the most frequent written English errors. Learning to distinguish them is essential even at A1 level.",
+        "formula": "their = possessive | they're = they are | there = place / existence",
+        "key_rules": [
+          "'Their' = possessive adjective for multiple owners (they): 'They love their house.'",
+          "'They're' = contraction of 'they are': 'They're happy.' = 'They are happy.'",
+          "'There' = a place or to introduce existence: 'The keys are over there.' / 'There is a cat.'",
+          "TEST for 'they're': Replace with 'they are'. If correct → use 'they're'.",
+          "TEST for 'their': Can you say 'belonging to them'? If yes → use 'their'.",
+          "TEST for 'there': Is it about a place or existence? If yes → use 'there'."
+        ],
+        "examples": [
+          {
+            "sentence": "Their dog has been missing since yesterday.",
+            "breakdown": {
+              "possessive": "their",
+              "owner": "they",
+              "noun": "dog"
+            },
+            "note": "'Their' = the dog belongs to them. NOT 'they're' or 'there'."
+          },
+          {
+            "sentence": "They're going to the party tonight.",
+            "breakdown": {
+              "contraction": "they're = they are",
+              "type": "contraction"
+            },
+            "note": "'They are going to the party tonight.' ✓ → use 'they're'."
+          },
+          {
+            "sentence": "The keys are over there.",
+            "breakdown": {
+              "location": "there",
+              "type": "place"
+            },
+            "note": "'There' refers to a place — it answers the question 'Where?'"
+          },
+          {
+            "sentence": "There's a new movie coming out this week.",
+            "breakdown": {
+              "existence": "there's = there is",
+              "type": "existence"
+            },
+            "note": "'There is a new movie coming out this week.' — 'there' introduces existence."
+          }
+        ],
+        "did_you_know": "The same confusion exists with 'your / you're' and 'its / it's'. The pattern is always the same: the version WITH an apostrophe is a contraction (you're = you are, it's = it is, they're = they are). The version WITHOUT an apostrophe is the possessive adjective (your, its, their). This rule has NO exceptions.",
+        "common_errors": [
+          {
+            "incorrect": "They're dog has been missing since yesterday.",
+            "correct": "Their dog has been missing since yesterday.",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "Their's a new movie coming out this week.",
+            "correct": "There's a new movie coming out this week.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "The flowers in the garden lost they're color.",
+            "correct": "The flowers in the garden lost their color.",
+            "error_type": "Pronoun Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "5",
+      "section_title": "Common Mistakes to Avoid",
+      "section_type": "tips",
+      "content": {
+        "explanation": "Here are the most common possessive adjective mistakes that English learners make. Many of these errors come from confusing possessive adjectives with contractions or using the wrong pronoun for the owner.",
+        "mistakes": [
+          {
+            "incorrect": "The dog chased it's tail.",
+            "correct": "The dog chased its tail.",
+            "explanation": "'It's' means 'it is'. The possessive for things is 'its' (no apostrophe). Test: 'The dog chased it is tail.' ✗ → use 'its'.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "She's phone is out of battery.",
+            "correct": "Her phone is out of battery.",
+            "explanation": "'She's' = 'she is', not 'her'. To show possession, use 'her' (possessive adjective for female owner).",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "He's a doctor, but he's patients don't like him.",
+            "correct": "He's a doctor, but his patients don't like him.",
+            "explanation": "In the second clause 'he's' = 'he is' — it cannot show possession. Use 'his' (possessive adjective for male owner).",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "They're house is beautiful.",
+            "correct": "Their house is beautiful.",
+            "explanation": "'They're' = 'they are'. To show the house belongs to them, use 'their' (possessive adjective).",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "Their's a new movie coming out this week.",
+            "correct": "There's a new movie coming out this week.",
+            "explanation": "'Their's' does not exist in English. Use 'there's' = 'there is' to introduce existence.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "The company wants to ensure they're customers are satisfied.",
+            "correct": "The company wants to ensure their customers are satisfied.",
+            "explanation": "'They're' = 'they are'. The customers belong to the company → use 'their'.",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "When you see Sarah, give them this letter.",
+            "correct": "When you see Sarah, give her this letter.",
+            "explanation": "Sarah is singular and female. Use 'her', not 'them' (which is plural).",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "The plants need water for they're survival.",
+            "correct": "The plants need water for their survival.",
+            "explanation": "'They're' = 'they are'. The survival belongs to the plants → use 'their'.",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "It's color is fading after multiple washes.",
+            "correct": "Its color is fading after multiple washes.",
+            "explanation": "'It's' = 'it is'. The color belongs to the object → use 'its' (no apostrophe).",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "The cat hurt it's paw while climbing the tree.",
+            "correct": "The cat hurt its paw while climbing the tree.",
+            "explanation": "Test: 'The cat hurt it is paw.' ✗ → The paw belongs to the cat → use 'its'.",
+            "error_type": "Contractions Errors"
+          },
+          {
+            "incorrect": "Me and him went to the store yesterday.",
+            "correct": "He and I went to the store yesterday.",
+            "explanation": "As subjects, use subject pronouns: 'He and I'. Also, 'I' always comes last in English.",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "Everyone must submit there own report by Friday.",
+            "correct": "Everyone must submit his or her own report by Friday.",
+            "explanation": "'There' is a place word. The correct possessive referring to 'everyone' is 'his or her' (or 'their' informally).",
+            "error_type": "Pronoun Errors"
+          },
+          {
+            "incorrect": "The team is working on their project.",
+            "correct": "The team is working on its project.",
+            "explanation": "'Team' is a collective noun (singular in formal English). Use 'its', not 'their'.",
+            "error_type": "Pronoun Errors"
+          }
+        ]
+      }
+    },
+    {
+      "section_id": "6",
+      "section_title": "Exercise: Practice Possessive Adjectives",
+      "section_type": "exercise",
+      "content": {
+        "instructions": "Find and correct the possessive adjective mistake in each sentence.",
+        "exercises": [
+          {
+            "exercise_id": "1",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The dog chased it's tail around the garden.",
+            "correct_answer": "The dog chased its tail around the garden.",
+            "acceptable_answers": [
+              "The dog chased its tail around the garden."
+            ],
+            "explanation": "'It's' = 'it is'. The tail belongs to the dog → use 'its' (no apostrophe).",
+            "source_error_type": "Contractions Errors"
+          },
+          {
+            "exercise_id": "2",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "She's phone is out of battery.",
+            "correct_answer": "Her phone is out of battery.",
+            "acceptable_answers": [
+              "Her phone is out of battery."
+            ],
+            "explanation": "'She's' = 'she is', not a possessive. The correct possessive adjective for a female owner is 'her'.",
+            "source_error_type": "Contractions Errors"
+          },
+          {
+            "exercise_id": "3",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "They're house is very big and beautiful.",
+            "correct_answer": "Their house is very big and beautiful.",
+            "acceptable_answers": [
+              "Their house is very big and beautiful."
+            ],
+            "explanation": "'They're' = 'they are'. To show the house belongs to them, use 'their'.",
+            "source_error_type": "Pronoun Errors"
+          },
+          {
+            "exercise_id": "4",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The company is known for it's excellent customer service.",
+            "correct_answer": "The company is known for its excellent customer service.",
+            "acceptable_answers": [
+              "The company is known for its excellent customer service."
+            ],
+            "explanation": "Test: 'The company is known for it is excellent customer service.' ✗ → use 'its'.",
+            "source_error_type": "Contractions Errors"
+          },
+          {
+            "exercise_id": "5",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The flowers in the garden lost they're color after the storm.",
+            "correct_answer": "The flowers in the garden lost their color after the storm.",
+            "acceptable_answers": [
+              "The flowers in the garden lost their color after the storm."
+            ],
+            "explanation": "'They're' = 'they are'. The color belongs to the flowers → use 'their'.",
+            "source_error_type": "Pronoun Errors"
+          },
+          {
+            "exercise_id": "6",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "He's a great teacher, but he's students are always late.",
+            "correct_answer": "He's a great teacher, but his students are always late.",
+            "acceptable_answers": [
+              "He's a great teacher, but his students are always late."
+            ],
+            "explanation": "In the second clause 'he's' = 'he is' — it cannot be used as a possessive. Use 'his'.",
+            "source_error_type": "Contractions Errors"
+          },
+          {
+            "exercise_id": "7",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The cat hurt it's paw while climbing the tree.",
+            "correct_answer": "The cat hurt its paw while climbing the tree.",
+            "acceptable_answers": [
+              "The cat hurt its paw while climbing the tree."
+            ],
+            "explanation": "Test: 'The cat hurt it is paw.' ✗ → The paw belongs to the cat → use 'its'.",
+            "source_error_type": "Contractions Errors"
+          },
+          {
+            "exercise_id": "8",
+            "type": "error_correction",
+            "instruction": "Find and correct the pronoun mistake.",
+            "question": "When you see Sarah, give them this letter.",
+            "correct_answer": "When you see Sarah, give her this letter.",
+            "acceptable_answers": [
+              "When you see Sarah, give her this letter."
+            ],
+            "explanation": "Sarah is singular and female. Use 'her' — not 'them' (which is plural).",
+            "source_error_type": "Pronoun Errors"
+          },
+          {
+            "exercise_id": "9",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The plants need water for they're survival in the dry season.",
+            "correct_answer": "The plants need water for their survival in the dry season.",
+            "acceptable_answers": [
+              "The plants need water for their survival in the dry season."
+            ],
+            "explanation": "'They're' = 'they are'. The survival belongs to the plants → use 'their'.",
+            "source_error_type": "Pronoun Errors"
+          },
+          {
+            "exercise_id": "10",
+            "type": "error_correction",
+            "instruction": "Find and correct the possessive adjective mistake.",
+            "question": "The company wants to ensure they're customers are satisfied.",
+            "correct_answer": "The company wants to ensure their customers are satisfied.",
+            "acceptable_answers": [
+              "The company wants to ensure their customers are satisfied."
+            ],
+            "explanation": "'They're' = 'they are'. The customers belong to the company → use 'their'.",
+            "source_error_type": "Pronoun Errors"
+          }
+        ],
+        "scoring": {
+          "total_exercises": 10,
+          "points_per_exercise": 1,
+          "total_points": 10,
+          "passing_score": 7,
+          "feedback_messages": {
+            "excellent": "Excellent! You scored {score}/10. Great understanding of possessive adjectives!",
+            "good": "Good job! You scored {score}/10. Review the sections you got wrong and keep practicing.",
+            "needs_practice": "Keep practicing! You scored {score}/10. Review the its/it's and their/they're sections carefully."
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "created_for": "English Learning Platform - Grammar Section",
+    "target_level": "A1 (Beginner)",
+    "topic": "Possessive Adjectives: my, your, his, her, its, our, their — plus its vs it's and their vs they're vs there",
+    "language": "English",
+    "includes": ["lessons", "examples with breakdowns", "common mistakes from real learners", "exercises"],
+    "total_exercises": 10
+  },
+  "enrichment_metadata": {
+    "enriched": true,
+    "sources_used": ["Grammar_Correction.csv", "grammar_dataset.json"],
+    "csv_error_types_used": ["Pronoun Errors", "Contractions Errors", "Subject-Verb Agreement"],
+    "total_csv_examples_integrated": 22,
+    "total_qa_insights_used": 3,
+    "enriched_sections": ["section_1", "section_2", "section_3", "section_4", "section_5", "section_6"],
+    "total_exercises": 10,
+    "total_mistakes": 13
+  }
+}

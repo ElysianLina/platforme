@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Writing Exercise</title>
+    <link rel="stylesheet" href="{% static 'writing.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">EnglishLearn</h1>
+                <p class="tagline">Learning Platform</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <a href="#" class="back-btn" id="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+                <div class="header-info">
+                    <span class="subunit-badge" id="subunit-id">1.1</span>
+                    <h1 class="page-title" id="subunit-title">Writing Exercise</h1>
+                </div>
+            </div>
+
+            <!-- Exercise Container -->
+            <div class="exercise-container" id="exercise-container">
+                <!-- Loading State -->
+                <div class="loading-state" id="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading exercise...</p>
+                </div>
+
+                <!-- Exercise Content -->
+                <div class="exercise-content" id="exercise-content" style="display: none;">
+                    <!-- Instructions Card -->
+                    <div class="card instructions-card">
+                        <div class="card-header">
+                            <i class="fas fa-pen-fancy"></i>
+                            <h2>Writing Task</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="instruction-text" id="instruction-text"></p>
+                            <div class="guiding-points" id="guiding-points">
+                                <h3>Guiding Points:</h3>
+                                <ul id="points-list"></ul>
+                            </div>
+                            <div class="word-count-info">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Target: <strong id="word-target">60-80 words</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Writing Area -->
+                    <div class="card writing-card">
+                        <div class="card-header">
+                            <i class="fas fa-keyboard"></i>
+                            <h2>Your Writing</h2>
+                            <span class="word-counter" id="word-counter">0 words</span>
+                        </div>
+                        <div class="card-body">
+                            <textarea 
+                                id="writing-textarea" 
+                                placeholder="Start writing your paragraph here..."
+                                rows="8"
+                            ></textarea>
+                            <div class="textarea-footer">
+                                <span class="hint">Write a short paragraph following the instructions above</span>
+                                <button class="btn btn-primary" id="submit-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="results-section" style="display: none;">
+                    <!-- Score Card -->
+                    <div class="card score-card">
+                        <div class="score-header">
+                            <h2>Your Score</h2>
+                            <div class="score-circle" id="score-circle">
+                                <span class="score-value" id="score-value">0</span>
+                                <span class="score-total">/100</span>
+                            </div>
+                        </div>
+                        <div class="score-breakdown" id="score-breakdown">
+                            <!-- Score details injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Feedback Card -->
+                    <div class="card feedback-card">
+                        <div class="card-header">
+                            <i class="fas fa-comments"></i>
+                            <h2>Feedback</h2>
+                        </div>
+                        <div class="card-body" id="feedback-content">
+                            <!-- Feedback injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Comparison Card -->
+                    <div class="card comparison-card">
+                        <div class="card-body">
+                            <div class="comparison-grid">
+                                <div class="comparison-item user-column">
+                                    <h4>Your Writing</h4>
+                                    <div class="text-box user-text" id="user-text-display"></div>
+                                    <div class="word-count-display">
+                                        <i class="fas fa-font"></i>
+                                        <span id="user-word-count">0 words</span>
+                                    </div>
+                                    <!-- Bouton toggle sous le texte user -->
+                                    <button class="btn btn-secondary toggle-model-btn" id="toggle-model-btn" onclick="toggleModelAnswer()">
+                                        <i class="fas fa-eye"></i>
+                                        Show Typical Example
+                                    </button>
+                                </div>
+                                <div class="comparison-item model-column" id="model-answer-section" style="display: none;">
+                                    <h4>Typical Example</h4>
+                                    <div class="text-box model-text" id="model-text-display"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                             <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generate-exercise-btn" style="display: none;">
+                            <i class="fas fa-magic"></i>
+                            Generate Another Exercise
+                        </button>
+                    </div>
+                
+                
+                
+                
+                
+                
+                
+                </div>
+
+                <!-- Already Submitted State -->
+                <div class="already-submitted" id="already-submitted" style="display: none;">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-check-circle success-icon"></i>
+                            <h2>Exercise Already Completed!</h2>
+                            <p>You have already submitted this writing exercise.</p>
+                            <div class="previous-result" id="previous-result"></div>
+                            <button class="btn btn-primary" id="view-result-btn">
+                                View My Result
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'writing.js' %}"></script>
+</body>
+</html>

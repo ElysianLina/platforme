@@ -1,5 +1,9 @@
+import re
+import traceback
+
 from django.db import models
 import uuid
+from django.utils import timezone
 
 class Learner(models.Model):
     CEFR_CHOICES = [
@@ -15,6 +19,7 @@ class Learner(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # Stockera le hash
+    phone = models.CharField(max_length=20, null=True, blank=True)
     cefr_level = models.CharField(
         max_length=2, 
         choices=CEFR_CHOICES, 
@@ -950,5 +955,1151 @@ class ListeningExerciseResult(models.Model):
 
     def save(self, *args, **kwargs):
         """Auto-génère le feedback avant sauvegarde."""
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)
+
+
+
+
+# ─────────────────────────────────────────────
+#  WRITING ACTIVITY 
+# ─────────────────────────────────────────────
+
+class WritingExercise(models.Model):
+    """Exercice de writing lié à un SubUnit."""
+    
+    id = models.AutoField(primary_key=True)
+    sub_unit = models.ForeignKey(
+        SubUnit,
+        on_delete=models.CASCADE,
+        related_name='writing_exercises'
+    )
+    
+    instruction = models.TextField()
+    guiding_points = models.JSONField(default=list)
+    word_count_target = models.CharField(max_length=50, default="60-80 words")
+    
+    model_answer_text = models.TextField()
+    model_answer_vocabulary = models.JSONField(default=list)
+    model_answer_grammar = models.JSONField(default=list)
+    
+    # Pour l'évaluation
+    key_vocabulary = models.JSONField(default=list)
+    grammar_patterns = models.JSONField(default=list, help_text="Patterns grammaticaux attendus")
+    forbidden_words = models.JSONField(default=list, help_text="Mots à éviter")
+    
+    difficulty = models.CharField(max_length=2, default='A1')
+    theme = models.TextField(blank=True)
+    unit_title = models.CharField(max_length=200, blank=True)
+    subunit_title = models.CharField(max_length=200, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'writing_exercise'
+        ordering = ['sub_unit__unit__order', 'sub_unit__order']
+        unique_together = ['sub_unit']
+    
+    def __str__(self):
+        return f"[{self.difficulty}] {self.subunit_title or self.instruction[:50]}"
+
+
+class WritingExerciseResult(models.Model):
+    """Résultat avec évaluation détaillée et feedback structuré."""
+    
+    learner = models.ForeignKey(
+        Learner, 
+        on_delete=models.CASCADE, 
+        related_name='writing_exercise_results'
+    )
+    writing_exercise = models.ForeignKey(
+        WritingExercise, 
+        on_delete=models.CASCADE, 
+        related_name='results'
+    )
+    
+    submitted_text = models.TextField()
+    word_count = models.IntegerField()
+    
+    # Scores détaillés (0-100)
+    content_score = models.IntegerField(null=True, blank=True, help_text="Respect des consignes")
+    vocabulary_score = models.IntegerField(null=True, blank=True)
+    grammar_score = models.IntegerField(null=True, blank=True)
+    length_score = models.IntegerField(null=True, blank=True)
+    
+    # Score global
+    overall_score = models.IntegerField(null=True, blank=True)
+    
+    # Feedback structuré (stocké en JSON)
+    feedback_data = models.JSONField(default=dict, help_text="""
+    {
+        'general': 'Feedback global',
+        'strengths': ['Point fort 1', 'Point fort 2'],
+        'improvements': ['À améliorer 1', 'À améliorer 2'],
+        'vocabulary_found': ['mot1', 'mot2'],
+        'vocabulary_missing': ['mot3', 'mot4'],
+        'grammar_errors': ['Erreur détectée'],
+        'word_count_feedback': 'Vous avez écrit X mots',
+        'topic_relevance': 'Le texte est hors-sujet / sur le sujet'
+    }
+    """)
+    
+    # Métadonnées
+    status = models.CharField(
+        max_length=20,
+        choices=[('submitted', 'Soumis'), ('evaluated', 'Évalué'), ('pending', 'En attente')],
+        default='submitted'
+    )
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    evaluated_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        db_table = 'writing_exercise_result'
+        unique_together = ['learner', 'writing_exercise']
+        ordering = ['-submitted_at']
+    
+    def save(self, *args, **kwargs):
+        """Sauvegarde simple — l'évaluation est gérée dans views.py via Ollama."""
+        if self.submitted_text and not self.word_count:
+            self.word_count = len(self.submitted_text.split())
+        super().save(*args, **kwargs)
+
+
+
+
+
+# ─────────────────────────────────────────────
+#  SPEAKING ACTIVITY
+# ─────────────────────────────────────────────
+
+class SpeakingExercise(models.Model):
+    """
+    Exercice de speaking oral (lecture à voix haute) lié à un SubUnit.
+    Chaque exercice contient une phrase à lire + l'audio de référence pré-généré.
+
+    Source JSON  : backend/data/speaking/speaking-exercise-a1-json/
+    Audio source : backend/data/speaking/audio_generated/
+    Exemple audio: Unit01_A1.1_Morning_Customs.mp3
+    """
+
+    id = models.AutoField(primary_key=True)
+
+    sub_unit = models.ForeignKey(
+        SubUnit,
+        on_delete=models.CASCADE,
+        related_name='speaking_exercises',
+        help_text="Sous-unité pédagogique associée"
+    )
+
+    # ── Contenu de l'exercice ──────────────────
+    theme = models.CharField(
+        max_length=200,
+        help_text="Thème de la sous-unité (ex: Morning Customs)"
+    )
+    level = models.CharField(
+        max_length=2,
+        default='A1',
+        help_text="Niveau CEFR (A1, A2, …)"
+    )
+    instructions = models.TextField(
+        default="Read the following sentence aloud. Practice your pronunciation.",
+        help_text="Consigne affichée à l'apprenant"
+    )
+
+    # ── Phrase cible ───────────────────────────
+    sentence = models.TextField(
+        help_text="Phrase que l'apprenant doit lire à voix haute"
+    )
+
+    # Mots de la phrase indexés pour la correction mot à mot
+    # Ex: ["Every", "morning", "I", "wake", "up", "at", "seven", "o'clock", ...]
+    sentence_words = models.JSONField(
+        default=list,
+        help_text="Liste ordonnée des mots de la phrase (générée automatiquement)"
+    )
+
+    # Catégories de vocabulaire couvertes
+    vocabulary_categories = models.JSONField(
+        default=list,
+        help_text="Ex: ['time', 'verbs', 'home', 'feelings']"
+    )
+
+    # ── Audio de référence (pré-généré TTS) ───
+    audio_filename = models.CharField(
+        max_length=255,
+        help_text=(
+            "Nom du fichier MP3 pré-généré. "
+            "Ex: Unit01_A1.1_Morning_Customs.mp3 "
+            "(stocké dans backend/data/speaking/audio_generated/)"
+        )
+    )
+    audio_path = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Chemin relatif complet vers l'audio de référence"
+    )
+
+    # ── Méta ──────────────────────────────────
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'speaking_exercise'
+        ordering = ['sub_unit__unit__title', 'sub_unit__order']
+        unique_together = ['sub_unit']          # 1 exercice par sous-unité
+        indexes = [
+            models.Index(fields=['level']),
+           
+        ]
+
+    def __str__(self):
+         return f"[{self.level}] {self.sub_unit.unit.title} – {self.theme}"
+
+    def save(self, *args, **kwargs):
+        """
+        Auto-remplit sentence_words et audio_path avant sauvegarde.
+        """
+        # Tokeniser la phrase en mots (conserve la casse originale)
+        if self.sentence and not self.sentence_words:
+            import re
+            self.sentence_words = re.findall(r"\S+", self.sentence)
+
+        # Construire le chemin audio si non fourni
+        if self.audio_filename and not self.audio_path:
+            self.audio_path = (
+                f"backend/data/speaking/audio_generated/{self.audio_filename}"
+            )
+
+        super().save(*args, **kwargs)
+
+
+# ─────────────────────────────────────────────
+
+class SpeakingExerciseResult(models.Model):
+    """
+    Résultat d'une tentative de speaking pour un apprenant.
+
+    Workflow :
+      1. L'apprenant enregistre sa voix  →  audio_learner_path
+      2. STT transcrit l'enregistrement  →  learner_transcript
+      3. Comparaison mot à mot avec sentence_words  →  word_results + scores
+      4. Feedback affiché : mots erronés en rouge + audio de référence rejoué
+
+    Un apprenant peut soumettre plusieurs tentatives (pas de unique_together strict),
+    seule la dernière est affichée dans l'UI par défaut (ordering = ['-submitted_at']).
+    """
+
+    FEEDBACK_CHOICES = [
+        ('excellent',  'Excellent!'),
+        ('very_good',  'Very good!'),
+        ('good',       'Good job!'),
+        ('keep_going', 'Keep going!'),
+        ('try_again',  'Try again!'),
+    ]
+
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='speaking_exercise_results',
+        help_text="Apprenant ayant soumis l'exercice"
+    )
+    speaking_exercise = models.ForeignKey(
+        SpeakingExercise,
+        on_delete=models.CASCADE,
+        related_name='results',
+        help_text="Exercice de speaking concerné"
+    )
+
+    # ── Enregistrement de l'apprenant ─────────
+    audio_learner_path = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Chemin vers l'enregistrement vocal de l'apprenant (WebM/WAV)"
+    )
+
+    # ── Transcription STT ─────────────────────
+    learner_transcript = models.TextField(
+        blank=True,
+        help_text="Texte transcrit automatiquement depuis l'enregistrement de l'apprenant"
+    )
+
+    # ── Résultat mot à mot ────────────────────
+    # Format :
+    # [
+    #   {"word": "Every",   "status": "correct"},
+    #   {"word": "morning", "status": "correct"},
+    #   {"word": "I",       "status": "wrong",   "said": "a"},
+    #   {"word": "wake",    "status": "missing"},
+    #   ...
+    # ]
+    # status ∈ { "correct", "wrong", "missing", "extra" }
+    word_results = models.JSONField(
+        default=list,
+        help_text=(
+            "Comparaison mot à mot : liste de {word, status, said?}. "
+            "status ∈ correct | wrong | missing | extra"
+        )
+    )
+
+    # ── Scores ────────────────────────────────
+    total_words = models.PositiveIntegerField(
+        default=0,
+        help_text="Nombre de mots dans la phrase de référence"
+    )
+    correct_words = models.PositiveIntegerField(
+        default=0,
+        help_text="Nombre de mots prononcés correctement"
+    )
+    accuracy_score = models.IntegerField(
+        default=0,
+        help_text="Score de précision en % (0-100)"
+    )
+
+    # ── Feedback ──────────────────────────────
+    feedback = models.CharField(
+        max_length=20,
+        choices=FEEDBACK_CHOICES,
+        blank=True,
+        help_text="Feedback court généré automatiquement selon le score"
+    )
+
+    attempt_number = models.PositiveIntegerField(
+        default=1,
+        help_text="Numéro de tentative pour cet exercice (1 = première fois)"
+    )
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'speaking_exercise_result'
+        ordering = ['-submitted_at']
+        unique_together = ['learner', 'speaking_exercise']
+        indexes = [
+            models.Index(fields=['learner', 'speaking_exercise']),
+            models.Index(fields=['submitted_at']),
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.learner.name} | "
+            f"{self.speaking_exercise.theme} | "
+            f"{self.accuracy_score}% (essai #{self.attempt_number})"
+        )
+
+    # ── Logique métier ────────────────────────
+
+    def calculate_scores(self):
+        """
+        Calcule total_words, correct_words et accuracy_score
+        à partir de word_results.
+        """
+        if not self.word_results:
+            return
+
+        ref_words = [w for w in self.word_results if w.get('status') != 'extra']
+        self.total_words   = len(ref_words)
+        self.correct_words = sum(1 for w in ref_words if w.get('status') == 'correct')
+
+        if self.total_words > 0:
+            self.accuracy_score = int((self.correct_words / self.total_words) * 100)
+
+    def generate_feedback(self):
+        """Feedback court selon le score de précision."""
+        score = self.accuracy_score
+        if score >= 90:
+            return 'excellent'
+        elif score >= 75:
+            return 'very_good'
+        elif score >= 60:
+            return 'good'
+        elif score >= 40:
+            return 'keep_going'
+        else:
+            return 'try_again'
+
+    def set_attempt_number(self):
+        """Détermine le numéro de tentative pour ce learner × exercice."""
+        previous = SpeakingExerciseResult.objects.filter(
+            learner=self.learner,
+            speaking_exercise=self.speaking_exercise,
+        ).count()
+        self.attempt_number = previous + 1
+
+    def save(self, *args, **kwargs):
+        """Auto-calcul des scores, feedback et numéro de tentative."""
+        if self.word_results:
+            self.calculate_scores()
+        self.feedback = self.generate_feedback()
+        if not self.pk:                     # Seulement à la création
+            self.set_attempt_number()
+        super().save(*args, **kwargs)
+
+
+#----- GAI Speaking -----------------
+class GeneratedSpeakingExercise(models.Model):
+    """
+    Phrase générée par l'IA (Ollama) à la demande du learner.
+    """
+
+    original_exercise = models.ForeignKey(
+        'SpeakingExercise',
+        on_delete=models.CASCADE,
+        related_name='generated_exercises',
+        help_text="L'exercice de speaking original qui a inspiré cette génération"
+    )
+
+    learner = models.ForeignKey(
+        'Learner',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='generated_speaking_exercises',
+        help_text="L'apprenant qui a déclenché la génération"
+    )
+
+    # ── Contenu généré ─────────────────────────────────────────
+    theme = models.CharField(
+        max_length=200,
+        help_text="Thème de la phrase générée (repris de l'exercice original)"
+    )
+    level = models.CharField(
+        max_length=2,
+        default='A1',
+        help_text="Niveau CEFR (repris de l'exercice original)"
+    )
+    sentence = models.TextField(
+        help_text="Phrase générée par l'IA que l'apprenant doit lire à voix haute"
+    )
+    sentence_words = models.JSONField(
+        default=list,
+        help_text="Liste ordonnée des mots de la phrase (générée automatiquement)"
+    )
+    instructions = models.TextField(
+        default="Read the following sentence aloud. Practice your pronunciation.",
+        help_text="Consigne affichée à l'apprenant"
+    )
+    
+    # ✅ Champs audio
+    audio_filename = models.CharField(max_length=255, blank=True)
+    audio_path = models.CharField(max_length=500, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'generated_speaking_exercise'
+        ordering = ['-created_at']
+        unique_together = ['original_exercise', 'learner']  # ← AJOUTER CETTE LIGNE
+        indexes = [
+            models.Index(fields=['original_exercise']),
+            models.Index(fields=['learner']),
+        ]
+
+    def __str__(self):
+        learner_name = self.learner.name if self.learner else 'Anonyme'
+        return f"[GAI][{self.level}] {self.theme} — {learner_name}"
+
+    def save(self, *args, **kwargs):
+        """Auto-tokenise + génère l'audio TTS si nouveau."""
+        import re
+        
+        # 1. Tokeniser la phrase
+        if self.sentence and not self.sentence_words:
+            self.sentence_words = re.findall(r'\S+', self.sentence)
+        
+        # 2. Sauvegarde standard (INSERT ou UPDATE)
+        is_new = not self.pk
+        super().save(*args, **kwargs)
+        
+        # 3. Générer l'audio UNIQUEMENT à la création et si pas déjà fait
+        if is_new and self.sentence and not self.audio_filename:
+            self._generate_audio()
+            # Mettre à jour uniquement les champs audio (pas de double INSERT)
+            super().save(update_fields=['audio_filename', 'audio_path'])
+
+    def _generate_audio(self):
+        """Génère le fichier audio TTS avec pyttsx3 pour cette phrase."""
+        import os
+        from django.conf import settings
+        
+        # Dossier de stockage
+        audio_dir = os.path.join(
+            settings.BASE_DIR,
+            'data', 'speaking', 'audio_generated', 'generated'
+        )
+        os.makedirs(audio_dir, exist_ok=True)
+        
+        # Extension selon disponibilité pydub
+        try:
+            from pydub import AudioSegment
+            ext = '.mp3'
+            has_pydub = True
+        except ImportError:
+            ext = '.wav'
+            has_pydub = False
+        
+        filename = f"gen_speaking_{self.id}{ext}"
+        filepath = os.path.join(audio_dir, filename)
+        
+        try:
+            import pyttsx3
+            engine = pyttsx3.init()
+            
+            # Configuration voix anglaise
+            voices = engine.getProperty('voices')
+            for voice in voices:
+                if 'english' in voice.name.lower() or 'en_' in voice.id.lower():
+                    engine.setProperty('voice', voice.id)
+                    break
+            
+            engine.setProperty('rate', 150)
+            engine.setProperty('volume', 0.9)
+            
+            if has_pydub:
+                # WAV temporaire → MP3
+                temp_wav = filepath.replace('.mp3', '.wav')
+                engine.save_to_file(self.sentence, temp_wav)
+                engine.runAndWait()
+                
+                audio = AudioSegment.from_wav(temp_wav)
+                audio.export(filepath, format='mp3')
+                os.remove(temp_wav)
+            else:
+                # WAV direct
+                engine.save_to_file(self.sentence, filepath)
+                engine.runAndWait()
+            
+            self.audio_filename = filename
+            self.audio_path = os.path.join(
+                'backend', 'data', 'speaking', 'audio_generated', 'generated', filename
+            )
+            
+        except Exception as e:
+            print(f"[pyttsx3] Erreur génération audio pour GeneratedSpeakingExercise {self.id}: {e}")
+            import traceback
+            traceback.print_exc()
+            self.audio_filename = ''
+            self.audio_path = ''
+ 
+ 
+# ─────────────────────────────────────────────────────────────────────────────
+ 
+class GeneratedSpeakingResult(models.Model):
+    """
+    Résultat d'une tentative de speaking sur une phrase GÉNÉRÉE par l'IA.
+ 
+    Similaire à SpeakingExerciseResult mais lié à GeneratedSpeakingExercise.
+    Un learner peut soumettre plusieurs tentatives sur un même exercice généré.
+    """
+ 
+    FEEDBACK_CHOICES = [
+        ('excellent',  'Excellent!'),
+        ('very_good',  'Very good!'),
+        ('good',       'Good job!'),
+        ('keep_going', 'Keep going!'),
+        ('try_again',  'Try again!'),
+    ]
+ 
+    learner = models.ForeignKey(
+        'Learner',
+        on_delete=models.CASCADE,
+        related_name='generated_speaking_results',
+        help_text="Apprenant ayant soumis l'exercice"
+    )
+    generated_exercise = models.ForeignKey(
+        GeneratedSpeakingExercise,
+        on_delete=models.CASCADE,
+        related_name='results',
+        help_text="L'exercice généré par IA concerné"
+    )
+ 
+    # ── Transcription STT ─────────────────────────────────────
+    learner_transcript = models.TextField(
+        blank=True,
+        help_text="Texte transcrit automatiquement depuis l'enregistrement de l'apprenant"
+    )
+ 
+    # ── Résultat mot à mot ────────────────────────────────────
+    # Format identique à SpeakingExerciseResult.word_results
+    word_results = models.JSONField(
+        default=list,
+        help_text=(
+            "Comparaison mot à mot : liste de {word, status, said?}. "
+            "status ∈ correct | wrong | missing | extra"
+        )
+    )
+ 
+    # ── Scores ────────────────────────────────────────────────
+    total_words = models.PositiveIntegerField(default=0)
+    correct_words = models.PositiveIntegerField(default=0)
+    accuracy_score = models.IntegerField(
+        default=0,
+        help_text="Score de précision en % (0-100)"
+    )
+ 
+    # ── Feedback ──────────────────────────────────────────────
+    feedback = models.CharField(
+        max_length=20,
+        choices=FEEDBACK_CHOICES,
+        blank=True,
+        help_text="Feedback court généré automatiquement selon le score"
+    )
+ 
+    submitted_at = models.DateTimeField(auto_now_add=True)
+ 
+    class Meta:
+        db_table = 'generated_speaking_result'
+        ordering = ['-submitted_at']
+        indexes = [
+            models.Index(fields=['learner', 'generated_exercise']),
+            models.Index(fields=['submitted_at']),
+        ]
+ 
+    def __str__(self):
+        return (
+            f"{self.learner.name} | "
+            f"{self.generated_exercise.theme} (GAI) | "
+            f"{self.accuracy_score}%"
+        )
+ 
+    # ── Logique métier ────────────────────────────────────────
+ 
+    def calculate_scores(self):
+        """Calcule les scores à partir de word_results."""
+        if not self.word_results:
+            return
+        ref_words = [w for w in self.word_results if w.get('status') != 'extra']
+        self.total_words   = len(ref_words)
+        self.correct_words = sum(1 for w in ref_words if w.get('status') == 'correct')
+        if self.total_words > 0:
+            self.accuracy_score = int((self.correct_words / self.total_words) * 100)
+ 
+    def generate_feedback(self):
+        """Feedback court selon le score de précision."""
+        score = self.accuracy_score
+        if score >= 90:  return 'excellent'
+        if score >= 75:  return 'very_good'
+        if score >= 60:  return 'good'
+        if score >= 40:  return 'keep_going'
+        return 'try_again'
+ 
+    def save(self, *args, **kwargs):
+        """Auto-calcul des scores et du feedback."""
+        if self.word_results:
+            self.calculate_scores()
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)
+
+# ─────────────────────────────────────────────
+#  GRAMMAR
+# ─────────────────────────────────────────────
+
+class GrammarCourse(models.Model):
+    """
+    Un cours de grammaire complet (ex: L01 — Construire une phrase en anglais).
+    Importé depuis un fichier JSON via import_grammar_course.py.
+    Chaque cours correspond à une leçon du catalogue A1.
+    """
+    LEVEL_CHOICES = [
+        ('A1', 'A1'), ('A2', 'A2'),
+        ('B1', 'B1'), ('B2', 'B2'), ('C1', 'C1'),
+    ]
+
+    CATEGORY_CHOICES = [
+        ('phrases_noms_adjectifs', 'Phrases, noms, déterminants et adjectifs'),
+        ('chiffres_nombres',       'Chiffres, nombres et quantités'),
+        ('phrase_interrogative',   'La phrase interrogative'),
+        ('difficultes',            'Quelques difficultés'),
+    ]
+
+    course_id  = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text="Ex: grammar_a1_sentence_construction"
+    )
+    title      = models.CharField(max_length=200)
+    subtitle   = models.CharField(max_length=300, blank=True)
+    level      = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='A1')
+    category   = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=True)
+    order      = models.PositiveIntegerField(
+        default=1,
+        help_text="Ordre d'affichage dans le menu Grammar (L01=1, L02=2, …)"
+    )
+    is_active  = models.BooleanField(
+        default=True,
+        help_text="False = cours masqué sur la plateforme"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'grammar_course'
+        ordering = ['level', 'order']
+
+    def __str__(self):
+        return f"[{self.level}] {self.title}"
+
+
+class GrammarSection(models.Model):
+    """
+    Une section d'un cours de grammaire.
+    Un cours contient plusieurs sections ordonnées :
+      - type 'lesson'   → explication + exemples + did_you_know + common_errors
+      - type 'tips'     → liste de Common Mistakes à éviter
+      - type 'exercise' → liste d'exercices + scoring
+    Le contenu complet est stocké dans le JSONField 'content'
+    (évite de fragmenter la structure en dizaines de tables).
+    """
+    TYPE_CHOICES = [
+        ('lesson',   'Lesson'),
+        ('tips',     'Tips / Common Mistakes'),
+        ('exercise', 'Exercise'),
+    ]
+
+    course     = models.ForeignKey(
+        GrammarCourse,
+        on_delete=models.CASCADE,
+        related_name='sections'
+    )
+    section_id = models.CharField(
+        max_length=10,
+        help_text="Identifiant dans le JSON : '1', '2', … '6'"
+    )
+    section_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    title        = models.CharField(max_length=200)
+    order        = models.PositiveIntegerField(
+        default=0,
+        help_text="Ordre d'affichage dans le cours (= section_id converti en entier)"
+    )
+    content = models.JSONField(
+        help_text=(
+            "Contenu complet de la section stocké en jsonb PostgreSQL. "
+            "lesson   → {explanation, formula, key_rules, examples, did_you_know, common_errors} "
+            "tips     → {explanation, mistakes} "
+            "exercise → {exercises, scoring}"
+        )
+    )
+
+    class Meta:
+        db_table      = 'grammar_section'
+        ordering      = ['order']
+        unique_together = ['course', 'section_id']
+
+    def __str__(self):
+        return f"{self.course.course_id} / section {self.section_id} [{self.section_type}]"
+
+
+class GrammarExerciseResult(models.Model):
+    """
+    Résultat d'un apprenant pour la section exercice d'un cours de grammaire.
+    Un seul résultat par (learner × cours) — unique_together comme ReadingExerciseResult.
+    """
+    FEEDBACK_CHOICES = [
+        ('excellent',     'Excellent!'),
+        ('good',          'Good job!'),
+        ('needs_practice','Keep practicing!'),
+    ]
+
+    learner = models.ForeignKey(
+        Learner,
+        on_delete=models.CASCADE,
+        related_name='grammar_results'
+    )
+    course = models.ForeignKey(
+        GrammarCourse,
+        on_delete=models.CASCADE,
+        related_name='results'
+    )
+    score        = models.IntegerField(help_text="Nombre de bonnes réponses")
+    total        = models.IntegerField(help_text="Nombre total de questions")
+    results_json = models.JSONField(
+        help_text=(
+            "Détail par question : "
+            "[{id, correct, given, correct_answer, explanation}, …]"
+        )
+    )
+    feedback     = models.CharField(
+        max_length=20,
+        choices=FEEDBACK_CHOICES,
+        blank=True
+    )
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table      = 'grammar_exercise_result'
+        unique_together = ['learner', 'course']
+        ordering      = ['-submitted_at']
+
+    def __str__(self):
+        return f"{self.learner.name} | {self.course.title} | {self.score}/{self.total}"
+
+    def generate_feedback(self):
+        """Feedback automatique selon le pourcentage."""
+        pct = (self.score / self.total * 100) if self.total > 0 else 0
+        if pct >= 80:
+            return 'excellent'
+        elif pct >= 60:
+            return 'good'
+        else:
+            return 'needs_practice'
+
+    def save(self, *args, **kwargs):
+        """Auto-génère le feedback avant sauvegarde."""
+        self.feedback = self.generate_feedback()
+        super().save(*args, **kwargs)
+
+
+#--------------test d'evaluation ---------------
+class EvaluationTest(models.Model):
+    level = models.CharField(max_length=2, primary_key=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    time_limit_minutes = models.PositiveIntegerField(default=15)
+    total_questions = models.PositiveIntegerField(default=20)
+    passing_score = models.PositiveIntegerField(default=60)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'evaluation_test'
+
+    def __str__(self):
+        return f"[{self.level}] {self.title}"
+
+
+class EvaluationQuestion(models.Model):
+    QUESTION_TYPES = [
+        ('mcq', 'Multiple Choice'),
+        ('fill_blank', 'Fill in the Blank'),
+        ('true_false', 'True / False'),
+    ]
+
+    SECTIONS = [
+        ('listening', 'Listening Comprehension'),
+        ('reading', 'Reading Comprehension'),
+        ('visual', 'Visual Comprehension'),
+        ('grammar', 'Grammar'),
+        ('vocabulary', 'Vocabulary'),
+    ]
+
+    question_id = models.CharField(max_length=20, primary_key=True)
+    test = models.ForeignKey(EvaluationTest, on_delete=models.CASCADE, related_name='questions')
+    section = models.CharField(max_length=20, choices=SECTIONS)
+    type = models.CharField(max_length=20, choices=QUESTION_TYPES)
+    question_text = models.TextField()
+    audio_path = models.CharField(max_length=500, blank=True)
+    image_path = models.CharField(max_length=500, blank=True)
+    reading_text = models.TextField(blank=True)
+    options = models.JSONField(null=True, blank=True)
+    correct_answer = models.TextField()
+    explanation = models.TextField(blank=True)
+    points = models.PositiveIntegerField(default=1)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'evaluation_question'
+        ordering = ['test', 'section', 'order']
+
+    def __str__(self):
+        return f"[{self.section}] {self.question_text[:50]}"
+
+
+class EvaluationAttempt(models.Model):
+    STATUS_CHOICES = [
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+        ('abandoned', 'Abandoned'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    learner = models.ForeignKey(Learner, on_delete=models.CASCADE, related_name='evaluation_attempts')
+    test = models.ForeignKey(EvaluationTest, on_delete=models.CASCADE, related_name='attempts')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='in_progress')
+    started_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    score = models.PositiveIntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'evaluation_attempt'
+        ordering = ['-started_at']
+
+    def __str__(self):
+        return f"{self.learner.name} | {self.test.level} | {self.status}"
+
+    @property
+    def total_points(self):
+        return self.test.total_questions
+
+    @property
+    def percentage(self):
+        if self.total_points > 0:
+            return int((self.score / self.total_points) * 100)
+        return 0
+
+    @property
+    def passed(self):
+        return self.percentage >= self.test.passing_score
+
+    def calculate_results(self):
+        self.score = sum(a.points_earned for a in self.answers.all())
+        self.status = 'completed'
+        self.completed_at = timezone.now()
+        self.save()
+
+
+class EvaluationAnswer(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    attempt = models.ForeignKey(EvaluationAttempt, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey(EvaluationQuestion, on_delete=models.CASCADE, related_name='answers')
+    given_answer = models.TextField()
+    is_correct = models.BooleanField(default=False)
+    points_earned = models.PositiveIntegerField(default=0)
+    answered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'evaluation_answer'
+        unique_together = ['attempt', 'question']
+
+    def __str__(self):
+        status = "✓" if self.is_correct else "✗"
+        return f"{self.attempt.learner.name} | {self.question.question_id} | {status}"
+
+    def save(self, *args, **kwargs):
+        if self.question and self.given_answer is not None:
+            given = str(self.given_answer).strip()
+            correct = str(self.question.correct_answer).strip()
+            
+            given_lower = given.lower()
+            correct_lower = correct.lower()
+            
+            is_correct = False
+            
+            if self.question.type == 'mcq':
+                # Si correct_answer est une lettre seule (A, B, C, D)
+                if re.match(r'^[a-d]$', correct_lower):
+                    # Comparer directement les lettres
+                    given_letter = given_lower[0] if given_lower else ''
+                    is_correct = given_letter == correct_lower
+                else:
+                    # Nettoyer les préfixes
+                    clean_correct = correct_lower
+                    clean_given = given_lower
+                    
+                    for pattern in [r'^[a-d][\.:\)]\s*', r'^\d+[\.\)]\s*', r'^[a-d]\s+']:
+                        clean_correct = re.sub(pattern, '', clean_correct, flags=re.IGNORECASE)
+                        clean_given = re.sub(pattern, '', clean_given, flags=re.IGNORECASE)
+                    
+                    clean_correct = clean_correct.strip()
+                    clean_given = clean_given.strip()
+                    
+                    is_correct = clean_given == clean_correct
+                    
+                    # Fallback: comparer par index si options existent
+                    if not is_correct and self.question.options:
+                        try:
+                            # Trouver l'index de la réponse correcte dans options
+                            correct_idx = None
+                            for idx, opt in enumerate(self.question.options):
+                                opt_clean = re.sub(r'^[a-d][\.:\)]\s*', '', str(opt).lower(), flags=re.IGNORECASE).strip()
+                                if opt_clean == clean_correct:
+                                    correct_idx = idx
+                                    break
+                            
+                            if correct_idx is not None:
+                                given_letter = given_lower[0] if given_lower else ''
+                                expected_letter = chr(65 + correct_idx).lower()
+                                is_correct = given_letter == expected_letter
+                        except:
+                            pass
+                        
+            elif self.question.type == 'true_false':
+                true_values = ['true', '1', 'yes', 'vrai']
+                false_values = ['false', '0', 'no', 'faux']
+                given_bool = given_lower in true_values
+                correct_bool = correct_lower in true_values
+                is_correct = given_bool == correct_bool
+                
+            elif self.question.type == 'fill_blank':
+                given_parts = [p.strip().lower() for p in given.split('|') if p.strip()]
+                correct_parts = [p.strip().lower() for p in correct.split('|') if p.strip()]
+                
+                if len(given_parts) == len(correct_parts) and len(correct_parts) > 0:
+                    is_correct = all(g == c for g, c in zip(given_parts, correct_parts))
+                else:
+                    is_correct = False
+            else:
+                is_correct = given_lower == correct_lower
+                
+            self.is_correct = is_correct
+            self.points_earned = self.question.points if is_correct else 0
+                
+        super().save(*args, **kwargs)
+
+
+
+# ─────────────────────────────────────────────
+#  GAI Listening
+# ─────────────────────────────────────────────
+
+
+class GeneratedListeningExercise(models.Model):
+    """
+    Exercice de listening généré par l'IA pour un learner.
+
+    Workflow :
+      1. Ollama génère une transcription sur le même thème que l'audio original.
+      2. gTTS convertit la transcription en fichier MP3.
+      3. Groq génère 10 questions (même types que ListeningQuestion).
+      4. Le learner écoute l'audio généré et répond aux questions.
+
+    Contrainte : unique_together = (original_audio, learner)
+    → 1 seul exercice généré par learner × audio.
+    """
+
+    original_audio = models.ForeignKey(
+        'ListeningAudio',
+        on_delete=models.CASCADE,
+        related_name='generated_exercises',
+        help_text="L'audio original qui a inspiré cette génération"
+    )
+    learner = models.ForeignKey(
+        'Learner',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='generated_listening_exercises',
+        help_text="L'apprenant qui a déclenché la génération"
+    )
+
+    # ── Contenu généré ─────────────────────────────────────────
+    theme = models.CharField(
+        max_length=200,
+        help_text="Thème repris de l'audio original (subunit_title)"
+    )
+    cefr_level = models.CharField(
+        max_length=2,
+        default='A1',
+        help_text="Niveau CEFR repris de l'audio original"
+    )
+    transcript = models.TextField(
+        blank=True,
+        help_text="Transcription générée par Ollama"
+    )
+
+    # ── Audio généré ───────────────────────────────────────────
+    audio_filename = models.CharField(max_length=255, blank=True)
+    audio_path     = models.CharField(max_length=500, blank=True)
+
+    # ── Statut de génération ───────────────────────────────────
+    STATUS_CHOICES = [
+        ('pending',    'Pending'),
+        ('generating', 'Generating'),
+        ('ready',      'Ready'),
+        ('error',      'Error'),
+    ]
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    error_message = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table        = 'generated_listening_exercise'
+        ordering        = ['-created_at']
+        unique_together = ['original_audio', 'learner']  # 1 exercice / learner / audio
+        indexes = [
+            models.Index(fields=['original_audio']),
+            models.Index(fields=['learner']),
+        ]
+
+    def __str__(self):
+        learner_name = self.learner.name if self.learner else 'Anonyme'
+        return f"[GAI-Listen][{self.cefr_level}] {self.theme} — {learner_name}"
+
+
+class GeneratedListeningQuestion(models.Model):
+    """
+    10 questions générées par Groq pour un GeneratedListeningExercise.
+    Mêmes types que ListeningQuestion.
+    """
+
+    QUESTION_TYPE_CHOICES = [
+        ('true_false',  'True / False'),
+        ('mcq',         'Multiple Choice Question'),
+        ('word_order',  'Word Ordering'),
+        ('fill_blank',  'Fill in the Blank'),
+        ('synonym',     'Synonym'),
+        ('grammar',     'Grammar'),
+        ('vocabulary',  'Vocabulary'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    generated_exercise = models.ForeignKey(
+        GeneratedListeningExercise,
+        on_delete=models.CASCADE,
+        related_name='questions'
+    )
+    question_order  = models.PositiveIntegerField(help_text="Ordre 1-10")
+    question_type   = models.CharField(max_length=20, choices=QUESTION_TYPE_CHOICES)
+    question_text   = models.TextField()
+    choices         = models.JSONField(null=True, blank=True)
+    correct_answer  = models.TextField()
+    target_word     = models.CharField(max_length=50, blank=True)
+    correct_order   = models.JSONField(null=True, blank=True)
+    explanation     = models.TextField(blank=True)
+    points          = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        db_table        = 'generated_listening_question'
+        ordering        = ['question_order']
+        unique_together = ['generated_exercise', 'question_order']
+
+    def __str__(self):
+        return f"[GenListen] Q{self.question_order}: {self.question_type}"
+
+
+class GeneratedListeningResult(models.Model):
+    """
+    Résultat d'un learner pour un exercice listening généré.
+    Un seul résultat par (learner × generated_exercise).
+    """
+
+    learner = models.ForeignKey(
+        'Learner',
+        on_delete=models.CASCADE,
+        related_name='generated_listening_results'
+    )
+    generated_exercise = models.ForeignKey(
+        GeneratedListeningExercise,
+        on_delete=models.CASCADE,
+        related_name='results'
+    )
+    score           = models.IntegerField(help_text="Score en % (0-100)")
+    correct_count   = models.IntegerField()
+    total           = models.IntegerField()
+    results_json    = models.JSONField(
+        help_text="Détail par question : {q_id: {user_answer, correct_answer, is_correct, ...}}"
+    )
+    feedback        = models.CharField(max_length=50, blank=True)
+    submitted_at    = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table        = 'generated_listening_result'
+        unique_together = ['learner', 'generated_exercise']
+        ordering        = ['-submitted_at']
+
+    def __str__(self):
+        return f"{self.learner.name} | GenListen | {self.score}%"
+
+    def generate_feedback(self):
+        if self.score >= 90: return "Excellent work!"
+        if self.score >= 80: return "Very good!"
+        if self.score >= 70: return "Good job!"
+        if self.score >= 60: return "Well done!"
+        if self.score >= 50: return "Keep trying!"
+        if self.score >= 40: return "Need practice!"
+        return "Try more!"
+
+    def save(self, *args, **kwargs):
         self.feedback = self.generate_feedback()
         super().save(*args, **kwargs)

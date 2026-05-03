@@ -181,6 +181,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Remplacer le cadenas par une flèche
         listeningLink.querySelector('.exercise-arrow i').className = 'fas fa-chevron-right';
     }
+
+    // Lien Writing
+    const writingLink = document.getElementById('expression-ecrite');
+    if (writingLink) {
+        writingLink.href = `/writing/?subunit=${subunit}&title=${encodeURIComponent(title)}&subunit_id=${subunitId}`;
+        writingLink.classList.remove('disabled');
+        writingLink.querySelector('.exercise-arrow i').className = 'fas fa-chevron-right';
+    }
+
+    const speakingLink = document.getElementById('expression-orale');
+    if (speakingLink) {
+        speakingLink.href = `/speaking/?subunit=${subunit}&title=${encodeURIComponent(title)}&subunit_id=${subunitId}`;
+        speakingLink.classList.remove('disabled');
+        speakingLink.querySelector('.exercise-arrow i').className = 'fas fa-chevron-right';
+    }
     // ✅ Lien retour vers home avec learner_id
     const backBtn = document.querySelector('.back-btn');
     if (backBtn) {

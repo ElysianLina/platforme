@@ -5,45 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishLearn - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'home.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-<base target="_blank">
+
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1 class="logo">EnglishLearn</h1>
-                <p class="tagline">Learning Platform</p>
-            </div>
+<div class="sidebar-brand">
+    <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+    <span class="brand-name">EnglishLearn</span>
+</div>
             
             <nav class="sidebar-nav">
                 <a href="/" class="nav-item active" data-page="dashboard">
                     <i class="fas fa-book-open"></i>
                     <span>Home</span>
                 </a>
+               <a href="{% url 'courses_menu' %}" class="nav-item" data-page="grammar">
+                    <i class="fas fa-spell-check"></i>
+                    <span>Grammar</span>
+                </a>
                 <a href="#" class="nav-item" data-page="activities">
                     <i class="fas fa-bullseye"></i>
                     <span>Recommendations</span>
                 </a>
-                <a href="#" class="nav-item" data-page="profile">
+                <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>
                 </a>
-                <a href="#" class="nav-item" data-page="settings">
+                <a href="{% url 'configuration' %}" class="nav-item" data-page="Configuration">
                     <i class="fas fa-cog"></i>
-                    <span>Settings</span>
+                    <span>Configuration</span>
+                </a>
+                <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Evaluation Test</span>
                 </a>
             </nav>
 
-            <div class="sidebar-footer">
-                <a href="#" class="nav-item logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
+           
         </aside>
 
         <!-- Main Content -->
@@ -92,18 +96,18 @@
                                 
                                 <!-- Menu options -->
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item" data-action="profile">
+                                    <a href="{% url 'profile' %}" class="dropdown-item" data-action="profile">
                                         <div class="dropdown-item-icon">
                                             <i class="fas fa-user-circle"></i>
                                         </div>
                                         <span>My Profile</span>
                                     </a>
                                     
-                                    <a href="#" class="dropdown-item" data-action="settings">
+                                    <a href="{% url 'configuration' %}" class="dropdown-item" data-action="Configuration">
                                         <div class="dropdown-item-icon">
                                             <i class="fas fa-cog"></i>
                                         </div>
-                                        <span>Settings</span>
+                                        <span>Configuration</span>
                                     </a>
                                     
                                     <div class="dropdown-divider"></div>

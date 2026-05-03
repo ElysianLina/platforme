@@ -1,0 +1,126 @@
+{
+  "total_questions": 5,
+  "tests": [
+    {
+      "audio_id": "LJ023-0016",
+      "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0016.wav",
+      "transcription": "In nineteen thirty-three you and I knew that we must never let our economic system get completely out of joint again",
+      "transcription_raw": "In 1933 you and I knew that we must never let our economic system get completely out of joint again",
+      "exercise": {
+        "type": "fill_blank",
+        "instruction": "Listen to the audio and complete the missing word(s).",
+        "question": "In nineteen thirty-three you and I knew that we must never let our economic system get completely ________ again.",
+        "blanks": [
+          {
+            "blank_id": 1,
+            "correct_answer": "out of joint",
+            "hint": "two words meaning 'not working properly'"
+          }
+        ]
+      }
+    },
+    {
+      "audio_id": "LJ016-0330",
+      "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ016-0330.wav",
+      "transcription": "It was read for the first time in March eighteen sixty-six, but did not become law till eighteen sixty-eight.",
+      "transcription_raw": "It was read for the first time in March 1866, but did not become law till 1868.",
+      "exercise": {
+        "type": "mcq",
+        "instruction": "Listen to the audio and choose the correct answer.",
+        "question": "How many years passed between when it was first read and when it became law?",
+        "options": [
+          {
+            "id": "A",
+            "text": "One year",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "Two years",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "Three years",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "Four years",
+            "is_correct": false
+          }
+        ],
+        "correct_answer": "B"
+      }
+    },
+    {
+      "audio_id": "LJ028-0472",
+      "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ028-0472.wav",
+      "transcription": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+      "transcription_raw": "Its outer part, about twelve feet in width, was protected with towers at intervals of sixty-five feet.",
+      "exercise": {
+        "type": "fill_blank",
+        "instruction": "Listen to the audio and complete the missing words.",
+        "question": "Its outer part, about ________ feet in width, was protected with towers at intervals of ________ feet.",
+        "blanks": [
+          {
+            "blank_id": 1,
+            "correct_answer": "twelve",
+            "hint": "the number 12"
+          },
+          {
+            "blank_id": 2,
+            "correct_answer": "sixty-five",
+            "hint": "the number 65"
+          }
+        ]
+      }
+    },
+    {
+      "audio_id": "LJ023-0007",
+      "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ023-0007.wav",
+      "transcription": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+      "transcription_raw": "I am reminded of that evening in March, four years ago, when I made my first radio report to you.",
+      "exercise": {
+        "type": "mcq",
+        "instruction": "Listen to the audio and choose the correct answer.",
+        "question": "When did the speaker make his first radio report?",
+        "options": [
+          {
+            "id": "A",
+            "text": "Last year",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "Two years ago",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "Four years ago",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "Five years ago",
+            "is_correct": false
+          }
+        ],
+        "correct_answer": "C"
+      }
+    },
+    {
+      "audio_id": "LJ046-0068",
+      "audio_path": "C:\\Users\\HP\\Desktop\\PFE Master Document\\DATASets\\data_moi\\audio\\output_ljspeech_filtered\\audio\\A1\\LJ046-0068.wav",
+      "transcription": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+      "transcription_raw": "It helped him in his job here, he was able to come back here with a fresh view of many things.",
+      "exercise": {
+        "type": "true_false",
+        "instruction": "Listen to the audio and decide if the statement is true or false.",
+        "statement": "The person returned to his job with new ideas about many things.",
+        "correct_answer": true
+      }
+    }
+  ]
+}
